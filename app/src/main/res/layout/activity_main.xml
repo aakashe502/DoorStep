@@ -34,7 +34,7 @@
             android:text="Log In"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <TextView
+        <Button
             android:id="@+id/createnewac"
             android:layout_marginTop="10dp"
             android:textSize="20sp"
