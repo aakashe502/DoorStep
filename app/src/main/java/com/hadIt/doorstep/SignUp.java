@@ -79,13 +79,13 @@ public class SignUp extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(Tag, "createUserWithEmail:success");
                             FirebaseUser user = auth.getCurrentUser();
-                            updateUI(user);
+//                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(Tag, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(SignUp.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+//                            updateUI(null);
                         }
 
                         // ...
