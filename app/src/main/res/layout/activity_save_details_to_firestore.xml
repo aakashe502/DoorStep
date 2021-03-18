@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <EditText
         android:id="@+id/editName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:ems="10"
-        android:hint="First and Last Name"
+        android:drawableStart="@drawable/personicon"
+        android:hint="Name"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/editEmail"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +27,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Email"
-
+        android:drawableStart="@drawable/emailicon4"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/editPass"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,6 +40,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Password"
+        android:drawableStart="@drawable/passicon"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/editMobile"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,6 +54,7 @@
         android:ems="10"
         android:hint="Mobile Number"
         android:inputType="phone"
+        android:drawableStart="@drawable/phoneicon"
         app:layout_constraintBottom_toTopOf="@+id/buttonAcount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

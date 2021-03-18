@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -42,10 +45,14 @@ public class SaveDetailsToFirestore extends AppCompatActivity {
     public PasswordGeneratorMd5 md5;
     public boolean phoneNumberExists = false;
     public boolean emailExists = false;
+    public boolean isNewUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_save_details_to_firestore);
 
         db = FirebaseFirestore.getInstance();
@@ -62,10 +69,24 @@ public class SaveDetailsToFirestore extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 int status = checkInput(userName, emailId, password, phoneNumber);
-                if(status == 0 || emailExists)
+                if(status == 0)
                     return;
-                Log.i(Tag, emailExists+" LKSAHJLKDJSJDA");
-                createAccount(userName, emailId, password, phoneNumber);
+                auth.fetchSignInMethodsForEmail(emailId.getText().toString())
+                        .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+
+                                isNewUser = task.getResult().getSignInMethods().isEmpty();
+
+                                if (isNewUser) {
+                                    setSignUp();
+                                    Log.e("TAG", "Is New User!");
+                                } else {
+                                    Log.e("TAG", "Is Old User!");
+                                }
+
+                            }
+                        });
             }
         });
     }
@@ -79,6 +100,7 @@ public class SaveDetailsToFirestore extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(Tag, "createUserWithEmail:success");
                             FirebaseUser user = auth.getCurrentUser();
+                            createAccount(userName, emailId, password, phoneNumber);
 //                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -146,69 +168,8 @@ public class SaveDetailsToFirestore extends AppCompatActivity {
         if(phoneNumber == null || phoneNumber.getText().toString().length() != 10){
             Toast.makeText(SaveDetailsToFirestore.this, "Phone number should be of 10 digits", Toast.LENGTH_SHORT).show();
             return 0;
-        } else if(phoneNumber.getText().toString().equals(Objects.requireNonNull(Objects.requireNonNull(auth.getCurrentUser()).getPhoneNumber()).substring(3))){
-            Toast.makeText(SaveDetailsToFirestore.this, "Please Enter the same number as your login Mobile number", Toast.LENGTH_SHORT).show();
-            return 0;
-        } else if(phoneNumberInDatabase(phoneNumber)){
-            Toast.makeText(SaveDetailsToFirestore.this, "Please Enter the same number as your login Mobile number", Toast.LENGTH_SHORT).show();
-        }
-
-        if(true){
-            emailIdInDatabase(emailId);
-            if(emailExists){
-                Toast.makeText(SaveDetailsToFirestore.this, "This Email already exists", Toast.LENGTH_SHORT).show();
-                return 0;
-            }
         }
         return 1;
-    }
-    private void emailIdInDatabase(EditText emailId) {
-        CollectionReference usersRef = db.collection("users");
-        Query query = usersRef.whereEqualTo("emailId", emailId.getText().toString());
-        Log.i("HEY BOY", usersRef.toString());
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (DocumentSnapshot document : task.getResult()) {
-                        Log.i(Tag, "HEYEHEYEYEYEEYYEYEY");
-                        if (document.exists()) {
-                            Toast.makeText(SaveDetailsToFirestore.this, "Email Id already exists", Toast.LENGTH_LONG).show();
-                            emailExists = true;
-                        }
-                        else
-                            emailExists = false;
-                    }
-                }
-            }
-        });
-    }
-
-    private boolean phoneNumberInDatabase(EditText phoneNumber) {
-        CollectionReference usersRef = db.collection("users");
-        Query query = usersRef.whereEqualTo("phoneNumber", phoneNumber.getText().toString());
-
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                        if (document.exists()) {
-                            Toast.makeText(SaveDetailsToFirestore.this, "Mobile Number already exists", Toast.LENGTH_LONG).show();
-                            phoneNumberExists();
-                        }
-                    }
-                }
-            }
-        });
-        return false;
-    }
-
-    private void phoneNumberExists(){
-        phoneNumberExists = true;
-    }
-    private void emailExists(){
-        emailExists = true;
     }
 
     @Override
