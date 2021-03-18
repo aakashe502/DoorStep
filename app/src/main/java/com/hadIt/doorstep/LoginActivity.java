@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
         createNewAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(LoginActivity.this, SignUp.class);
+                Intent intent=new Intent(LoginActivity.this, SaveDetailsToFirestore.class);
                 startActivity(intent);
             }
         });

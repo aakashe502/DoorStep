@@ -29,14 +29,16 @@ import com.hadIt.doorstep.dao.GetFirebaseInstance;
 import com.hadIt.doorstep.md5.PasswordGeneratorMd5;
 import com.hadIt.doorstep.model.Users;
 
-public class SignUp extends AppCompatActivity {
+import java.util.Objects;
+
+public class SaveDetailsToFirestore extends AppCompatActivity {
 
     public EditText userName, emailId, password, phoneNumber;
-    public Button signUp;
+    public Button saveDetails;
     public FirebaseFirestore db;
     public GetFirebaseInstance firebaseInstance;
     public FirebaseAuth auth;
-    public String Tag = "SignUp Activity";
+    public String Tag = "SaveDetailsToFirestore Activity";
     public PasswordGeneratorMd5 md5;
     public boolean phoneNumberExists = false;
     public boolean emailExists = false;
@@ -44,10 +46,9 @@ public class SignUp extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_save_details_to_firestore);
 
         db = FirebaseFirestore.getInstance();
-        firebaseInstance = new GetFirebaseInstance();
         md5 = new PasswordGeneratorMd5();
         auth = FirebaseAuth.getInstance();
 
@@ -55,19 +56,18 @@ public class SignUp extends AppCompatActivity {
         emailId = findViewById(R.id.editEmail);
         password = findViewById(R.id.editPass);
         phoneNumber = findViewById(R.id.editMobile);
-        signUp = findViewById(R.id.buttonAcount);
+        saveDetails = findViewById(R.id.buttonAcount);
 
-        signUp.setOnClickListener(new View.OnClickListener() {
+        saveDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int status = checkInput(userName, emailId, password, phoneNumber);
-                if(status == 0)
+                if(status == 0 || emailExists)
                     return;
-//                FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailId.getText().toString(), password.getText().toString());
+                Log.i(Tag, emailExists+" LKSAHJLKDJSJDA");
                 createAccount(userName, emailId, password, phoneNumber);
             }
         });
-//        startActivity(new Intent(this, HomePage.class));
     }
 
     public void setSignUp(){
@@ -83,7 +83,7 @@ public class SignUp extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(Tag, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(SignUp.this, "Authentication failed.",
+                            Toast.makeText(SaveDetailsToFirestore.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
 //                            updateUI(null);
                         }
@@ -111,7 +111,7 @@ public class SignUp extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.i(Tag, "Success");
-                        Intent intent=new Intent(SignUp.this, HomePage.class);
+                        Intent intent=new Intent(SaveDetailsToFirestore.this, HomePage.class);
                         startActivity(intent);
                     }
                 })
@@ -120,7 +120,7 @@ public class SignUp extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         String error = e.getMessage();
-                        Toast.makeText( SignUp.this,"Error " + error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText( SaveDetailsToFirestore.this,"Error " + error, Toast.LENGTH_SHORT).show();
                         Log.i(Tag, "Error adding document", e);
                     }
                 });
@@ -129,30 +129,34 @@ public class SignUp extends AppCompatActivity {
 
     protected int checkInput(EditText userName, EditText emailId, EditText password, EditText phoneNumber){
         if(userName == null || userName.getText().toString().isEmpty()){
-            Toast.makeText(SignUp.this, "UserName cannot be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SaveDetailsToFirestore.this, "UserName cannot be empty", Toast.LENGTH_SHORT).show();
             return 0;
         }
 
         if(password == null || password.getText().toString().length()<4){
-            Toast.makeText(SignUp.this, "Password must be of minimum length 4", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SaveDetailsToFirestore.this, "Password must be of minimum length 4", Toast.LENGTH_SHORT).show();
+            return 0;
+        }
+
+        if(emailId == null){
+            Toast.makeText(SaveDetailsToFirestore.this, "Email Id can't be null", Toast.LENGTH_SHORT).show();
             return 0;
         }
 
         if(phoneNumber == null || phoneNumber.getText().toString().length() != 10){
-            Toast.makeText(SignUp.this, "Phone number should be of 10 digits", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SaveDetailsToFirestore.this, "Phone number should be of 10 digits", Toast.LENGTH_SHORT).show();
             return 0;
-        } else if(true){
-            phoneNumberInDatabase(phoneNumber);
-            if(phoneNumberExists){
-                Toast.makeText(SignUp.this, "This Phone number already exists", Toast.LENGTH_SHORT).show();
-                return 0;
-            }
+        } else if(phoneNumber.getText().toString().equals(Objects.requireNonNull(Objects.requireNonNull(auth.getCurrentUser()).getPhoneNumber()).substring(3))){
+            Toast.makeText(SaveDetailsToFirestore.this, "Please Enter the same number as your login Mobile number", Toast.LENGTH_SHORT).show();
+            return 0;
+        } else if(phoneNumberInDatabase(phoneNumber)){
+            Toast.makeText(SaveDetailsToFirestore.this, "Please Enter the same number as your login Mobile number", Toast.LENGTH_SHORT).show();
         }
 
         if(true){
             emailIdInDatabase(emailId);
             if(emailExists){
-                Toast.makeText(SignUp.this, "This Email already exists", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SaveDetailsToFirestore.this, "This Email already exists", Toast.LENGTH_SHORT).show();
                 return 0;
             }
         }
@@ -167,33 +171,37 @@ public class SignUp extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot document : task.getResult()) {
+                        Log.i(Tag, "HEYEHEYEYEYEEYYEYEY");
                         if (document.exists()) {
-                            Toast.makeText(SignUp.this, "Email Id already exists", Toast.LENGTH_LONG).show();
-                            emailExists();
+                            Toast.makeText(SaveDetailsToFirestore.this, "Email Id already exists", Toast.LENGTH_LONG).show();
+                            emailExists = true;
                         }
+                        else
+                            emailExists = false;
                     }
                 }
             }
         });
     }
 
-    private void phoneNumberInDatabase(final EditText phoneNumber) {
+    private boolean phoneNumberInDatabase(EditText phoneNumber) {
         CollectionReference usersRef = db.collection("users");
         Query query = usersRef.whereEqualTo("phoneNumber", phoneNumber.getText().toString());
-        Log.i("HEY BOY", usersRef.toString());
+
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    for (DocumentSnapshot document : task.getResult()) {
+                    for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                         if (document.exists()) {
-                            Toast.makeText(SignUp.this, "Mobile Number already exists", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SaveDetailsToFirestore.this, "Mobile Number already exists", Toast.LENGTH_LONG).show();
                             phoneNumberExists();
                         }
                     }
                 }
             }
         });
+        return false;
     }
 
     private void phoneNumberExists(){

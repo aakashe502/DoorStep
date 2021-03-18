@@ -1,7 +1,6 @@
 package com.hadIt.doorstep;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,13 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.safetynet.SafetyNet;
-import com.google.android.gms.safetynet.SafetyNetApi;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -26,19 +19,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.Executor;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class ManageOtp extends AppCompatActivity
@@ -99,7 +86,6 @@ public class ManageOtp extends AppCompatActivity
                             @Override
                             public void onVerificationCompleted(@NotNull PhoneAuthCredential phoneAuthCredential)
                             {
-                                Log.i("HEYHEY1", "HEYBOY1");
                                 signInWithPhoneAuthCredential(phoneAuthCredential);
                             }
 
@@ -115,6 +101,7 @@ public class ManageOtp extends AppCompatActivity
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -122,35 +109,30 @@ public class ManageOtp extends AppCompatActivity
                         if (task.isSuccessful())
                         {
                             checkIfUserExistsInFireStore();
-                            // TODO("Check if user already exists in firestore and redirect accordingly")
-                            startActivity(new Intent(ManageOtp.this, HomePage.class));
                             finish();
                         } else {
-                            Toast.makeText(getApplicationContext(),"Signin Code Error",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),"Signin Code Error", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
     }
 
     private void checkIfUserExistsInFireStore() {
-        String getSignedInUser = mAuth.getCurrentUser().getPhoneNumber();
+        String getSignedInUser = Objects.requireNonNull(mAuth.getCurrentUser()).getPhoneNumber();
         Log.i(TAG, getSignedInUser);
         checkIfUserInDB(getSignedInUser);
     }
 
     private void checkIfUserInDB(String getSignedInUser) {
         DocumentReference usersRef = firestore.collection("users").document(getSignedInUser);
-        Log.i(TAG, usersRef.get().toString());
         usersRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.getResult().exists()){
-                    Log.i(TAG,"HEY There");
                     startActivity(new Intent(ManageOtp.this, HomePage.class));
                 }
                 else{
-                    Log.i(TAG,"HELLO There");
-                    startActivity(new Intent(ManageOtp.this, SignUp.class));
+                    startActivity(new Intent(ManageOtp.this, SaveDetailsToFirestore.class));
                 }
             }
         });

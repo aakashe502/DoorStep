@@ -24,7 +24,7 @@
             android:name=".HomePage"
             android:label="@string/title_activity_home" />
         <activity
-            android:name=".SignUp"
+            android:name=".SaveDetailsToFirestore"
             android:parentActivityName=".LoginActivity" />
         <activity android:name=".LoginActivity" />
 
