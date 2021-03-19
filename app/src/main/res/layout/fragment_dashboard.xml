@@ -3,7 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <include
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/app_bar_main"
+        />
     <TextView
         android:id="@+id/text_dashboard"
         android:layout_width="match_parent"
@@ -13,7 +18,10 @@
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="lkasfakdlflkadfklf"
+        app:layout_constraintEnd_toEndOf="@id/top"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

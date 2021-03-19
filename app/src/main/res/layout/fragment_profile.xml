@@ -1,25 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content"
+   >
 
-    <TextView
-        android:id="@+id/text_profile"
+    <include
+        android:id="@+id/top"
+        layout="@layout/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="30dp"
-        android:text="Yes my apps"
-        android:layout_centerVertical="true"
-        android:textColor="#f43"
+       />
+    <RelativeLayout
+        android:id="@+id/rl1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top"
+        android:orientation="vertical"
+        android:background="#74B81C10"
+        >
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_pic"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+           android:layout_centerHorizontal="true"
+
+            android:src="@drawable/profile"
+
+            />
+
+        <TextView
+            android:id="@+id/text_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:text="Yes my apps"
+            android:layout_centerVertical="true"
+
+            android:textColor="#130D0D"
+            android:layout_below="@+id/profile_pic"
+
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="FAQS"
+
+            android:drawableEnd="@drawable/forward"
+           android:textSize="35dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HELP CENTER"
+
+            android:drawableEnd="@drawable/forward"
+            android:textSize="35dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PRIVACY POLICY"
+            android:textSize="35dp"
+            android:drawableEnd="@drawable/forward"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ABOUT US"
+            android:textSize="35dp"
+            android:drawableEnd="@drawable/forward"
+           />
+
+    </LinearLayout>
+
+
+
+
+
+
 
 
 

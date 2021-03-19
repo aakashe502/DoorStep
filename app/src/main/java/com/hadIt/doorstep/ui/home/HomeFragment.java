@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
     private void loadFragment(Fragment fragment) {
         FragmentManager fragmentManager=getFragmentManager();
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame,fragment).commit();
+        //fragmentTransaction.replace(R.id.frame,fragment).commit();
         drawerLayout.closeDrawer(GravityCompat.START);
         fragmentTransaction.addToBackStack(null);
     }
