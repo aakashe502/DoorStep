@@ -22,6 +22,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.hadIt.doorstep.LoginActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.SearchActivity;
 
@@ -62,9 +64,12 @@ public class HomeFragment extends Fragment {
                 switch (id)
                 {
                     case R.id.search:
-
-                    startActivity(new Intent(getContext(),SearchActivity.class));
-                break;
+                        startActivity(new Intent(getContext(),SearchActivity.class));
+                        break;
+                    case R.id.logout:
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(fragment.getContext(), LoginActivity.class));
+                        break;
                 }
                 return true;
             }

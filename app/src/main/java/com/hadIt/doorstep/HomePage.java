@@ -24,7 +24,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import static androidx.navigation.ui.NavigationUI.*;
 
-public class home extends AppCompatActivity {
+public class HomePage extends AppCompatActivity {
 
 
     @Override

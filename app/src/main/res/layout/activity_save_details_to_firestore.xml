@@ -5,12 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <EditText
         android:id="@+id/editName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:ems="10"
+        android:drawableStart="@drawable/personicon"
         android:hint="Name"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/editEmail"
@@ -25,7 +27,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Email"
-
+        android:drawableStart="@drawable/emailicon4"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/editPass"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,19 +40,32 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Password"
+        android:drawableStart="@drawable/passicon"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAcount"
+        app:layout_constraintBottom_toTopOf="@+id/editMobile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editEmail" />
+
+    <EditText
+        android:id="@+id/editMobile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Mobile Number"
+        android:inputType="phone"
+        android:drawableStart="@drawable/phoneicon"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAcount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editPass" />
 
     <Button
         android:id="@+id/buttonAcount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="300dp"
-
-        android:text="Sign Up"
+        android:text="Save Details"
         android:textAllCaps="false"
         android:textColor="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -65,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="13dp"
-        android:text="Create a New Acount"
+        android:text="Please Enter your details"
         android:textColor="#303F9F"
         android:textSize="25sp"
         android:textStyle="bold"

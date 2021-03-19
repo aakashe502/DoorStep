@@ -41,6 +41,11 @@
 
                     android:id="@+id/support"
                     />
+                <item
+                    android:title="Logout"
+
+                    android:id="@+id/logout"
+                    />
             </group>
         </menu>
     </item>

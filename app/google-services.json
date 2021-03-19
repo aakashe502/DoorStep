@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "949942003634",
+    "project_id": "doorstep-26e10",
+    "storage_bucket": "doorstep-26e10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:949942003634:android:a2be480f0da674f84e26ab",
+        "android_client_info": {
+          "package_name": "com.hadIt.doorstep"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "949942003634-v4kcqtgidp4knr841kg0memgp4cut1tl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hadIt.doorstep",
+            "certificate_hash": "40b736d83f444c10262bebcd4c4c5fedde216fd4"
+          }
+        },
+        {
+          "client_id": "949942003634-mm6nqfesfs3jed8foavuus85th8vh2ql.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5ysOVEE2HPNAjVAVGzmWHiY9lYSV4tHc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "949942003634-mm6nqfesfs3jed8foavuus85th8vh2ql.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
