@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_alignParentTop="true"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         app:elevation="0dp"
@@ -21,11 +21,10 @@
             android:layout_height="60dp">
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/frame"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
-    </FrameLayout>
+
+    <include layout="@layout/content_main"
+
+        />
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
