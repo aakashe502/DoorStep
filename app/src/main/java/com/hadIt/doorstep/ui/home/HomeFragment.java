@@ -38,12 +38,7 @@ public class HomeFragment extends Fragment {
                              ViewGroup container,Bundle savedInstanceState) {
 
          root = inflater.inflate(R.layout.fragment_home,container,false);
-
-
-
         return root;
-
-
     }
 
     @Override
@@ -83,4 +78,4 @@ public class HomeFragment extends Fragment {
         drawerLayout.closeDrawer(GravityCompat.START);
         fragmentTransaction.addToBackStack(null);
     }
-    }
+}
