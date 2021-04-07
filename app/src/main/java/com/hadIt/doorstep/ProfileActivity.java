@@ -43,5 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
                     mobile.setText(documentSnapshot.getData().get("mobile").toString());
                 }
             });
+
+
     }
 }
