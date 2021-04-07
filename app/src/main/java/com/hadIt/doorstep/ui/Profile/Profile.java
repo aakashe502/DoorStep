@@ -14,10 +14,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.hadIt.doorstep.ManageOtp;
 import com.hadIt.doorstep.ProfileActivity;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.SaveDetailsToFirestore;
+import com.hadIt.doorstep.cache.model.Users;
+
+import java.util.ArrayList;
 
 public class Profile extends Fragment {
 
@@ -47,14 +48,12 @@ public class Profile extends Fragment {
          */
         String currentUser = auth.getCurrentUser().getEmail();
         db.collection("users").document(currentUser).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        title.setText(documentSnapshot.getData().get("userName").toString());
-                    }
-                });
-
-
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    title.setText(documentSnapshot.getData().get("userName").toString());
+                }
+            });
 
          /*
         For Profile

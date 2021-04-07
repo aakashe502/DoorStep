@@ -33,14 +33,15 @@ public class ProfileActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         String currentUser = auth.getCurrentUser().getEmail();
+
         db.collection("users").document(currentUser).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        title.setText(documentSnapshot.getData().get("userName").toString());
-                        email.setText(documentSnapshot.getData().get("emailId").toString());
-                        mobile.setText(documentSnapshot.getData().get("mobile").toString());
-                    }
-                });
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    title.setText(documentSnapshot.getData().get("userName").toString());
+                    email.setText(documentSnapshot.getData().get("emailId").toString());
+                    mobile.setText(documentSnapshot.getData().get("mobile").toString());
+                }
+            });
     }
 }

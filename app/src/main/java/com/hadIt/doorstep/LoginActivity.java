@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +23,7 @@ import com.hadIt.doorstep.md5.PasswordGeneratorMd5;
 
 public class LoginActivity extends AppCompatActivity {
     public Button createNewAccount, loginButton;
+    public TextView resetPassword;
     public EditText email, password;
     public FirebaseFirestore db;
     public PasswordGeneratorMd5 md5;
@@ -29,11 +31,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         md5 = new PasswordGeneratorMd5();
         email=findViewById(R.id.etemail);
         password=findViewById(R.id.mypass);
+        resetPassword = findViewById(R.id.resetPassword);
         createNewAccount=findViewById(R.id.createnewac);
         loginButton=findViewById(R.id.btnlogin);
+
         createNewAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,13 +53,11 @@ public class LoginActivity extends AppCompatActivity {
                 gotonewActivity();
             }
         });
-
     }
 
     private void gotonewActivity() {
         if(email.getText().toString()!=null&&password.getText().toString()!=null){
             //logging in the user
-            Log.i("HETIJZAHBDIASHDI", email.getText().toString() +" " + md5.btnMd5(password));
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email.getText().toString(), md5.btnMd5(password))
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -82,9 +85,5 @@ public class LoginActivity extends AppCompatActivity {
         if(user != null){
             startActivity(new Intent(LoginActivity.this, HomePage.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
         }
-
-
-
-
-}
+    }
 }

@@ -46,7 +46,7 @@ public class HomePage extends AppCompatActivity {
 
         drawerLayout=findViewById(R.id.drawer);
         toolbar=findViewById(R.id.toolBar);
-         setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -63,16 +63,14 @@ public class HomePage extends AppCompatActivity {
                         break;
                     case R.id.logout:
                         FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(HomePage.this,LoginActivity.class));
+                        break;
                     case R.id.basket:
                         startActivity(new Intent(HomePage.this,AddGrocery.class));
-
-                        //startActivity(new Intent(root.getContext(), LoginActivity.class));
                         break;
                 }
                 return true;
             }
         });
-
     }
-
 }
