@@ -8,6 +8,8 @@ import com.hadIt.doorstep.cache.model.Users;
 
 import io.paperdb.Paper;
 
+import static java.lang.Thread.sleep;
+
 public class PaperDb {
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -29,11 +31,16 @@ public class PaperDb {
     public void saveInPaperDb(){
         String currentUser = auth.getCurrentUser().getEmail();
 
-        Task<DocumentSnapshot> documents = db.collection("users").document(currentUser).get();
-        DocumentSnapshot userObject = documents.getResult();
-        if(userObject!=null){
-            userData = userObject.toObject(Users.class);
-            Paper.book().write(auth.getCurrentUser().getUid(), userData);
+        try {
+            Task<DocumentSnapshot> documents = db.collection("users").document(currentUser).get();
+            sleep(1000);
+            DocumentSnapshot userObject = documents.getResult();
+            if(userObject!=null){
+                userData = userObject.toObject(Users.class);
+                Paper.book().write(auth.getCurrentUser().getUid(), userData);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
