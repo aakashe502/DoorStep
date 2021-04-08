@@ -26,10 +26,11 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="15dp"
-            android:background="#CDD80D55"
+            android:background="@color/colorSecondary"
             android:id="@+id/cardSearch"
             android:drawableStart="@drawable/search"
             android:hint="Search your Grocery"
+            android:textColorHint="#000"
 
 
             />
