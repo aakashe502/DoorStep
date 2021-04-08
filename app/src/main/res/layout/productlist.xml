@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:cardBackgroundColor="#FFFEFE"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp"
+            app:cardMaxElevation="10dp"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:id="@+id/image"
+                android:src="@drawable/straw"
+              android:layout_margin="8dp"
+                android:scaleType="fitXY"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/name"
+                android:text="Strawberry"
+                android:layout_below="@+id/image"
+                android:textSize="20dp"
+
+                android:textColor="#000"
+                android:layout_marginLeft="20dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/name"
+                    android:id="@+id/rs"
+                    android:text="RS"
+                    android:textColor="#000"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="15dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/name"
+                    android:layout_toRightOf="@+id/rs"
+                    android:id="@+id/ruppee"
+                    android:text="20"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="30dp"
+                    android:textAlignment="center"
+                    android:textColor="#000"/>
+                <Button
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                   android:layout_marginLeft="10dp"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="-"
+                    android:layout_below="@+id/ruppee"
+                    android:id="@+id/minus"
+
+                    />
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:textSize="13dp"
+                    android:textAlignment="center"
+                    android:text="0.25"
+                    android:layout_below="@+id/ruppee"
+                    android:layout_toRightOf="@+id/minus"
+                    android:id="@+id/value"/>
+
+                <Button
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="+"
+                    android:layout_below="@+id/ruppee"
+                    android:layout_toRightOf="@+id/value"
+                    android:id="@+id/plus"/>
+
+
+
+
+
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

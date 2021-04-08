@@ -4,13 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Admin.ViewCategory">
+    tools:context=".ui.home.ViewProduct">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -18,26 +16,14 @@
             android:textColor="#000"
             android:textSize="30dp"
             android:id="@+id/products"
-            android:background="#88ECCC"
-          />
+            android:background="#EA0835"
+           />
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/products"
-            android:id="@+id/productrecycler"
-            />
-
-        <Button
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:text="ADD"
-            android:textColor="#000"
-            android:id="@+id/addprod"
-            android:background="#7CE3C6"
+            android:id="@+id/recyclerproduct"
             />
     </RelativeLayout>
 
