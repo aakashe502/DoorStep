@@ -9,6 +9,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hadIt.doorstep.cache.model.Users;
+import com.hadIt.doorstep.dao.PaperDb;
 
 public class ProfileActivity extends AppCompatActivity {
     private String Tag = "ProfileActivity";
@@ -20,10 +22,14 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseFirestore db;
 
+    private PaperDb paperDb;
+    private Users userData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        paperDb = new PaperDb();
 
         title = findViewById(R.id.title);
         email = findViewById(R.id.emailid);
@@ -32,18 +38,9 @@ public class ProfileActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        String currentUser = auth.getCurrentUser().getEmail();
-
-        db.collection("users").document(currentUser).get()
-            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    title.setText(documentSnapshot.getData().get("userName").toString());
-                    email.setText(documentSnapshot.getData().get("emailId").toString());
-                    mobile.setText(documentSnapshot.getData().get("mobile").toString());
-                }
-            });
-
-
+        userData = paperDb.getFromPaperDb();
+        title.setText(userData.userName);
+        email.setText(userData.emailId);
+        mobile.setText(userData.mobile);
     }
 }

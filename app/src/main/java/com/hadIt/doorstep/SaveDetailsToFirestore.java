@@ -24,7 +24,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.hadIt.doorstep.dao.GetFirebaseInstance;
 import com.hadIt.doorstep.md5.PasswordGeneratorMd5;
 import com.hadIt.doorstep.cache.model.Users;
 
@@ -33,7 +32,6 @@ public class SaveDetailsToFirestore extends AppCompatActivity {
     public EditText userName, emailId, password, phoneNumber;
     public Button saveDetails;
     public FirebaseFirestore db;
-    public GetFirebaseInstance firebaseInstance;
     public FirebaseAuth auth;
     public String Tag = "SaveDetailsToFirestore Activity";
     public PasswordGeneratorMd5 md5;
