@@ -12,12 +12,19 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadIt.doorstep.LoginActivity;
 import com.hadIt.doorstep.ProfileActivity;
 import com.hadIt.doorstep.R;
+import com.hadIt.doorstep.cache.model.Users;
+import com.hadIt.doorstep.dao.PaperDb;
+
+import java.util.HashMap;
+
+import io.paperdb.Paper;
 
 public class Profile extends Fragment {
 
@@ -29,11 +36,15 @@ public class Profile extends Fragment {
     public Button logout;
     private FirebaseAuth auth;
     private FirebaseFirestore db;
+    private PaperDb paperDb;
+    private Users userData;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_profile,container,false);
+
+        paperDb = new PaperDb();
 
         title = root.findViewById(R.id.title);
         profile = root.findViewById(R.id.profile);
@@ -47,14 +58,9 @@ public class Profile extends Fragment {
         /*
         For Title
          */
-        String currentUser = auth.getCurrentUser().getEmail();
-        db.collection("users").document(currentUser).get()
-            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    title.setText(documentSnapshot.getData().get("userName").toString());
-                }
-            });
+
+        userData = paperDb.getFromPaperDb();
+        title.setText(userData.userName);
 
          /*
         For Profile
