@@ -14,7 +14,7 @@
         >
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
-            android:background="#DF0D0D"
+            android:background="@color/colorPrimary"
             android:id="@+id/toolBar"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:layout_scrollFlags="scroll|enterAlways"

@@ -150,7 +150,7 @@
         android:layout_centerHorizontal="true"
         android:text="Logout"
         android:layout_below="@+id/share_with_friends"
-        android:background="#45009688"
+        android:background="@color/colorSecondary"
         android:layout_marginTop="100dp"
         />
 
