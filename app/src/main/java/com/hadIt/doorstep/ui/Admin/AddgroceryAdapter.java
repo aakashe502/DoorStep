@@ -27,7 +27,10 @@ import java.util.ArrayList;
 public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.ViewHolder> {
   ArrayList<InfoData> arrayList;
   Context context;
-  ArrayList<InfoData> savearraylist=new ArrayList<>();
+
+
+
+    //ArrayList<InfoData> savearraylist=new ArrayList<>();
     public AddgroceryAdapter(ArrayList<InfoData> arrayList,Context context) {
         this.arrayList = arrayList;
         this.context = context;
@@ -52,7 +55,7 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
                 snackbar.show();
                 holder.addbutton.setVisibility(View.GONE);
                 holder.linear.setVisibility(View.VISIBLE);
-                savearraylist.add(arrayList.get(position));
+             //   savearraylist.add(arrayList.get(position));
             }
         });
         holder.minus.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +65,7 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
                 if(Integer.parseInt(holder.number.getText().toString())<=0){
                     holder.linear.setVisibility(View.GONE);
                     holder.addbutton.setVisibility(View.VISIBLE);
-                    savearraylist.remove(arrayList.get(position));
+                  //  savearraylist.remove(arrayList.get(position));
                 }
             }
         });
