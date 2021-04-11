@@ -57,7 +57,6 @@
         android:textSize="20dp"
         android:layout_toRightOf="@+id/email"
         android:layout_marginLeft="20dp"
-        android:maxLines="1"
         />
 
     <TextView

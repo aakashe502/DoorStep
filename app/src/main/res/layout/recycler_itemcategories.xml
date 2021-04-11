@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:cardBackgroundColor="#FFFFFF"
+    app:cardBackgroundColor="#FFFEFE"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp"
     app:cardMaxElevation="10dp"
     app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true">
+   >
 
     <!--
         In the above cardview widget
@@ -42,12 +42,12 @@
             android:id="@+id/groceryname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="2dp"
            android:layout_below="@+id/groceryimage"
             android:layout_centerHorizontal="true"
             android:textColor="@color/test"
-            android:textSize="18sp"
+            android:textSize="15dp"
             android:textStyle="bold" />
 
 

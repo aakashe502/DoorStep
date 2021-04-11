@@ -11,20 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadIt.doorstep.LoginActivity;
 import com.hadIt.doorstep.ProfileActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
-
-import java.util.HashMap;
-
-import io.paperdb.Paper;
 
 public class Profile extends Fragment {
 
