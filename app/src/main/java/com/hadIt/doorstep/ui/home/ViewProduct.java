@@ -43,6 +43,7 @@ public class ViewProduct extends AppCompatActivity {
 
         recyclerView.setLayoutManager(gridLayoutManager);
 
+
         recyclerView.setAdapter(modelAdapter);
 
       firestore.collection("Products").document("products").collection(str).get()

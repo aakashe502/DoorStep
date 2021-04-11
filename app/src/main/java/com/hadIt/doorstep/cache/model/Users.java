@@ -1,7 +1,7 @@
-package com.hadIt.doorstep.model;
+package com.hadIt.doorstep.cache.model;
 
 public class Users {
-    private String userName, emailId, password, mobile;
+    public String userName, emailId, password, mobile;
 
     public String getUserName() {
         return userName;
@@ -33,5 +33,10 @@ public class Users {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    @Override
+    public Users clone() {
+        return new Users();
     }
 }

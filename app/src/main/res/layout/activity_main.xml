@@ -37,6 +37,17 @@
             android:textAllCaps="false"
             android:textColor="#fff" />
 
+        <TextView
+            android:id="@+id/resetPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="reset password?"
+            android:textColor="#0F89C5"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:textSize="10dp"
+            />
+
         <Button
             android:id="@+id/createnewac"
             android:layout_width="wrap_content"

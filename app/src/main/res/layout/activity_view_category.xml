@@ -18,7 +18,7 @@
             android:textColor="#000"
             android:textSize="30dp"
             android:id="@+id/products"
-            android:background="#88ECCC"
+            android:background="@color/colorPrimary"
           />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -30,8 +30,8 @@
             />
 
         <Button
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:text="ADD"

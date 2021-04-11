@@ -2,22 +2,24 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
+    android:layout_margin="10dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         tools:ignore="MissingConstraints">
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             app:cardBackgroundColor="#FFFEFE"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="0dp"
             app:cardElevation="8dp"
             app:cardMaxElevation="10dp"
             app:cardPreventCornerOverlap="true"
-            app:cardUseCompatPadding="true"
+
             >
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -41,8 +43,8 @@
                 android:layout_below="@+id/image"
                 android:textSize="20dp"
 
-                android:textColor="#000"
-                android:layout_marginLeft="20dp"/>
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="0dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -50,7 +52,7 @@
                     android:id="@+id/rs"
                     android:text="RS"
                     android:textColor="#000"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="0dp"
                     android:textSize="15dp"
                     />
                 <TextView
@@ -60,42 +62,79 @@
                     android:layout_toRightOf="@+id/rs"
                     android:id="@+id/ruppee"
                     android:text="20"
-                    android:textSize="20dp"
-                    android:layout_marginLeft="30dp"
+                    android:textSize="15dp"
+                    android:layout_marginLeft="5dp"
                     android:textAlignment="center"
                     android:textColor="#000"/>
-                <Button
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                   android:layout_marginLeft="10dp"
-                    android:textSize="19dp"
-                    android:textAlignment="center"
-                    android:text="-"
-                    android:layout_below="@+id/ruppee"
-                    android:id="@+id/minus"
 
-                    />
-                <EditText
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:textSize="13dp"
+
+
+                    android:text=" per 0.25 KG"
+                    android:layout_below="@+id/name"
+                    android:textSize="15dp"
+
+                    android:layout_toRightOf="@+id/ruppee"
                     android:textAlignment="center"
-                    android:text="0.25"
-                    android:layout_below="@+id/ruppee"
-                    android:layout_toRightOf="@+id/minus"
+                    android:textColor="#000"
                     android:id="@+id/value"/>
 
                 <Button
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_below="@+id/value"
+                    android:background="@color/colorAccent"
+                    android:text="ADD"
+                    android:id="@+id/addbutton"
+                    android:layout_marginTop="5dp"
+                    android:visibility="visible"
+                    android:textSize="18dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/value"
+                    android:id="@+id/linear"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
 
-                    android:textSize="19dp"
-                    android:textAlignment="center"
-                    android:text="+"
-                    android:layout_below="@+id/ruppee"
-                    android:layout_toRightOf="@+id/value"
-                    android:id="@+id/plus"/>
+                    >
+                    <Button
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+
+                        android:background="@drawable/minus1"
+                        android:layout_marginLeft="40dp"
+                        android:id="@+id/minus"/>
+                    <TextView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:text="1"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="#000"
+
+                        android:id="@+id/number"
+                        android:textAlignment="center"
+                        android:layout_marginTop="3dp"/>
+                    <Button
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+
+                        android:background="@drawable/plusicon"
+                        android:layout_marginLeft="5dp"
+                        android:id="@+id/plus"/>
+
+                </LinearLayout>
+
+
+
+
+
+
 
 
 

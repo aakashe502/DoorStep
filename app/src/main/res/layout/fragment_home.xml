@@ -19,20 +19,32 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="vertical"
+                android:id="@+id/l1"
+                android:background="@color/colorPrimary"
+                >
+
+
+
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="15dp"
-            android:background="#CDD80D55"
+            android:layout_marginTop="0dp"
+            android:background="#FFFFFF"
             android:id="@+id/cardSearch"
             android:drawableStart="@drawable/search"
             android:hint="Search your Grocery"
+            android:textColorHint="#000"
 
 
             />
+            </LinearLayout>
 
 
 
@@ -41,8 +53,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="CATEGORIES"
-    android:layout_below="@+id/cardSearch"
-    android:textSize="40dp"
+    android:layout_below="@+id/l1"
+    android:textSize="25dp"
     android:drawableEnd="@drawable/ccp_ic_arrow_drop_down"
     android:id="@+id/category"
     android:layout_marginStart="30dp"

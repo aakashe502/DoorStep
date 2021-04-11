@@ -13,15 +13,21 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.home.ViewProduct"></activity>
         <activity android:name=".ui.Admin.AddProduct" />
-        <activity android:name=".ui.Admin.ViewCategory" />
+
+        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ManageOtp" />
+        <activity android:name=".MobileVarificationActivity"></activity>
+
+        <activity android:name=".ui.Admin.ViewCategory"></activity>
         <activity android:name=".ui.Admin.AddGrocery" />
         <activity android:name=".CategoryClass" />
-        <activity android:name=".ManageOtp" />
-        <activity android:name=".MobileVarificationActivity" />
+
         <activity android:name=".SearchActivity" />
         <activity
             android:name=".HomePage"
-            android:label="@string/title_activity_home" />
+            android:label="@string/title_activity_home"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity
             android:name=".SaveDetailsToFirestore"
             android:parentActivityName=".LoginActivity" />

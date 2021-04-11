@@ -1,12 +1,10 @@
 package com.hadIt.doorstep.ui.home;
 
 import android.os.Bundle;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,19 +17,18 @@ import com.hadIt.doorstep.R;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
-public ImageView meat,veg,pastry;
-public RecyclerView recyclerView;
-public ArrayList<ModelClass> model;
+    public ImageView meat,veg,pastry;
+    public RecyclerView recyclerView;
+    public ArrayList<ModelClass> model;
 
     public View root;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,Bundle savedInstanceState) {
 
-         root = inflater.inflate(R.layout.fragment_home,container,false);
-
+        root = inflater.inflate(R.layout.fragment_home,container,false);
 
         recyclerView=root.findViewById(R.id.recyclerview);
-        model=new ArrayList<>();
+        model=new ArrayList<ModelClass>();
         model.add(new ModelClass("VEGETABLES",R.drawable.vegetable));
         model.add(new ModelClass("GROCERY",R.drawable.bake));
         model.add(new ModelClass("MEAT",R.drawable.meat));
@@ -49,11 +46,7 @@ public ArrayList<ModelClass> model;
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(modelAdapter);
 
-
-
         return root;
-
-
     }
 
     @Override
@@ -61,12 +54,4 @@ public ArrayList<ModelClass> model;
         super.onStart();
 
     }
-
-//    private void loadFragment(Fragment fragment) {
-//        FragmentManager fragmentManager=getFragmentManager();
-//        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.frame,fragment).commit();
-//        drawerLayout.closeDrawer(GravityCompat.START);
-//        fragmentTransaction.addToBackStack(null);
-//    }
-    }
+}
