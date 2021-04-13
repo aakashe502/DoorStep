@@ -44,8 +44,6 @@ public class Profile extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_profile,container,false);
 
-        paperDb = new PaperDb();
-
         title = root.findViewById(R.id.title);
         profile = root.findViewById(R.id.profile);
         orders = root.findViewById(R.id.orders);
@@ -58,7 +56,7 @@ public class Profile extends Fragment {
         /*
         For Title
          */
-
+        paperDb = new PaperDb();
         userData = paperDb.getFromPaperDb();
         title.setText(userData.userName);
 

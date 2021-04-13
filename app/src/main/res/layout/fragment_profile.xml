@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textColor="#000"
+        android:textColor="@color/colorText"
         android:layout_below="@+id/imageview_profile"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
@@ -36,12 +36,13 @@
         android:id="@+id/profile_layout"
         android:background="@drawable/border"
         >
+
         <TextView
             android:id="@+id/profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Profile"
-            android:textColor="#000"
+            android:text="Edit Profile"
+            android:textColor="@color/colorText"
             android:layout_centerHorizontal="false"
             android:layout_marginTop="5dp"
             android:textStyle="bold"
@@ -50,19 +51,19 @@
             android:textSize="30dp"
             />
 
-        <TextView
-            android:id="@+id/profile_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Check Your Profile Details"
-            android:textColor="#000"
-            android:layout_below="@+id/profile"
-            android:layout_centerHorizontal="false"
-            android:layout_marginTop="5dp"
-            android:textStyle="bold"
-            android:paddingLeft="30dp"
-            android:textSize="10dp"
-            />
+<!--        <TextView-->
+<!--            android:id="@+id/profile_description"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Check Your Profile Details"-->
+<!--            android:textColor="#000"-->
+<!--            android:layout_below="@+id/profile"-->
+<!--            android:layout_centerHorizontal="false"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:paddingLeft="30dp"-->
+<!--            android:textSize="10dp"-->
+<!--            />-->
 
     </LinearLayout>
 
@@ -80,7 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Orders"
-            android:textColor="#000"
+            android:textColor="@color/colorText"
             android:layout_centerHorizontal="false"
             android:layout_marginTop="5dp"
             android:textStyle="bold"
@@ -89,19 +90,19 @@
             android:textSize="30dp"
             />
 
-        <TextView
-            android:id="@+id/orders_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Check Status"
-            android:textColor="#000"
-            android:layout_below="@+id/orders"
-            android:layout_centerHorizontal="false"
-            android:layout_marginTop="5dp"
-            android:textStyle="bold"
-            android:paddingLeft="30dp"
-            android:textSize="10dp"
-            />
+<!--        <TextView-->
+<!--            android:id="@+id/orders_description"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Check Status"-->
+<!--            android:textColor="#000"-->
+<!--            android:layout_below="@+id/orders"-->
+<!--            android:layout_centerHorizontal="false"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:paddingLeft="30dp"-->
+<!--            android:textSize="10dp"-->
+<!--            />-->
 
     </LinearLayout>
 
@@ -118,7 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Share"
-            android:textColor="#000"
+            android:textColor="@color/colorText"
             android:layout_centerHorizontal="false"
             android:layout_marginTop="5dp"
             android:textStyle="bold"
@@ -127,19 +128,19 @@
             android:textSize="30dp"
             />
 
-        <TextView
-            android:id="@+id/share_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tell your friends about the app"
-            android:textColor="#000"
-            android:layout_below="@+id/share"
-            android:layout_centerHorizontal="false"
-            android:layout_marginTop="5dp"
-            android:textStyle="bold"
-            android:paddingLeft="30dp"
-            android:textSize="10dp"
-            />
+<!--        <TextView-->
+<!--            android:id="@+id/share_description"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Tell your friends about the app"-->
+<!--            android:textColor="#000"-->
+<!--            android:layout_below="@+id/share"-->
+<!--            android:layout_centerHorizontal="false"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:paddingLeft="30dp"-->
+<!--            android:textSize="10dp"-->
+<!--            />-->
 
     </LinearLayout>
 

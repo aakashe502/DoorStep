@@ -3,6 +3,7 @@ package com.hadIt.doorstep;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -15,9 +16,9 @@ import com.hadIt.doorstep.dao.PaperDb;
 public class ProfileActivity extends AppCompatActivity {
     private String Tag = "ProfileActivity";
 
-    public TextView title;
-    public TextView email;
-    public TextView mobile;
+    public EditText title;
+    public EditText email;
+    public EditText mobile;
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -31,9 +32,9 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         paperDb = new PaperDb();
 
-        title = findViewById(R.id.title);
-        email = findViewById(R.id.emailid);
-        mobile = findViewById(R.id.mobileNo);
+        title = findViewById(R.id.nameEditText);
+        email = findViewById(R.id.emailEditText);
+        mobile = findViewById(R.id.mobileEditText);
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();

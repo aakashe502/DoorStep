@@ -1,13 +1,16 @@
 package com.hadIt.doorstep;
 
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.hadIt.doorstep.cache.model.Users;
+import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.ui.Admin.AddGrocery;
 
 import androidx.annotation.NonNull;
@@ -31,6 +34,8 @@ public class HomePage extends AppCompatActivity {
     NavigationView navigationView;
     AppBarConfiguration appBarConfiguration;
     public CircleImageView profilePhoto;
+    public TextView userName;
+    View header;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +55,19 @@ public class HomePage extends AppCompatActivity {
         drawerLayout=findViewById(R.id.drawer);
         toolbar=findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
+
         toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView=findViewById(R.id.nav_get);
+
+        header = navigationView.getHeaderView(0);
+        profilePhoto = header.findViewById(R.id.imageview_profile);
+        userName = header.findViewById(R.id.name);
+
+        PaperDb paperDb=new PaperDb();
+        userName.setText(paperDb.getFromPaperDb().userName);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
