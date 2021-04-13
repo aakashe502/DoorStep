@@ -11,6 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.home.ViewProduct"></activity>
+        <activity android:name=".ui.Admin.AddProduct" />
 
         <activity android:name=".ProfileActivity"></activity>
         <activity android:name=".ManageOtp" />
@@ -23,7 +25,9 @@
         <activity android:name=".SearchActivity" />
         <activity
             android:name=".HomePage"
-            android:label="@string/title_activity_home" />
+            android:label="@string/title_activity_home"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity
             android:name=".SaveDetailsToFirestore"
             android:parentActivityName=".LoginActivity" />

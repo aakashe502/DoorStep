@@ -35,7 +35,7 @@ public class AddGrocery extends AppCompatActivity {
         model.add(new ModelClass("BEVERAGES",R.drawable.beverages));
         model.add(new ModelClass("NON-VEG",R.drawable.non_veg));
 
-        ModelAdapter modelAdapter=new ModelAdapter(model,this);
+        GroceryAdapter modelAdapter=new GroceryAdapter(model,this);
         // LinearLayoutManager linearLayoutManager=new LinearLayoutManager(root.getContext(),LinearLayoutManager.VERTICAL,false);
         GridLayoutManager gridLayoutManager=new GridLayoutManager(this,3,LinearLayoutManager.VERTICAL,false);
 

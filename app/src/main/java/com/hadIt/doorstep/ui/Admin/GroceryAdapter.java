@@ -1,4 +1,4 @@
-package com.hadIt.doorstep.ui.home;
+package com.hadIt.doorstep.ui.Admin;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,18 +11,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hadIt.doorstep.CategoryClass;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.ui.Admin.ViewCategory;
+import com.hadIt.doorstep.ui.home.ModelAdapter;
+import com.hadIt.doorstep.ui.home.ModelClass;
+import com.hadIt.doorstep.ui.home.ViewProduct;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
-public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.ItemViewHolder> {
+public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.ItemViewHolder> {
+
     private ArrayList<ModelClass> arrayList;
     private Context context;
 
-    public ModelAdapter(ArrayList<ModelClass> arrayList,Context context) {
+    public GroceryAdapter(ArrayList<ModelClass> arrayList,Context context) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -43,9 +44,9 @@ public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.ItemViewHold
             @Override
             public void onClick(View view) {
 
-                Intent intent=new Intent(context,ViewProduct.class);
+                Intent intent=new Intent(context,ViewCategory.class);
                 intent.putExtra("grocery",holder.groceryname.getText().toString());
-               context.startActivity(intent);
+                context.startActivity(intent);
             }
         });
     }
