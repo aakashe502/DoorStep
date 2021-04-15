@@ -61,7 +61,7 @@
             android:textStyle="bold"
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/profile"
-            android:textSize="30dp"
+            android:textSize="20dp"
             />
 
     </LinearLayout>
@@ -87,7 +87,7 @@
             android:textStyle="bold"
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/order"
-            android:textSize="30dp"
+            android:textSize="20dp"
             />
 
     </LinearLayout>
@@ -112,7 +112,7 @@
             android:textStyle="bold"
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/share_with_friends"
-            android:textSize="30dp"
+            android:textSize="20dp"
             />
 
     </LinearLayout>
@@ -125,7 +125,7 @@
         android:text="Logout"
         android:layout_below="@+id/share_with_friends"
         android:background="@color/colorSecondary"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="130dp"
         />
 
 </RelativeLayout>
