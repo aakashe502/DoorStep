@@ -51,7 +51,6 @@ public class ProfileActivity extends AppCompatActivity {
         camera = findViewById(R.id.iv_camera);
         toolbar = findViewById(R.id.toolBar);
 
-
         toolbar.setTitle("Profile");
         toolbar.setTitleTextColor(Color.WHITE);
 
