@@ -3,6 +3,8 @@
     package="com.hadIt.doorstep">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -14,7 +16,12 @@
         <activity android:name=".ui.home.ViewProduct"></activity>
         <activity android:name=".ui.Admin.AddProduct" />
 
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+
+        <activity android:name=".ProfileActivity">
+
+        </activity>
         <activity android:name=".ManageOtp" />
         <activity android:name=".MobileVarificationActivity"></activity>
 
