@@ -1,6 +1,7 @@
 package com.hadIt.doorstep.ui.Profile;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,13 +22,16 @@ import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
 
-public class Profile extends Fragment {
+import java.util.Objects;
+
+public class Profile extends Fragment  {
 
     public TextView tv;
     public TextView title;
     public TextView profile;
     public TextView orders;
     public TextView share;
+    public TextView email;
     public Button logout;
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -42,6 +48,7 @@ public class Profile extends Fragment {
         orders = root.findViewById(R.id.orders);
         share = root.findViewById(R.id.share);
         logout = root.findViewById(R.id.logout);
+        email = root.findViewById(R.id.email);
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -52,6 +59,7 @@ public class Profile extends Fragment {
         paperDb = new PaperDb();
         userData = paperDb.getFromPaperDb();
         title.setText(userData.userName);
+        email.setText(userData.emailId);
 
          /*
         For Profile
