@@ -6,87 +6,149 @@
     android:layout_height="match_parent"
     tools:context=".ProfileActivity">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/imageview_profile"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/profile_image"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        app:civ_border_width="5dp"
-        app:civ_border_color="#FF000000"/>
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:id="@+id/toolBar"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:layout_scrollFlags="scroll|enterAlways"
+        android:layout_height="60dp">
+    </androidx.appcompat.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/imageView"
+        android:layout_below="@+id/toolBar"
+        android:layout_marginTop="20dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageview_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/profile_image"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="5dp"
+            />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_camera"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginEnd="6dp"
+            android:src="@drawable/camera"
+            android:layout_gravity="bottom|right"
+            />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="#000"
-        android:layout_below="@+id/imageview_profile"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        />
+        android:id="@+id/profile"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:padding="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/imageView"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/email"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:textColor="@color/colorText"
+            android:textStyle="bold"
+            android:drawableStart="@drawable/profile"
+            android:textSize="20dp"
+            android:text="Name: " />
+
+        <TextView
+            android:id="@+id/nameEditText"
+            android:layout_width="wrap_content"
+            android:textColor="@color/colorText"
+            android:textSize="16dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:paddingRight="20dp"
+            android:drawableEnd="@drawable/edit_pen"
+            android:inputType="number"
+            android:singleLine="true"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email: "
-        android:textColor="#000"
-        android:layout_below="@+id/title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:layout_alignParentLeft="true"
+        android:id="@+id/mobileLinearLayout"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:padding="10dp"
+        android:layout_below="@+id/profile"
+        android:orientation="horizontal">
 
-        />
+        <TextView
+            android:id="@+id/mobileTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:textColor="@color/colorText"
+            android:textStyle="bold"
+            android:drawableStart="@drawable/mobile_icon"
+            android:textSize="20dp"
+            android:text="Mobile: " />
 
-    <TextView
-        android:id="@+id/emailid"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/mobileEditText"
+            android:layout_width="wrap_content"
+            android:textColor="@color/colorText"
+            android:textSize="16dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_weight="1"
+            android:paddingRight="20dp"
+            android:drawableEnd="@drawable/edit_pen"
+            android:inputType="number"
+            android:singleLine="true"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="#000"
-        android:layout_below="@+id/title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:textSize="20dp"
-        android:layout_toRightOf="@+id/email"
-        android:layout_marginLeft="20dp"
-        />
+        android:id="@+id/emailLinearLayout"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:padding="10dp"
+        android:layout_below="@+id/mobileLinearLayout"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/mobile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mobile: "
-        android:textColor="#000"
-        android:layout_below="@+id/email"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:layout_alignParentLeft="true"
-        />
+        <TextView
+            android:id="@+id/emailTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:textColor="@color/colorText"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:drawableStart="@drawable/emailicon4"
+            android:textSize="20dp"
+            android:text="Email: " />
 
-    <TextView
-        android:id="@+id/mobileNo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="#000"
-        android:layout_below="@+id/email"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:textSize="20dp"
-        android:layout_toRightOf="@+id/email"
-        android:layout_marginLeft="20dp"
-        android:maxLines="1"
-        />
-
+        <TextView
+            android:id="@+id/emailEditText"
+            android:layout_width="wrap_content"
+            android:textColor="@color/colorText"
+            android:textSize="16dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:inputType="number"
+            android:singleLine="true"/>
+    </LinearLayout>
 
 </RelativeLayout>

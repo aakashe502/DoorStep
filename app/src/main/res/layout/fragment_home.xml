@@ -40,7 +40,7 @@
             android:id="@+id/cardSearch"
             android:drawableStart="@drawable/search"
             android:hint="Search your Grocery"
-            android:textColorHint="#000"
+            android:textColorHint="@color/colorText"
 
 
             />
