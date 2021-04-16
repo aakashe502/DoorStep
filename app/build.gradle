@@ -55,5 +55,6 @@ dependencies {
 
     implementation 'io.paperdb:paperdb:2.7.1'
     implementation 'me.relex:circleindicator:2.1.6'
+    api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 
 }

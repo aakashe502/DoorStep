@@ -1,10 +1,18 @@
 package com.hadIt.doorstep.cache.model;
 
 public class Users {
-    public String userName, emailId, password, mobile;
+    public String userName, emailId, password, mobile, profilePhoto;
 
     public String getUserName() {
         return userName;
+    }
+
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
     }
 
     public void setUserName(String userName) {
