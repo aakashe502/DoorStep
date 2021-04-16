@@ -6,6 +6,7 @@
     android:background="#fff"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
+
     android:id="@+id/drawer"
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
@@ -13,6 +14,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:layout_marginBottom="30dp"
         android:layout_height="match_parent">
 
         <RelativeLayout
@@ -45,6 +47,29 @@
 
             />
             </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/rel1"
+                android:layout_below="@+id/l1"
+                >
+                
+            
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPagerMain"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_margin="15dp"
+               />
+                
+                <me.relex.circleindicator.CircleIndicator3
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_alignParentBottom="true"
+                    android:id="@+id/circleindicator"
+                    />
+            </RelativeLayout>
 
 
 
@@ -53,7 +78,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="CATEGORIES"
-    android:layout_below="@+id/l1"
+    android:layout_below="@+id/rel1"
     android:textSize="25dp"
     android:drawableEnd="@drawable/ccp_ic_arrow_drop_down"
     android:id="@+id/category"
@@ -69,6 +94,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/category"
                 android:id="@+id/recyclerview"
+                android:layout_marginBottom="30dp"
+
 
 
                 >
@@ -80,5 +107,5 @@
 
         </RelativeLayout>
 
-    </androidx.core.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

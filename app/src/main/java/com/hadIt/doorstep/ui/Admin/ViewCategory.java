@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,10 +31,15 @@ public class ViewCategory extends AppCompatActivity {
     public Button addprod;
     FirebaseFirestore firestore;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_category);
+
+
+
+
         recyclerView=findViewById(R.id.productrecycler);
         arrayList=new ArrayList<>();
         firestore=FirebaseFirestore.getInstance();
@@ -51,7 +57,7 @@ public class ViewCategory extends AppCompatActivity {
 
 
 
-        final AddgroceryAdapter modelAdapter=new AddgroceryAdapter(arrayList,this);
+        final AdminAddapter modelAdapter=new AdminAddapter(arrayList,this);
         // LinearLayoutManager linearLayoutManager=new LinearLayoutManager(root.getContext(),LinearLayoutManager.VERTICAL,false);
         GridLayoutManager gridLayoutManager=new GridLayoutManager(this,2,LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);

@@ -1,44 +1,44 @@
 package com.hadIt.doorstep.ui.Admin;
 
 import android.content.Context;
-import android.icu.text.IDNA;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.ui.home.ModelAdapter;
+import com.hadIt.doorstep.ui.Interfaces.Datatransfer;
 
-import java.net.ContentHandler;
 import java.util.ArrayList;
 
 public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.ViewHolder> {
   ArrayList<InfoData> arrayList;
   Context context;
 
+    public Datatransfer datatransfer;
 
 
-    //ArrayList<InfoData> savearraylist=new ArrayList<>();
-    public AddgroceryAdapter(ArrayList<InfoData> arrayList,Context context) {
+
+
+    ArrayList<InfoData> savearraylist=new ArrayList<>();
+    public AddgroceryAdapter(ArrayList<InfoData> arrayList,Context context,Datatransfer datatransfer) {
         this.arrayList = arrayList;
         this.context = context;
+        this.datatransfer = datatransfer;
     }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.productlist, parent, false);
+       //datatransfer.onSetValues(savearraylist);
         return new ViewHolder(view);
     }
     @Override
@@ -55,17 +55,21 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
                 snackbar.show();
                 holder.addbutton.setVisibility(View.GONE);
                 holder.linear.setVisibility(View.VISIBLE);
-             //   savearraylist.add(arrayList.get(position));
+               savearraylist.add(arrayList.get(position));
+               datatransfer.onSetValues(savearraylist);
             }
         });
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.number.setText(""+(Integer.parseInt(holder.number.getText().toString())-1));
+
                 if(Integer.parseInt(holder.number.getText().toString())<=0){
                     holder.linear.setVisibility(View.GONE);
                     holder.addbutton.setVisibility(View.VISIBLE);
-                  //  savearraylist.remove(arrayList.get(position));
+                    savearraylist.remove(arrayList.get(position));
+                }
+                else{
+                    holder.number.setText(""+(Integer.parseInt(holder.number.getText().toString())-1));
                 }
             }
         });
