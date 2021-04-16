@@ -3,7 +3,9 @@ package com.hadIt.doorstep;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -43,6 +45,9 @@ public class HomePage extends AppCompatActivity {
         appBarConfiguration= new AppBarConfiguration.Builder(
                 R.id.navigation_home,R.id.navigation_dashboard,R.id.navigation_notifications,R.id.Settings,R.id.profile)
                 .build();
+       // View v=navView.getChildAt(3);
+       // View badge = LayoutInflater.from(this)
+        //        .inflate(R.layout.notification_badge, navView, true);
         NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment);
 //       NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration);
         NavigationUI.setupWithNavController(navView,navController);
@@ -52,6 +57,7 @@ public class HomePage extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(toggle);
+        drawerLayout.close();
         toggle.syncState();
         navigationView=findViewById(R.id.nav_get);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

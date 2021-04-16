@@ -11,21 +11,47 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.hadIt.doorstep.R;
 
 import java.util.ArrayList;
 
+import me.relex.circleindicator.CircleIndicator;
+import me.relex.circleindicator.CircleIndicator3;
+
 public class HomeFragment extends Fragment {
     public ImageView meat,veg,pastry;
     public RecyclerView recyclerView;
     public ArrayList<ModelClass> model;
+    ViewPager2 mViewPager;
+    CircleIndicator3 circleIndicator;
+
+    // images array
+    int[] images = {R.drawable.a1, R.drawable.a2, R.drawable.a3};
+
+    // Creating Object of ViewPagerAdapter
+
+
 
     public View root;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,Bundle savedInstanceState) {
 
         root = inflater.inflate(R.layout.fragment_home,container,false);
+
+        mViewPager = root.findViewById(R.id.viewPagerMain);
+        circleIndicator=root.findViewById(R.id.circleindicator);
+
+
+        // Initializing the ViewPagerAdapter
+
+        ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(root.getContext(), images);
+
+        // Adding the Adapter to the ViewPager
+        mViewPager.setAdapter(mViewPagerAdapter);
+        circleIndicator.setViewPager(mViewPager);
 
         recyclerView=root.findViewById(R.id.recyclerview);
         model=new ArrayList<ModelClass>();
@@ -45,6 +71,7 @@ public class HomeFragment extends Fragment {
 
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(modelAdapter);
+
 
         return root;
     }

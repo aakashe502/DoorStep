@@ -1,6 +1,7 @@
 package com.hadIt.doorstep.ui.Settings;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.hadIt.doorstep.R;
+import com.hadIt.doorstep.ui.Admin.InfoData;
+import com.hadIt.doorstep.ui.Interfaces.Datatransfer;
+
+import java.util.ArrayList;
 
 public class Settings extends Fragment {
 
@@ -23,4 +28,5 @@ public class Settings extends Fragment {
 
         return root;
     }
+
 }

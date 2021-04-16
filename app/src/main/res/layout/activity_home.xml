@@ -11,6 +11,7 @@
     tools:context=".LoginActivity">
 
 
+
     <RelativeLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
@@ -20,14 +21,23 @@
         <include
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/include"
             layout="@layout/app_bar_main"
 
 
             />
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/include"
+                >
+
+
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -36,11 +46,16 @@
         android:layout_height="wrap_content"
         android:isScrollContainer="false"
 
+
+
         android:background="?android:attr/windowBackground"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         android:layout_marginBottom="0dp"
-        android:paddingBottom="0dp"
+
+        android:paddingBottom="2dp"
+
         app:menu="@menu/bottom_nav_menu" />
+              </RelativeLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </RelativeLayout>

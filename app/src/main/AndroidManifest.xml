@@ -11,7 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.home.ViewProduct"></activity>
+        <activity android:name=".ui.home.ViewProduct"
+            android:parentActivityName=".HomePage">
+
+        </activity>
         <activity android:name=".ui.Admin.AddProduct" />
 
         <activity android:name=".ProfileActivity"></activity>
