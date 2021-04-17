@@ -5,12 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.Admin.AddProduct">
+
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:background="@color/colorPrimary"
+            android:id="@+id/toolBar"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:layout_height="60dp">
+        </androidx.appcompat.widget.Toolbar>
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:layout_below="@+id/toolBar"
             android:id="@+id/prodimage"
             android:scaleType="fitXY"
 
@@ -39,9 +53,9 @@
             android:layout_margin="20dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:background="#16E160"
+            android:background="@color/colorPrimary"
             android:text="ADD PRODUCT"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:id="@+id/addprod"/>
 
 

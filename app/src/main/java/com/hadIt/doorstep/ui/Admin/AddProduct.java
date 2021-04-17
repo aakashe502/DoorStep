@@ -2,9 +2,11 @@ package com.hadIt.doorstep.ui.Admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +32,7 @@ import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.SaveDetailsToFirestore;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class AddProduct extends AppCompatActivity {
     public ImageView image;
@@ -40,7 +43,8 @@ public class AddProduct extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
     public FirebaseFirestore db;
-     String groceryid;
+    String groceryid;
+    public Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,22 @@ public class AddProduct extends AppCompatActivity {
         add=findViewById(R.id.addprod);
 
         groceryid = getIntent().getStringExtra("name");
+
+        toolbar = findViewById(R.id.toolBar);
+
+        toolbar.setTitle("ADD " + groceryid);
+        toolbar.setTitleTextColor(Color.WHITE);
+
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationIcon(R.drawable.back_button);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         Toast.makeText(this,"id is"+groceryid,Toast.LENGTH_SHORT).show();
         image.setOnClickListener(new View.OnClickListener() {
             @Override
