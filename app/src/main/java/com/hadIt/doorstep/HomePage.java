@@ -20,7 +20,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -31,28 +30,22 @@ public class HomePage extends AppCompatActivity {
     ActionBarDrawerToggle toggle;
     Toolbar toolbar;
     NavigationView navigationView;
-    AppBarConfiguration appBarConfiguration;
     public CircleImageView profilePhoto;
     public TextView userName;
     View header;
+    NavController navController;
+
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration= new AppBarConfiguration.Builder(
-                R.id.navigation_home,R.id.navigation_dashboard,R.id.navigation_notifications,R.id.Settings,R.id.profile)
-                .build();
-       // View v=navView.getChildAt(3);
-       // View badge = LayoutInflater.from(this)
-        //        .inflate(R.layout.notification_badge, navView, true);
-        NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment);
-//       NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration);
-        NavigationUI.setupWithNavController(navView,navController);
+        bottomNavigationView = findViewById(R.id.nav_view);
+
+        navController = Navigation.findNavController(this,R.id.nav_host_fragment);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         drawerLayout=findViewById(R.id.drawer);
         toolbar=findViewById(R.id.toolBar);
@@ -96,10 +89,18 @@ public class HomePage extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//***Change Here***
-        startActivity(intent);
-        finish();
+
+
+        if(bottomNavigationView.getSelectedItemId() == R.id.navigation_home){
+            super.onBackPressed();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//***Change Here***
+            startActivity(intent);
+            finish();
+        }
+        else{
+            bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+        }
     }
 }

@@ -11,14 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
-
 import com.hadIt.doorstep.R;
-
 import java.util.ArrayList;
 
-import me.relex.circleindicator.CircleIndicator;
 import me.relex.circleindicator.CircleIndicator3;
 
 public class HomeFragment extends Fragment {
@@ -33,8 +29,6 @@ public class HomeFragment extends Fragment {
 
     // Creating Object of ViewPagerAdapter
 
-
-
     public View root;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,Bundle savedInstanceState) {
@@ -44,9 +38,7 @@ public class HomeFragment extends Fragment {
         mViewPager = root.findViewById(R.id.viewPagerMain);
         circleIndicator=root.findViewById(R.id.circleindicator);
 
-
         // Initializing the ViewPagerAdapter
-
         ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(root.getContext(), images);
 
         // Adding the Adapter to the ViewPager
@@ -79,6 +71,5 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
     }
 }

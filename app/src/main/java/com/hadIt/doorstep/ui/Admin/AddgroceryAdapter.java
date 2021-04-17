@@ -20,20 +20,19 @@ import com.hadIt.doorstep.ui.Interfaces.Datatransfer;
 import java.util.ArrayList;
 
 public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.ViewHolder> {
-  ArrayList<InfoData> arrayList;
-  Context context;
 
+    ArrayList<InfoData> arrayList;
+    Context context;
     public Datatransfer datatransfer;
 
+    ArrayList<InfoData> saveArrayList =new ArrayList<>();
 
-
-
-    ArrayList<InfoData> savearraylist=new ArrayList<>();
     public AddgroceryAdapter(ArrayList<InfoData> arrayList,Context context,Datatransfer datatransfer) {
         this.arrayList = arrayList;
         this.context = context;
         this.datatransfer = datatransfer;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,int viewType) {
@@ -41,6 +40,7 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
        //datatransfer.onSetValues(savearraylist);
         return new ViewHolder(view);
     }
+
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder,final int position) {
         holder.productname.setText(arrayList.get(position).getProductname().toString());
@@ -55,24 +55,26 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
                 snackbar.show();
                 holder.addbutton.setVisibility(View.GONE);
                 holder.linear.setVisibility(View.VISIBLE);
-               savearraylist.add(arrayList.get(position));
-               datatransfer.onSetValues(savearraylist);
+               saveArrayList.add(arrayList.get(position));
+               datatransfer.onSetValues(saveArrayList);
             }
         });
+
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(Integer.parseInt(holder.number.getText().toString())<=0){
-                    holder.linear.setVisibility(View.GONE);
-                    holder.addbutton.setVisibility(View.VISIBLE);
-                    savearraylist.remove(arrayList.get(position));
-                }
-                else{
-                    holder.number.setText(""+(Integer.parseInt(holder.number.getText().toString())-1));
-                }
+            if(Integer.parseInt(holder.number.getText().toString())<=0){
+                holder.linear.setVisibility(View.GONE);
+                holder.addbutton.setVisibility(View.VISIBLE);
+                saveArrayList.remove(arrayList.get(position));
+                holder.number.setText("0");
+            }
+            else{
+                holder.number.setText(""+(Integer.parseInt(holder.number.getText().toString())-1));
+            }
             }
         });
+
         holder.plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +86,7 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
     public int getItemCount() {
         return arrayList.size();
     }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView productimage;
         public TextView productname;
@@ -91,6 +94,7 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
         public Button addbutton;
         public LinearLayout linear;
         public Button plus,minus;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             productimage= itemView.findViewById(R.id.image);
