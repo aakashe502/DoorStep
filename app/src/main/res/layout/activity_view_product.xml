@@ -10,19 +10,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.Toolbar
-                android:layout_width="match_parent"
-                android:background="@color/colorPrimary"
-                android:id="@+id/toolBar"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:layout_scrollFlags="scroll|enterAlways"
-                android:layout_height="60dp">
-            </androidx.appcompat.widget.Toolbar>
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:background="@color/colorPrimary"
+            android:id="@+id/toolBar"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:layout_height="60dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#22008577"
+            android:background="@color/colorBackground"
             android:layout_marginTop="10dp"
             android:layout_below="@+id/toolBar"
             android:id="@+id/recyclerproduct"
