@@ -2,9 +2,11 @@ package com.hadIt.doorstep.ui.Admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +32,7 @@ import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.SaveDetailsToFirestore;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class AddProduct extends AppCompatActivity {
     public ImageView image;
@@ -40,7 +43,8 @@ public class AddProduct extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
     public FirebaseFirestore db;
-     String groceryid;
+    String groceryid;
+    public Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,22 @@ public class AddProduct extends AppCompatActivity {
         add=findViewById(R.id.addprod);
 
         groceryid = getIntent().getStringExtra("name");
+
+        toolbar = findViewById(R.id.toolBar);
+
+        toolbar.setTitle("ADD " + groceryid);
+        toolbar.setTitleTextColor(Color.WHITE);
+
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationIcon(R.drawable.back_button);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         Toast.makeText(this,"id is"+groceryid,Toast.LENGTH_SHORT).show();
         image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,10 +101,6 @@ public class AddProduct extends AppCompatActivity {
 
     private void LoadToDatabase() {
 
-       // Toast.makeText(this,"it came",Toast.LENGTH_SHORT).show();
-        //FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder().build();
-        //db.setFirestoreSettings(settings);
-
         StorageReference storageReference= FirebaseStorage.getInstance().getReference(selectedImageURI.toString());
         storageReference.putFile(selectedImageURI)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -100,37 +116,28 @@ public class AddProduct extends AppCompatActivity {
                             hashMap.put("productimage",""+downloadImageUri.toString());
                             hashMap.put("productrate",""+rate.getText().toString());
                             db.collection("Products").document("products").collection(groceryid).document(name.getText().toString()).set(hashMap).
-                                    addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                Toast.makeText(AddProduct.this,"Successful",Toast.LENGTH_SHORT).show();
-                                            }
+                                addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(AddProduct.this,"Successful",Toast.LENGTH_SHORT).show();
                                         }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(AddProduct.this,"Failed",Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-
-
-                                    
-
-
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(AddProduct.this,"Failed",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                         }
                         else{
                             Toast.makeText(AddProduct.this,"inside error",Toast.LENGTH_SHORT).show();
                         }
-                        }
-
-
+                    }
                 });
-
-
-
     }
+
     public  int getinfo(String name,String rate,String imageuri){
         if(imageuri==null)
             return 0;
@@ -139,7 +146,6 @@ public class AddProduct extends AppCompatActivity {
         if(rate==null)
             return 0;
         return 1;
-
     }
 
     @Override
@@ -150,7 +156,7 @@ public class AddProduct extends AppCompatActivity {
             selectedImageURI = data.getData();
             Glide.with(this)
                     .load(selectedImageURI) // Uri of the picture
-    .into(image);
+                    .into(image);
 
         }
     }

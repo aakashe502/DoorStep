@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.graphics.Color;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,6 +36,7 @@ import com.hadIt.doorstep.ui.Interfaces.Datatransfer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ViewProduct extends AppCompatActivity implements Datatransfer {
     public RecyclerView recyclerView;
@@ -44,7 +48,6 @@ public class ViewProduct extends AppCompatActivity implements Datatransfer {
     int mCartItemCount = 10;
     private DataViewModal dataViewModal;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,19 +56,29 @@ public class ViewProduct extends AppCompatActivity implements Datatransfer {
         recyclerView=findViewById(R.id.recyclerproduct);
         toolbar=findViewById(R.id.toolBar);
         toolbar.setTitle("ViewProduct");
-       setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         dataRespository=new DataRepository(getApplication());
+        toolbar.setTitleTextColor(Color.WHITE);
+
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationIcon(R.drawable.back_button);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         firestore=FirebaseFirestore.getInstance();
         data=new ArrayList<>();
         String str=getIntent().getStringExtra("grocery");
         final AddgroceryAdapter modelAdapter=new AddgroceryAdapter(data,this,this);
-        // LinearLayoutManager linearLayoutManager=new LinearLayoutManager(root.getContext(),LinearLayoutManager.VERTICAL,false);
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(this,2,LinearLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager=new GridLayoutManager(this,1,LinearLayoutManager.VERTICAL,false);
 
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(modelAdapter);
+
         firestore.collection("Products").document("products").collection(str).get()
               .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                   @Override
@@ -77,17 +90,10 @@ public class ViewProduct extends AppCompatActivity implements Datatransfer {
                              modelAdapter.notifyDataSetChanged();
 
                           }
-
                       }
-
-                  }
-              })
-              .addOnFailureListener(new OnFailureListener() {
-                  @Override
-                  public void onFailure(@NonNull Exception e) {
-
                   }
               });
+
         dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
         dataViewModal.getAllData().observe(this, new Observer<List<Data>>() {
             @Override
@@ -95,21 +101,7 @@ public class ViewProduct extends AppCompatActivity implements Datatransfer {
                 mCartItemCount=dataList.size();
             }
         });
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -129,14 +121,8 @@ public class ViewProduct extends AppCompatActivity implements Datatransfer {
                 onOptionsItemSelected(menuItem);
             }
         });
-
         return true;
-//    MenuInflater inflater=getMenuInflater();
-//    inflater.inflate(R.menu.addcart,menu);
-//    return super.onCreateOptionsMenu(menu);
-
-
-}
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -145,48 +131,32 @@ public class ViewProduct extends AppCompatActivity implements Datatransfer {
               startActivity(new Intent(this,Checkout.class));
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     private void setupBadge() {
         Checkout searchActivity=new Checkout();
 
+        if (textCartItemCount != null) {
+            textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
 
-            if (textCartItemCount != null) {
-                textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
-
-                if (mCartItemCount == 0) {
-                    if (textCartItemCount.getVisibility() != View.GONE) {
-                        textCartItemCount.setVisibility(View.GONE);
-                    }
-                }
-                else {
-                    textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
-                    if (textCartItemCount.getVisibility() != View.VISIBLE) {
-                        textCartItemCount.setVisibility(View.VISIBLE);
-                    }
+            if (mCartItemCount == 0) {
+                if (textCartItemCount.getVisibility() != View.GONE) {
+                    textCartItemCount.setVisibility(View.GONE);
                 }
             }
-
-
+            else {
+                textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
+                if (textCartItemCount.getVisibility() != View.VISIBLE) {
+                    textCartItemCount.setVisibility(View.VISIBLE);
+                }
+            }
+        }
     }
-
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//
-//        switch (item.getItemId()){
-//            case R.id.action_carta:
-//              startActivity(new Intent(this,SearchActivity.class));
-//                break;
-//        }
-//        return true;
-//    }
 
     @Override
     public void onSetValues(Data al) {
         dataRespository.insert(al);
-
     }
 
     @Override
@@ -206,6 +176,5 @@ public class ViewProduct extends AppCompatActivity implements Datatransfer {
         if(textCartItemCount!=null){
             textCartItemCount.setText(""+mCartItemCount);
         }
-
     }
 }

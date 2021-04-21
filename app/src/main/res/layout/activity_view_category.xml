@@ -10,34 +10,35 @@
         android:layout_height="match_parent"
         >
 
-
-        <TextView
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=" Current Products "
-            android:textColor="#000"
-            android:textSize="30dp"
-            android:id="@+id/products"
             android:background="@color/colorPrimary"
-          />
+            android:id="@+id/toolBar"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:layout_height="60dp">
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/products"
+            android:layout_below="@+id/toolBar"
             android:id="@+id/productrecycler"
             />
 
         <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:text="ADD"
-            android:textColor="#000"
+            android:textColor="@color/colorText"
             android:id="@+id/addprod"
-            android:background="#7CE3C6"
+            android:background="@drawable/circular_button"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="60dp"
+            android:layout_marginRight="40dp"
             />
     </RelativeLayout>
 

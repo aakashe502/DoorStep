@@ -23,21 +23,20 @@ import com.hadIt.doorstep.ui.home.ViewProduct;
 import java.util.ArrayList;
 
 public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.ViewHolder> {
-  ArrayList<InfoData> arrayList;
-  Context context;
 
+    ArrayList<InfoData> arrayList;
+    Context context;
     public Datatransfer datatransfer;
     public ArrayList<Data> addtocartArrayList=new ArrayList<>();
 
+    ArrayList<InfoData> saveArrayList =new ArrayList<>();
 
-
-
-    ArrayList<InfoData> savearraylist=new ArrayList<>();
     public AddgroceryAdapter(ArrayList<InfoData> arrayList,Context context,Datatransfer datatransfer) {
         this.arrayList = arrayList;
         this.context = context;
         this.datatransfer = datatransfer;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,int viewType) {
@@ -45,6 +44,7 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
        //datatransfer.onSetValues(savearraylist);
         return new ViewHolder(view);
     }
+
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder,final int position) {
         holder.productname.setText(arrayList.get(position).getProductname().toString());
@@ -66,10 +66,10 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
                datatransfer.onSetValues(cart);
             }
         });
+
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if(Integer.parseInt(holder.number.getText().toString())<=0){
                     holder.linear.setVisibility(View.GONE);
                     holder.addbutton.setVisibility(View.VISIBLE);
@@ -85,6 +85,7 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
                 }
             }
         });
+
         holder.plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,6 +102,7 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
     public int getItemCount() {
         return arrayList.size();
     }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView productimage;
         public TextView productname;
@@ -108,6 +110,7 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
         public Button addbutton;
         public LinearLayout linear;
         public Button plus,minus;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             productimage= itemView.findViewById(R.id.image);

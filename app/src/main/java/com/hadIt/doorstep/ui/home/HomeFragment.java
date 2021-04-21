@@ -14,9 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
-
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.SearchActivity;
 
@@ -24,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import me.relex.circleindicator.CircleIndicator;
 import me.relex.circleindicator.CircleIndicator3;
 
 public class HomeFragment extends Fragment {
@@ -42,7 +39,6 @@ public class HomeFragment extends Fragment {
     Handler handler;
     TextView cardSearch;
 
-
     public View root;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,Bundle savedInstanceState) {
@@ -59,7 +55,6 @@ public class HomeFragment extends Fragment {
                 startActivity(new Intent(getActivity(),SearchActivity.class));
             }
         });
-
 
         // Initializing the ViewPagerAdapter
 
@@ -117,6 +112,5 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
     }
 }

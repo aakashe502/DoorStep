@@ -12,9 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.ui.home.ModelAdapter;
 import com.hadIt.doorstep.ui.home.ModelClass;
-import com.hadIt.doorstep.ui.home.ViewProduct;
 
 import java.util.ArrayList;
 
