@@ -22,16 +22,21 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hadIt.doorstep.R;
+import com.hadIt.doorstep.Repository.DataRepository;
+import com.hadIt.doorstep.cache.model.Data;
+import com.hadIt.doorstep.ui.Interfaces.Datatransfer;
 import com.hadIt.doorstep.ui.home.ModelAdapter;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ViewCategory extends AppCompatActivity {
+public class ViewCategory extends AppCompatActivity  {
     RecyclerView recyclerView;
     public ArrayList<InfoData> arrayList;
     public Button addprod;
     FirebaseFirestore firestore;
+    private DataRepository dataRespository;
+
     public Toolbar toolbar;
 
     @Override
@@ -39,6 +44,7 @@ public class ViewCategory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_category);
 
+        dataRespository=new DataRepository(getApplication());
         final String sessionId = getIntent().getStringExtra("grocery");
 
         toolbar = findViewById(R.id.toolBar);
@@ -98,4 +104,6 @@ public class ViewCategory extends AppCompatActivity {
                 });
         recyclerView.setAdapter(modelAdapter);
     }
+
+
 }

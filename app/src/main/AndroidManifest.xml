@@ -13,6 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:name=".SearchActivity" />
+        <activity
+            android:name=".ui.home.ViewProduct"
+            android:parentActivityName=".HomePage" />
+
         <activity android:name=".chooser.WhoYouAreActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,20 +28,20 @@
         </activity>
         <activity android:name=".admin.AdminSignupActivity" />
         <activity android:name=".admin.AdminLoginActivity" />
-        <activity
-            android:name=".ui.home.ViewProduct"
-            android:parentActivityName=".HomePage" />
+
         <activity android:name=".ui.Admin.AddProduct" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
+
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ManageOtp" />
         <activity android:name=".MobileVarificationActivity" />
         <activity android:name=".ui.Admin.ViewCategory" />
         <activity android:name=".ui.Admin.AddGrocery" />
         <activity android:name=".CategoryClass" />
-        <activity android:name=".SearchActivity" />
+        <activity android:name=".Checkout" />
+
         <activity
             android:name=".HomePage"
             android:label="@string/title_activity_home"

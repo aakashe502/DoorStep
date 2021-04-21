@@ -15,7 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.hadIt.doorstep.R;
+import com.hadIt.doorstep.cache.model.Data;
+import com.hadIt.doorstep.cache.model.ModelAddtocart;
 import com.hadIt.doorstep.ui.Interfaces.Datatransfer;
+import com.hadIt.doorstep.ui.home.ViewProduct;
 
 import java.util.ArrayList;
 
@@ -24,6 +27,7 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
     ArrayList<InfoData> arrayList;
     Context context;
     public Datatransfer datatransfer;
+    public ArrayList<Data> addtocartArrayList=new ArrayList<>();
 
     ArrayList<InfoData> saveArrayList =new ArrayList<>();
 
@@ -47,6 +51,7 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
         holder.productrate.setText(arrayList.get(position).getProductrate().toString());
         //holder.productimage.setImageResource(arrayList.get(position).getProductimage());
         Glide.with(context).load(arrayList.get(position).getProductimage()).into(holder.productimage);
+
         holder.addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,30 +60,41 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
                 snackbar.show();
                 holder.addbutton.setVisibility(View.GONE);
                 holder.linear.setVisibility(View.VISIBLE);
-               saveArrayList.add(arrayList.get(position));
-               datatransfer.onSetValues(saveArrayList);
+              // savearraylist.add(arrayList.get(position));
+               Data cart=new Data(arrayList.get(position).productimage,arrayList.get(position).productname,arrayList.get(position).productrate,(String.valueOf(addtocartArrayList.size())),holder.number.getText().toString());
+               //addtocartArrayList.add(cart);
+               datatransfer.onSetValues(cart);
             }
         });
 
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            if(Integer.parseInt(holder.number.getText().toString())<=0){
-                holder.linear.setVisibility(View.GONE);
-                holder.addbutton.setVisibility(View.VISIBLE);
-                saveArrayList.remove(arrayList.get(position));
-                holder.number.setText("0");
-            }
-            else{
-                holder.number.setText(""+(Integer.parseInt(holder.number.getText().toString())-1));
-            }
+                if(Integer.parseInt(holder.number.getText().toString())<=0){
+                    holder.linear.setVisibility(View.GONE);
+                    holder.addbutton.setVisibility(View.VISIBLE);
+                    //savearraylist.remove(arrayList.get(position));
+                    Data cart=new Data(arrayList.get(position).productimage,arrayList.get(position).productname,arrayList.get(position).productrate,(String.valueOf(addtocartArrayList.size())),holder.number.getText().toString());
+                    datatransfer.onDelete(cart);
+
+                }
+                else{
+                    holder.number.setText(""+(Integer.parseInt(holder.number.getText().toString())-1));
+                    Data cart=new Data(arrayList.get(position).productimage,arrayList.get(position).productname,arrayList.get(position).productrate,(String.valueOf(addtocartArrayList.size())),holder.number.getText().toString());
+                    datatransfer.onSetValues(cart);
+                }
             }
         });
 
         holder.plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Data cart=new Data(arrayList.get(position).productimage,arrayList.get(position).productname,arrayList.get(position).productrate,(String.valueOf(addtocartArrayList.size())),holder.number.getText().toString());
+                datatransfer.onDelete(cart);
                 holder.number.setText(""+(Integer.parseInt(holder.number.getText().toString())+1));
+                Data catoon=new Data(arrayList.get(position).productimage,arrayList.get(position).productname,arrayList.get(position).productrate,(String.valueOf(addtocartArrayList.size())),holder.number.getText().toString());
+
+                datatransfer.onSetValues(catoon);
             }
         });
     }

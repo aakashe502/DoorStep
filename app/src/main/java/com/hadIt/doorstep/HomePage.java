@@ -43,6 +43,7 @@ public class HomePage extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +102,9 @@ public class HomePage extends AppCompatActivity {
                         break;
                     case R.id.basket:
                         startActivity(new Intent(HomePage.this, AddGrocery.class));
+                        break;
+                    case  R.id.cart:
+                        startActivity(new Intent(HomePage.this,Checkout.class));
                         break;
                 }
                 return true;
