@@ -36,6 +36,7 @@ public class HomePage extends AppCompatActivity {
     public TextView userName;
     View header;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +80,7 @@ public class HomePage extends AppCompatActivity {
                 switch (id)
                 {
                     case R.id.search:
-                        startActivity(new Intent(HomePage.this,SearchActivity.class));
+                        startActivity(new Intent(HomePage.this,Checkout.class));
                         break;
                     case R.id.logout:
                         FirebaseAuth.getInstance().signOut();
@@ -87,6 +88,9 @@ public class HomePage extends AppCompatActivity {
                         break;
                     case R.id.basket:
                         startActivity(new Intent(HomePage.this,AddGrocery.class));
+                        break;
+                    case  R.id.cart:
+                        startActivity(new Intent(HomePage.this,Checkout.class));
                         break;
                 }
                 return true;

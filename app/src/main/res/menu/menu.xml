@@ -17,9 +17,9 @@
             android:id="@+id/favorite"
             />
         <item
-            android:title="Promo-codes"
+            android:title="Your_cart"
 
-            android:id="@+id/promo_code"
+            android:id="@+id/cart"
             />
         <item
             android:title="Orders"

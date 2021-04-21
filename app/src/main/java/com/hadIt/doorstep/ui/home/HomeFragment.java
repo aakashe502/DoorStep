@@ -1,10 +1,13 @@
 package com.hadIt.doorstep.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,8 +18,11 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.hadIt.doorstep.R;
+import com.hadIt.doorstep.SearchActivity;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import me.relex.circleindicator.CircleIndicator;
 import me.relex.circleindicator.CircleIndicator3;
@@ -32,7 +38,9 @@ public class HomeFragment extends Fragment {
     int[] images = {R.drawable.a1, R.drawable.a2, R.drawable.a3};
 
     // Creating Object of ViewPagerAdapter
-
+    Timer timer;
+    Handler handler;
+    TextView cardSearch;
 
 
     public View root;
@@ -43,11 +51,19 @@ public class HomeFragment extends Fragment {
 
         mViewPager = root.findViewById(R.id.viewPagerMain);
         circleIndicator=root.findViewById(R.id.circleindicator);
+        cardSearch=root.findViewById(R.id.cardSearch);
+
+        cardSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(),SearchActivity.class));
+            }
+        });
 
 
         // Initializing the ViewPagerAdapter
 
-        ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(root.getContext(), images);
+        final ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(root.getContext(), images);
 
         // Adding the Adapter to the ViewPager
         mViewPager.setAdapter(mViewPagerAdapter);
@@ -71,6 +87,28 @@ public class HomeFragment extends Fragment {
 
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(modelAdapter);
+        handler=new Handler();
+        timer=new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        int i=mViewPager.getCurrentItem();
+                        if (i==images.length-1){
+                            i=0;
+                            mViewPager.setCurrentItem(i,true);
+                        }
+                        else{
+                            i++;
+                            mViewPager.setCurrentItem(i,true);
+                        }
+
+                    }
+                });
+            }
+        },4000,4000);
 
 
         return root;

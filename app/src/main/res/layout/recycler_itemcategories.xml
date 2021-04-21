@@ -3,10 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
     app:cardBackgroundColor="#FFFEFE"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="5dp"
+
     app:cardMaxElevation="10dp"
     app:cardPreventCornerOverlap="true"
    >
@@ -34,7 +37,8 @@
             android:id="@+id/groceryimage"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
-            android:padding="5dp"
+
+            android:padding="15dp"
              />
 
         <!--Text View to display Course Name-->
@@ -47,7 +51,7 @@
            android:layout_below="@+id/groceryimage"
             android:layout_centerHorizontal="true"
             android:textColor="@color/test"
-            android:textSize="15dp"
+            android:textSize="10dp"
             android:textStyle="bold" />
 
 

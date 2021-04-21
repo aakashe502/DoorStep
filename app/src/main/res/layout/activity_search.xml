@@ -4,19 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchActivity">
+    tools:context=".Checkout">
 
-    <TextView
-        android:id="@+id/test"
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
         android:layout_height="match_parent"
-        android:text="Aakash name is mine"/>
+        android:layout_above="@+id/checkout"
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/settings"
-        android:layout_below="@+id/test"
+        android:id="@+id/recycler"
+
+
         />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Checkout"
+        android:layout_alignParentBottom="true"
+
+        android:id="@+id/checkout"/>
 
 </RelativeLayout>
