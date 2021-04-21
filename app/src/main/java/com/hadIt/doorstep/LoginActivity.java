@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,10 +25,11 @@ import io.paperdb.Paper;
 
 public class LoginActivity extends AppCompatActivity {
     public Button createNewAccount, loginButton;
-    public TextView resetPassword;
+//    public TextView resetPassword;
     public EditText email, password;
-    public FirebaseFirestore db;
+    public FirebaseFirestore firebaseFirestore;
     public PasswordGeneratorMd5 md5;
+    public String Tag = "LoginActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         md5 = new PasswordGeneratorMd5();
         email=findViewById(R.id.etemail);
         password=findViewById(R.id.mypass);
-        resetPassword = findViewById(R.id.resetPassword);
+//        resetPassword = findViewById(R.id.resetPassword);
         createNewAccount=findViewById(R.id.createnewac);
         loginButton=findViewById(R.id.btnlogin);
 
@@ -59,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void gotonewActivity() {
-        if(email.getText().toString()!=null&&password.getText().toString()!=null){
+        if(!email.getText().toString().isEmpty() && !password.getText().toString().isEmpty()){
             //logging in the user
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email.getText().toString(), md5.btnMd5(password))
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -78,12 +80,15 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
         }
+        else{
+            Toast.makeText(LoginActivity.this,"Email and password cannot be empty!",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        db = FirebaseFirestore.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
             startActivity(new Intent(LoginActivity.this, HomePage.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));

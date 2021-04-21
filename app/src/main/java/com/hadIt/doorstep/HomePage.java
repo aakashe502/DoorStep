@@ -6,9 +6,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.hadIt.doorstep.cache.model.Users;
+import com.hadIt.doorstep.chooser.WhoYouAreActivity;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.ui.Admin.AddGrocery;
 
@@ -24,6 +27,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static java.lang.Thread.sleep;
+
 public class HomePage extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
@@ -34,6 +39,7 @@ public class HomePage extends AppCompatActivity {
     public TextView userName;
     View header;
     NavController navController;
+    public Users userData;
 
     BottomNavigationView bottomNavigationView;
 
@@ -62,7 +68,22 @@ public class HomePage extends AppCompatActivity {
         userName = header.findViewById(R.id.name);
 
         PaperDb paperDb=new PaperDb();
-        userName.setText(paperDb.getFromPaperDb().userName);
+        if(paperDb.getFromPaperDb() == null){
+            try {
+                paperDb.saveInPaperDb();
+                sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        userData = paperDb.getFromPaperDb();
+        userName.setText(userData.userName);
+
+        if(userData.profilePhoto != null){
+            Glide.with(this)
+                    .load(userData.profilePhoto) // Uri of the picture
+                    .into(profilePhoto);
+        }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -72,14 +93,14 @@ public class HomePage extends AppCompatActivity {
                 switch (id)
                 {
                     case R.id.search:
-                        startActivity(new Intent(HomePage.this,SearchActivity.class));
+                        startActivity(new Intent(HomePage.this, SearchActivity.class));
                         break;
                     case R.id.logout:
                         FirebaseAuth.getInstance().signOut();
-                        startActivity(new Intent(HomePage.this,LoginActivity.class));
+                        startActivity(new Intent(HomePage.this, WhoYouAreActivity.class));
                         break;
                     case R.id.basket:
-                        startActivity(new Intent(HomePage.this,AddGrocery.class));
+                        startActivity(new Intent(HomePage.this, AddGrocery.class));
                         break;
                 }
                 return true;

@@ -62,22 +62,21 @@
             android:textColor="@color/colorText"
             android:textStyle="bold"
             android:drawableStart="@drawable/profile"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:text="Name: " />
 
         <TextView
             android:id="@+id/nameEditText"
             android:layout_width="wrap_content"
             android:textColor="@color/colorText"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:layout_weight="1"
             android:maxLines="1"
-            android:paddingRight="20dp"
-            android:drawableEnd="@drawable/edit_pen"
-            android:inputType="number"
-            android:singleLine="true"/>
+            android:paddingEnd="20dp"
+            android:singleLine="true"
+            app:drawableEndCompat="@drawable/edit_pen" />
     </LinearLayout>
 
     <LinearLayout
@@ -97,22 +96,21 @@
             android:layout_gravity="left|center_vertical"
             android:textColor="@color/colorText"
             android:textStyle="bold"
-            android:drawableStart="@drawable/mobile_icon"
-            android:textSize="20dp"
-            android:text="Mobile: " />
+            android:textSize="20sp"
+            android:text="Mobile: "
+            app:drawableStartCompat="@drawable/mobile_icon" />
 
         <TextView
             android:id="@+id/mobileEditText"
             android:layout_width="wrap_content"
             android:textColor="@color/colorText"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:layout_weight="1"
-            android:paddingRight="20dp"
-            android:drawableEnd="@drawable/edit_pen"
-            android:inputType="number"
-            android:singleLine="true"/>
+            android:paddingEnd="20dp"
+            android:singleLine="true"
+            app:drawableEndCompat="@drawable/edit_pen" />
     </LinearLayout>
 
     <LinearLayout
