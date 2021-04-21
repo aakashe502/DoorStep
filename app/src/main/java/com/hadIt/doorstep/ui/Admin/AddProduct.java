@@ -101,10 +101,6 @@ public class AddProduct extends AppCompatActivity {
 
     private void LoadToDatabase() {
 
-       // Toast.makeText(this,"it came",Toast.LENGTH_SHORT).show();
-        //FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder().build();
-        //db.setFirestoreSettings(settings);
-
         StorageReference storageReference= FirebaseStorage.getInstance().getReference(selectedImageURI.toString());
         storageReference.putFile(selectedImageURI)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -120,37 +116,28 @@ public class AddProduct extends AppCompatActivity {
                             hashMap.put("productimage",""+downloadImageUri.toString());
                             hashMap.put("productrate",""+rate.getText().toString());
                             db.collection("Products").document("products").collection(groceryid).document(name.getText().toString()).set(hashMap).
-                                    addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                Toast.makeText(AddProduct.this,"Successful",Toast.LENGTH_SHORT).show();
-                                            }
+                                addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(AddProduct.this,"Successful",Toast.LENGTH_SHORT).show();
                                         }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(AddProduct.this,"Failed",Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-
-
-                                    
-
-
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(AddProduct.this,"Failed",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                         }
                         else{
                             Toast.makeText(AddProduct.this,"inside error",Toast.LENGTH_SHORT).show();
                         }
-                        }
-
-
+                    }
                 });
-
-
-
     }
+
     public  int getinfo(String name,String rate,String imageuri){
         if(imageuri==null)
             return 0;
@@ -159,7 +146,6 @@ public class AddProduct extends AppCompatActivity {
         if(rate==null)
             return 0;
         return 1;
-
     }
 
     @Override
@@ -170,7 +156,7 @@ public class AddProduct extends AppCompatActivity {
             selectedImageURI = data.getData();
             Glide.with(this)
                     .load(selectedImageURI) // Uri of the picture
-    .into(image);
+                    .into(image);
 
         }
     }

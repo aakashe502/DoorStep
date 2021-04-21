@@ -14,15 +14,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadIt.doorstep.LoginActivity;
 import com.hadIt.doorstep.ProfileActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.Users;
+import com.hadIt.doorstep.chooser.WhoYouAreActivity;
 import com.hadIt.doorstep.dao.PaperDb;
 
 import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Profile extends Fragment  {
 
@@ -37,6 +41,7 @@ public class Profile extends Fragment  {
     private FirebaseFirestore db;
     private PaperDb paperDb;
     private Users userData;
+    public CircleImageView profilePhoto;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,Bundle savedInstanceState) {
@@ -49,6 +54,7 @@ public class Profile extends Fragment  {
         share = root.findViewById(R.id.share);
         logout = root.findViewById(R.id.logout);
         email = root.findViewById(R.id.email);
+        profilePhoto = root.findViewById(R.id.imageview_profile);
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -76,9 +82,15 @@ public class Profile extends Fragment  {
             @Override
             public void onClick(View v) {
                 auth.signOut();
-                startActivity(new Intent(getActivity(), LoginActivity.class));
+                startActivity(new Intent(getActivity(), WhoYouAreActivity.class));
             }
         });
+
+        if(userData.profilePhoto != null){
+            Glide.with(this)
+                    .load(userData.profilePhoto) // Uri of the picture
+                    .into(profilePhoto);
+        }
 
         return root;
     }
