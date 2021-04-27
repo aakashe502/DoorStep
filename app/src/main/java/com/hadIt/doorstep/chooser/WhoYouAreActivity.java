@@ -13,7 +13,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadIt.doorstep.HomePage;
 import com.hadIt.doorstep.LoginActivity;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.SaveDetailsToFirestore;
 import com.hadIt.doorstep.admin.AdminLoginActivity;
 
 import io.paperdb.Paper;

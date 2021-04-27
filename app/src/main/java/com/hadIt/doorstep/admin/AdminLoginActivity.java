@@ -39,13 +39,13 @@ public class AdminLoginActivity extends AppCompatActivity {
 
         md5 = new PasswordGeneratorMd5();
 
-//        createNewAccount.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent=new Intent(AdminLoginActivity.this, SaveDetailsToFirestore.class);
-//                startActivity(intent);
-//            }
-//        });
+        createNewAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(AdminLoginActivity.this, AdminSignupActivity.class);
+                startActivity(intent);
+            }
+        });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
