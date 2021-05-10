@@ -25,7 +25,7 @@ public class Data {
     @ColumnInfo(name = "quantity")
     private String quantity;
 
-    public Data(String id,String name,String rate,String image,String quantity) {
+    public Data(String id, String name, String rate, String image, String quantity) {
         this.id = id;
         this.name = name;
         this.rate = rate;

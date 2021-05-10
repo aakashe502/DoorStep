@@ -2,11 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hadIt.doorstep">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -15,11 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".admin.home.AdminHomePage"></activity>
-        <activity android:name=".SearchActivity" />
+
+        <activity android:name=".admin.home.AdminHomePage" />
+        <activity android:name=".search.SearchActivity" />
         <activity
-            android:name=".ui.home.ViewProduct"
-            android:parentActivityName=".HomePage" />
+            android:name=".fragment_ui.home.ViewProduct"
+            android:parentActivityName=".homePage.HomePage" />
         <activity android:name=".chooser.WhoYouAreActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,29 +29,35 @@
         </activity>
         <activity android:name=".admin.AdminSignupActivity" />
         <activity android:name=".admin.AdminLoginActivity" />
-        <activity android:name=".ui.Admin.AddProduct" />
+        <activity android:name=".fragment_ui.Admin.AddProduct" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".ManageOtp" />
-        <activity android:name=".MobileVarificationActivity" />
-        <activity android:name=".ui.Admin.ViewCategory" />
-        <activity android:name=".ui.Admin.AddGrocery" />
+        <activity android:name=".profile.ProfileActivity" />
+        <activity android:name=".fragment_ui.Admin.ViewCategory" />
+        <activity android:name=".fragment_ui.Admin.AddGrocery" />
         <activity android:name=".CategoryClass" />
         <activity android:name=".Checkout" />
         <activity
-            android:name=".HomePage"
+            android:name=".homePage.HomePage"
             android:label="@string/title_activity_home"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".SaveDetailsToFirestore"
-            android:parentActivityName=".LoginActivity" />
-        <activity android:name=".LoginActivity"></activity>
+            android:name=".login_signup.SignUpActivity"
+            android:parentActivityName=".login_signup.LoginActivity" />
+        <activity android:name=".login_signup.LoginActivity" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
+
+        <service
+            android:name=".service.MyFirebaseMessaging"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

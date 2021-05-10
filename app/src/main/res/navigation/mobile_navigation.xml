@@ -6,31 +6,31 @@
     app:startDestination="@+id/navigation_home">
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.hadIt.doorstep.ui.home.HomeFragment"
+        android:name="com.hadIt.doorstep.fragment_ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.hadIt.doorstep.ui.dashboard.DashboardFragment"
+        android:name="com.hadIt.doorstep.fragment_ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.hadIt.doorstep.ui.notifications.NotificationsFragment"
+        android:name="com.hadIt.doorstep.fragment_ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/Settings"
-        android:name="com.hadIt.doorstep.ui.Settings.Settings"
+        android:name="com.hadIt.doorstep.fragment_ui.Settings.Settings"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/profile"
-        android:name="com.hadIt.doorstep.ui.Profile.Profile"
+        android:name="com.hadIt.doorstep.fragment_ui.Profile.Profile"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_profile" />
 </navigation>

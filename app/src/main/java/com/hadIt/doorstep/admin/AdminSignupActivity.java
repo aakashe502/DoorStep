@@ -10,9 +10,10 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -20,7 +21,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -30,6 +33,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -39,16 +44,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.hadIt.doorstep.HomePage;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.SaveDetailsToFirestore;
 import com.hadIt.doorstep.admin.home.AdminHomePage;
 import com.hadIt.doorstep.admin.model.Admin;
 import com.hadIt.doorstep.md5.PasswordGeneratorMd5;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -84,6 +87,11 @@ public class AdminSignupActivity extends AppCompatActivity implements LocationLi
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
     public PasswordGeneratorMd5 md5;
+    public StorageReference storageReference;
+
+    public Admin adminData;
+
+    public FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +100,7 @@ public class AdminSignupActivity extends AppCompatActivity implements LocationLi
 
         backBtn = findViewById(R.id.backBtn);
         gpsBtn = findViewById(R.id.gpsBtn);
-        profilePic = findViewById(R.id.imageview_profile);
+        profilePic = findViewById(R.id.admin_profile_pic);
         adminName = findViewById(R.id.adminName);
         adminShopName = findViewById(R.id.adminShopName);
         adminPhone = findViewById(R.id.adminPhone);
@@ -108,9 +116,12 @@ public class AdminSignupActivity extends AppCompatActivity implements LocationLi
 
         md5 = new PasswordGeneratorMd5();
         firebaseFirestore = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
+
+        adminData = new Admin();
 
         //init permissions array
-        locationPermissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+        locationPermissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
         cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
@@ -153,14 +164,14 @@ public class AdminSignupActivity extends AppCompatActivity implements LocationLi
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inptData();
+                ValidateInputData();
             }
         });
     }
 
     private String fullName, shopName, phoneNumber, country, state, city, address, email, password, confirmPassword;
 
-    private void inptData() {
+    private void ValidateInputData() {
 
         fullName = adminName.getText().toString().trim();
         shopName = adminShopName.getText().toString().trim();
@@ -184,10 +195,10 @@ public class AdminSignupActivity extends AppCompatActivity implements LocationLi
             Toast.makeText(this, "Please provide your phoneNumber", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (latitude == 0 && longitude == 0) {
-            Toast.makeText(this, "Click GPS button at top", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (latitude == 0 && longitude == 0) {
+//            Toast.makeText(this, "Click GPS button at top", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             Toast.makeText(this, "Please provide valid email id", Toast.LENGTH_SHORT).show();
             return;
@@ -208,7 +219,7 @@ public class AdminSignupActivity extends AppCompatActivity implements LocationLi
         progressDialog.show();
 
         //create account
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
+        firebaseAuth.createUserWithEmailAndPassword(email, md5.btnMd5(adminpassword))
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
@@ -227,49 +238,29 @@ public class AdminSignupActivity extends AppCompatActivity implements LocationLi
 
     private void savetoFireBaseData() {
         progressDialog.setMessage("Saving Account Info..");
-        final String timestamp = "" + System.currentTimeMillis();
-        if (image_uri == null) { //save info without image
-            Admin adminData = new Admin();
-            adminData.email = email;
-            adminData.fullName = fullName;
-            adminData.shopName = shopName;
-            adminData.phoneNumber = phoneNumber;
-            adminData.country = country;
-            adminData.state = state;
-            adminData.city = city;
-            adminData.address = address;
-            adminData.latitude = latitude.toString();
-            adminData.longitude = longitude.toString();
-            adminData.timestamp = timestamp;
-            adminData.accountType = "Seller";
-            adminData.online = "true";
-            adminData.shopOpen = "true";
-            adminData.profilePhoto = "";
 
-            //savetpdb
-            firebaseFirestore.collection("admin").document(adminData.email)
-                .set(adminData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.i(Tag, "Success");
-                        Intent intent=new Intent(AdminSignupActivity.this, AdminHomePage.class);
-                        startActivity(intent);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @SuppressLint("ShowToast")
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        String error = e.getMessage();
-                        Toast.makeText( AdminSignupActivity.this,"Error " + error, Toast.LENGTH_SHORT).show();
-                        Log.i(Tag, "Error adding document", e);
-                    }
-                });
+        adminData.email = email;
+        adminData.fullName = fullName;
+        adminData.shopName = shopName;
+        adminData.phoneNumber = phoneNumber;
+        adminData.country = country;
+        adminData.state = state;
+        adminData.city = city;
+        adminData.address = address;
+//        adminData.latitude = latitude.toString();
+//        adminData.longitude = longitude.toString();
+        adminData.timestamp = "" + System.currentTimeMillis();
+        adminData.accountType = "Seller";
+        adminData.online = "true";
+        adminData.shopOpen = "true";
+        adminData.password =  md5.btnMd5(adminpassword);
+
+        if (image_uri == null) { //save info without image
+            adminData.profilePhoto = "";
         } else {
-            String filePathAndName = "profile_images/" + firebaseAuth.getUid();
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
-            storageReference.putFile(image_uri)
+            String createPath = "shop_profile_images/" + email;
+
+            storageReference.child(createPath).putFile(image_uri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -277,44 +268,7 @@ public class AdminSignupActivity extends AppCompatActivity implements LocationLi
                         while (!uriTask.isSuccessful()) ;
                         Uri downloadImageUri = uriTask.getResult();
                         if (uriTask.isSuccessful()) {
-
-                            Admin adminData = new Admin();
-                            adminData.email = email;
-                            adminData.fullName = fullName;
-                            adminData.shopName = shopName;
-                            adminData.phoneNumber = phoneNumber;
-                            adminData.country = country;
-                            adminData.state = state;
-                            adminData.city = city;
-                            adminData.address = address;
-                            adminData.latitude = latitude.toString();
-                            adminData.longitude = longitude.toString();
-                            adminData.timestamp = timestamp;
-                            adminData.accountType = "Seller";
-                            adminData.online = "true";
-                            adminData.shopOpen = "true";
                             adminData.profilePhoto = downloadImageUri + "";
-
-                            //savetpdb
-                            firebaseFirestore.collection("admin").document(adminData.email)
-                                .set(adminData)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.i(Tag, "Success");
-                                        Intent intent=new Intent(AdminSignupActivity.this, AdminHomePage.class);
-                                        startActivity(intent);
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @SuppressLint("ShowToast")
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        String error = e.getMessage();
-                                        Toast.makeText( AdminSignupActivity.this,"Error " + error, Toast.LENGTH_SHORT).show();
-                                        Log.i(Tag, "Error adding document", e);
-                                    }
-                                });
                         }
                     }
                 })
@@ -326,59 +280,86 @@ public class AdminSignupActivity extends AppCompatActivity implements LocationLi
                     }
                 });
         }
+
+        //savetpdb
+        firebaseFirestore.collection("admin").document(adminData.email)
+            .set(adminData)
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.i(Tag, "Success");
+                    Intent intent = new Intent(AdminSignupActivity.this, AdminHomePage.class);
+                    progressDialog.dismiss();
+                    startActivity(intent);
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @SuppressLint("ShowToast")
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    String error = e.getMessage();
+                    Toast.makeText(AdminSignupActivity.this, "Error " + error, Toast.LENGTH_SHORT).show();
+                    Log.i(Tag, "Error adding document", e);
+                    progressDialog.dismiss();
+                }
+            });
     }
 
 
     private void showlocation() {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location gps_loc, network_loc;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        gps_loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        network_loc=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        Double lat,lon;
-        if(gps_loc!=null){
-            Location finl=gps_loc;
-            lat=finl.getLatitude();
-            lon=finl.getLongitude();
-            latitude=lat;
-            longitude=lon;
-        }
-        else if(network_loc!=null){
-            Location fina=network_loc;
-            lat=fina.getLatitude();
-            lon=fina.getLongitude();
-            latitude=lat;
-            longitude=lon;
-        }
-        else{
-            lat=0.0;
-            lon=0.0;
-        }
-        try {
-            Geocoder geocoder=new Geocoder(getApplicationContext(),Locale.getDefault());
-            List<Address> addresses=geocoder.getFromLocation(lat,lon,1);
-            if(addresses!=null&&addresses.size()>0){
-                String address = addresses.get(0).getAddressLine(0);
-                String city = addresses.get(0).getLocality();
-                String state = addresses.get(0).getAdminArea();
-                String country=addresses.get(0).getCountryName();
-                adminCountry.setText(country);
-                adminState.setText(state);
-                adminCity.setText(city);
-                fullAddress.setText(address);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        if(ContextCompat.checkSelfPermission(AdminSignupActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(AdminSignupActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)){
+                new AlertDialog.Builder(this)
+                    .setMessage("We need this permission to better serve you.")
+                    .setTitle("Required Location Permission")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(AdminSignupActivity.this, new String[]{
+                                    Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create()
+                    .show();
+            }
+            else{
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
             }
         }
-        catch (Exception r){
-            Toast.makeText(this,""+r.getMessage(),Toast.LENGTH_SHORT).show();
+        else {
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+
+                @Override
+                public void onSuccess(Location location) {
+                    if (location != null) {
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+                        Geocoder geocoder = new Geocoder(AdminSignupActivity.this, Locale.getDefault());
+                        List<Address> addresses = null;
+                        try {
+                            addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        latitude = addresses.get(0).getLatitude();
+                        longitude = addresses.get(0).getLongitude();
+                        adminCountry.setText(addresses.get(0).getCountryName());
+                        adminState.setText(addresses.get(0).getAdminArea());
+                        adminCity.setText(addresses.get(0).getLocality());
+                        fullAddress.setText(addresses.get(0).getAddressLine(0));
+                    }
+                }
+            });
         }
     }
 
@@ -390,14 +371,7 @@ public class AdminSignupActivity extends AppCompatActivity implements LocationLi
             .setItems(options,new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) { //handle clicks
-                    if(i==0){ //camera clicked
-                        if(checkCameraPermissions()) requestCameraPermission(); //camera permission allowed
-                        else requestCameraPermission();  //not allowed
-                    }
-                    else{ //gallery cloicked
-                        if(checkStoragePermissions()) pickFromGallery(); //storage allowed
-                        else requestStoragePermission();
-                    }
+                    pickFromGallery();
                 }
             }).show();
     }
@@ -408,18 +382,6 @@ public class AdminSignupActivity extends AppCompatActivity implements LocationLi
         intent.setType("image/*");
         startActivityForResult(intent,IMAGE_PICK_GALLERY_CODE);
     }
-//
-//    private void pickFromCamera() {
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put(MediaStore.Images.Media.TITLE,"Temp Image Title");
-//        contentValues.put(MediaStore.Images.Media.DESCRIPTION,"Temp Image Description");
-//        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues);
-//
-//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT,image_uri);
-//        startActivityForResult(intent,IMAGE_PICK_CAMERA_CODE);
-//
-//    }
 
     private boolean checkStoragePermissions() {
         boolean result = ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
@@ -431,104 +393,121 @@ public class AdminSignupActivity extends AppCompatActivity implements LocationLi
     }
 
     private boolean checkCameraPermissions() {
-        boolean result = ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
-        boolean result1=ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)==(PackageManager.PERMISSION_GRANTED);
+        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
+        boolean result1=ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==(PackageManager.PERMISSION_GRANTED);
         return result&&result1 ;
     }
 
     private void requestCameraPermission() {
-        ActivityCompat.requestPermissions(this,storagePermissions,CAMERA_REQUEST_CODE);
+        ActivityCompat.requestPermissions(this, cameraPermissions, CAMERA_REQUEST_CODE);
     }
 
-    private void finaAddress() {
-        //find address,country,state,city
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        List<Address> addresses;
-        try {
-            addresses = geocoder.getFromLocation(latitude, longitude,1);
-            String address = addresses.get(0).getAddressLine(0);//complete address
-            String city = addresses.get(0).getLocality();
-            String state = addresses.get(0).getAdminArea();
-            String country = addresses.get(0).getCountryName();
-            //set address
-            adminCountry.setText(country);
-            adminState.setText(state);
-            adminCity.setText(city);
-            fullAddress.setText(address);
-        } catch (Exception e) {
-            Toast.makeText(this,"" + e.getMessage(),Toast.LENGTH_SHORT).show();
+    private boolean CheckLocationPermissions(){
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED;
+    }
+
+    public void checkPermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                showlocation();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
+            }
         }
     }
 
-    //    private void detectLocation() {
-//        Toast.makeText(this,"Please wait",Toast.LENGTH_LONG).show();
-//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    Activity#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for Activity#requestPermissions for more details.
-//            Toast.makeText(this,"something went wrong",Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
-//    }
-    private boolean CheckLocationPermissions(){
-        boolean result= ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)==(PackageManager.PERMISSION_GRANTED);
-        return result;
-    }
     private void requestLocationPermission(){
-        ActivityCompat.requestPermissions(this,locationPermissions,LOCATION_REQUEST_CODE);
+        turnGPSOn();
+        ActivityCompat.requestPermissions(AdminSignupActivity.this, new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
+    }
+
+    private boolean canToggleGPS() {
+        PackageManager pacman = getPackageManager();
+        PackageInfo pacInfo = null;
+
+        try {
+            pacInfo = pacman.getPackageInfo("com.android.settings", PackageManager.GET_RECEIVERS);
+        } catch (PackageManager.NameNotFoundException e) {
+            return false; //package not found
+        }
+
+        if(pacInfo != null){
+            for(ActivityInfo actInfo : pacInfo.receivers){
+                //test if recevier is exported. if so, we can toggle GPS.
+                if(actInfo.name.equals("com.android.settings.widget.SettingsAppWidgetProvider") && actInfo.exported){
+                    return true;
+                }
+            }
+        }
+
+        return false; //default
+    }
+
+    private void turnGPSOn(){
+        String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+
+        if(!provider.contains("gps")){ //if gps is disabled
+            final Intent poke = new Intent();
+            poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
+            poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+            poke.setData(Uri.parse("3"));
+            sendBroadcast(poke);
+        }
+    }
+
+    private void turnGPSOff(){
+        String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+
+        if(provider.contains("gps")){ //if gps is enabled
+            final Intent poke = new Intent();
+            poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
+            poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+            poke.setData(Uri.parse("3"));
+            sendBroadcast(poke);
+        }
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        //location detected
-        showlocation();
-    }
+    public void onLocationChanged(@NonNull Location location) {
+        Geocoder geocoder = new Geocoder(AdminSignupActivity.this, Locale.getDefault());
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-    @Override
-    public void onStatusChanged(String s,int i,Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
+        latitude = addresses.get(0).getLatitude();
+        longitude = addresses.get(0).getLongitude();
+        adminCountry.setText(addresses.get(0).getCountryName());
+        adminState.setText(addresses.get(0).getAdminArea());
+        adminCity.setText(addresses.get(0).getLocality());
+        fullAddress.setText(addresses.get(0).getAddressLine(0));
     }
 
     @Override
     public void onProviderDisabled(String s) {
-        //gps/location disabled
+        //gps location disabled
         Toast.makeText(this,"Please turn on Loaction..",Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,@NonNull String[] permissions,@NonNull int[] grantResults) {
-
         switch (requestCode){
             case LOCATION_REQUEST_CODE:{
-                if(grantResults.length>0){
-                    boolean locationAccepted = grantResults[0] ==PackageManager.PERMISSION_GRANTED;
-                    if(locationAccepted){
-                        showlocation();
-
-                    }
-                    else{
-                        Toast.makeText(this,"Location Permission is necessary..",Toast.LENGTH_SHORT).show();
-                    }
+                if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    Toast.makeText(this,"Location Permission is Granted..",Toast.LENGTH_SHORT).show();
+                else{
+                    Toast.makeText(this,"Location Permission is necessary..",Toast.LENGTH_SHORT).show();
                 }
-
             }
-            case CAMERA_REQUEST_CODE:{
+            case CAMERA_REQUEST_CODE: {
                 if(grantResults.length>0){
-                    boolean cameraAccepted = grantResults[0] ==PackageManager.PERMISSION_GRANTED;
-                    boolean storageAccepted = grantResults[0] ==PackageManager.PERMISSION_GRANTED;
+                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean storageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     if(cameraAccepted && storageAccepted){
                         CropImage.activity(image_uri)
                                 .setAspectRatio(1,1)
@@ -537,28 +516,17 @@ public class AdminSignupActivity extends AppCompatActivity implements LocationLi
                     else{
                         Toast.makeText(this,"camera Permission is necessary..",Toast.LENGTH_SHORT).show();
                     }
-//                    if(checkCameraPermissions()&&checkStoragePermissions()){
-//                        pickFromGallery();
-//                    }
-//                    else{
-//                        if(checkStoragePermissions()==false){
-//                            requestStoragePermission();
-//                        }
-//                        if(checkCameraPermissions()==false){
-//                            requestCameraPermission();
-//                        }
-//                        Toast.makeText(this,"storage or camera position is missing..",Toast.LENGTH_SHORT).show();
-//                    }
-                    break;
                 }
                 else{
-                    Toast.makeText(this,"grant result not accesed",Toast.LENGTH_SHORT).show();}
-            }
-            case STORAGE_REQUEST_CODE:{
+                    Toast.makeText(this,"grant result not accesed",Toast.LENGTH_SHORT).show();
+                }
+            }break;
+
+            case STORAGE_REQUEST_CODE: {
                 if(grantResults.length>0){ boolean storageAccepted = grantResults[0] ==PackageManager.PERMISSION_GRANTED;
                     if(storageAccepted){
                         //permisssion allowed
-                        // pickFromGallery();
+                        pickFromGallery();
                         CropImage.activity(image_uri)
                                 .setAspectRatio(1,1)
                                 .start(AdminSignupActivity.this);
@@ -567,13 +535,11 @@ public class AdminSignupActivity extends AppCompatActivity implements LocationLi
                         Toast.makeText(this,"storage Permission is necessary..",Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
-            break;
+            }break;
         }
+
         super.onRequestPermissionsResult(requestCode,permissions,grantResults);
     }
-
-
 
     @Override
     protected void onActivityResult(int requestCode,int resultCode,@Nullable Intent data) {

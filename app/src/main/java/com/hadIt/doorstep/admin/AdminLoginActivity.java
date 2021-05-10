@@ -14,10 +14,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.hadIt.doorstep.HomePage;
-import com.hadIt.doorstep.LoginActivity;
+import com.hadIt.doorstep.homePage.HomePage;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.SaveDetailsToFirestore;
 import com.hadIt.doorstep.md5.PasswordGeneratorMd5;
 
 public class AdminLoginActivity extends AppCompatActivity {
