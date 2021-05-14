@@ -3,7 +3,9 @@ package com.hadIt.doorstep.Repository;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 
 import com.hadIt.doorstep.Database.DataDatabase;
@@ -43,7 +45,11 @@ public class DataRepository {
     }
    // public void Search(String id){ new UpdateAsyncTask(dataDatabase).excecute(id);}
 
-    static class InsertAsynTask extends AsyncTask<Data,Void,Void>
+
+
+
+
+static class InsertAsynTask extends AsyncTask<Data,Void,Void>
     {
         private DataDao dataDao;
         InsertAsynTask(DataDatabase dataDatabase)

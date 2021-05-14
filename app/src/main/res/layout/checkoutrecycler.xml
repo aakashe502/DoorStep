@@ -110,60 +110,35 @@
                             android:textColor="#000"
                             android:textSize="12sp" />
 
-                        <Button
-                            android:id="@+id/addbutton"
-                            android:layout_width="90dp"
-                            android:layout_height="30dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_centerInParent="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentEnd="true"
-                            android:background="@color/colorAccent"
-                            android:text="ADD"
-                            android:textColor="@color/colorButton"
-                            android:textSize="16sp"
-                            android:visibility="visible" />
 
-                        <LinearLayout
-                            android:id="@+id/linear"
-                            android:layout_width="90dp"
-                            android:layout_height="30dp"
-                            android:layout_centerInParent="true"
-                            android:orientation="horizontal"
-                            android:visibility="visible"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentEnd="true"
-                            android:background="@drawable/border_button"
-                            >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Quantity ="
+                            android:layout_marginTop="5dp"
+                            android:layout_below="@+id/value"
+                            android:textColor="#000"
+                            android:layout_marginStart="15dp"
+                            android:id="@+id/right"
+                            />
 
-                            <Button
-                                android:id="@+id/minus"
-                                android:layout_width="30dp"
-                                android:layout_height="match_parent"
-                                android:background="@drawable/minus1"
 
-                                />
 
                             <TextView
                                 android:id="@+id/number"
                                 android:layout_width="30dp"
-                                android:layout_height="match_parent"
-                                android:background="@color/colorAccent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/value"
                                 android:text="1"
+                                android:layout_marginTop="5dp"
+
+                                android:layout_toEndOf="@+id/right"
                                 android:gravity="center"
                                 android:textColor="@color/colorText" />
 
-                            <Button
-                                android:id="@+id/plus"
-                                android:layout_width="30dp"
-                                android:layout_height="match_parent"
-                                android:background="@drawable/plusicon"
-                                />
 
-                        </LinearLayout>
+
+
                     </RelativeLayout>
 
                 </androidx.cardview.widget.CardView>

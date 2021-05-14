@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.hadIt.doorstep.Checkout;
+import com.hadIt.doorstep.CheckoutActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.login_signup.LoginActivity;
 import com.hadIt.doorstep.search.SearchActivity;
@@ -105,7 +105,7 @@ public class HomePage extends AppCompatActivity {
                         startActivity(new Intent(HomePage.this, AddGrocery.class));
                         break;
                     case  R.id.cart:
-                        startActivity(new Intent(HomePage.this, Checkout.class));
+                        startActivity(new Intent(HomePage.this, CheckoutActivity.class));
                         break;
                 }
                 return true;

@@ -10,15 +10,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.hadIt.doorstep.R;
+import com.hadIt.doorstep.Repository.DataRepository;
+import com.hadIt.doorstep.ViewModa.DataViewModal;
 import com.hadIt.doorstep.cache.model.Data;
 import com.hadIt.doorstep.fragment_ui.Interfaces.Datatransfer;
+import com.hadIt.doorstep.fragment_ui.home.ViewProduct;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.ViewHolder> {
 
@@ -26,6 +34,7 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
     Context context;
     public Datatransfer datatransfer;
     public ArrayList<Data> addtocartArrayList=new ArrayList<>();
+
 
     ArrayList<InfoData> saveArrayList =new ArrayList<>();
 
@@ -39,6 +48,8 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.productlist, parent, false);
+
+
        //datatransfer.onSetValues(savearraylist);
         return new ViewHolder(view);
     }
@@ -49,6 +60,10 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
         holder.productrate.setText(arrayList.get(position).getProductrate().toString());
         //holder.productimage.setImageResource(arrayList.get(position).getProductimage());
         Glide.with(context).load(arrayList.get(position).getProductimage()).into(holder.productimage);
+        Data cart=new Data(arrayList.get(position).productimage,arrayList.get(position).productname,arrayList.get(position).productrate,(String.valueOf(addtocartArrayList.size())),holder.number.getText().toString());
+        //addtocartArrayList.add(cart);
+        ViewProduct viewProduct=new ViewProduct();
+       // datatransfer.onSetValues(cart);
 
         holder.addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,12 +83,13 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Integer.parseInt(holder.number.getText().toString())<=0){
+                if(Integer.parseInt(holder.number.getText().toString())<=1){
                     holder.linear.setVisibility(View.GONE);
                     holder.addbutton.setVisibility(View.VISIBLE);
                     //savearraylist.remove(arrayList.get(position));
                     Data cart=new Data(arrayList.get(position).productimage,arrayList.get(position).productname,arrayList.get(position).productrate,(String.valueOf(addtocartArrayList.size())),holder.number.getText().toString());
                     datatransfer.onDelete(cart);
+                   // datatransfer.onSetValues();
 
                 }
                 else{

@@ -14,12 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".CheckoutActivity"></activity>
         <activity android:name=".order_details.OrderDetailsActivity" />
         <activity android:name=".search.SearchActivity" />
         <activity
             android:name=".fragment_ui.home.ViewProduct"
             android:parentActivityName=".homePage.HomePage" />
-
         <activity android:name=".fragment_ui.Admin.AddProduct" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
@@ -28,7 +28,6 @@
         <activity android:name=".fragment_ui.Admin.ViewCategory" />
         <activity android:name=".fragment_ui.Admin.AddGrocery" />
         <activity android:name=".CategoryClass" />
-        <activity android:name=".Checkout" />
         <activity
             android:name=".homePage.HomePage"
             android:label="@string/title_activity_home"
@@ -36,10 +35,10 @@
         <activity
             android:name=".login_signup.SignUpActivity"
             android:parentActivityName=".login_signup.LoginActivity" />
-
         <activity android:name=".login_signup.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
