@@ -63,7 +63,7 @@
                 android:layout_marginTop="2dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imageview_profile"
+                    android:id="@+id/admin_profile_pic"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/profile_image"
