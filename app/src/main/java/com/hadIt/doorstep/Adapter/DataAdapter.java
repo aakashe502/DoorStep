@@ -36,7 +36,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
     @NonNull
     @Override
     public DataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new DataViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.productlist,
+        return new DataViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.checkoutrecycler,
                 parent, false));
     }
 
@@ -46,8 +46,11 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
         holder.name.setText(data.getName());
         holder.ruppee.setText(data.getRate());
         //holder.priority.setText("Priority : " + data.getPriority());
-        holder.addbutton.setVisibility(View.GONE);
-        holder.linear.setVisibility(View.VISIBLE);
+
+        //holder.linear.setMinimumWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+
+       // holder.minus.setVisibility(View.GONE);
+
         holder.number.setText(data.getQuantity());
         Glide.with(context).load(data.getId()).into(holder.image);
     }
@@ -64,9 +67,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
     static class DataViewHolder extends RecyclerView.ViewHolder {
         public TextView name, ruppee, number;
        ImageView image;
-        public Button addbutton;
-        public LinearLayout linear;
-        public Button plus,minus;
+
+
+
 
         public DataViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,10 +77,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
             ruppee = itemView.findViewById(R.id.ruppee);
             number = itemView.findViewById(R.id.number);
             image = itemView.findViewById(R.id.image);
-            addbutton=itemView.findViewById(R.id.addbutton);
-            linear=itemView.findViewById(R.id.linear);
-            plus=itemView.findViewById(R.id.plus);
-            minus=itemView.findViewById(R.id.minus);
+
+
             number=itemView.findViewById(R.id.number);
 
         }

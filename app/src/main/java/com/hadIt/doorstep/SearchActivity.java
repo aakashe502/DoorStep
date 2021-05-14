@@ -14,7 +14,7 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search2);
+        setContentView(R.layout.activity_search);
         cardSearch=findViewById(R.id.cardSearch);
         cardSearch.requestFocus();
         backpresssed=findViewById(R.id.backpresssed);
