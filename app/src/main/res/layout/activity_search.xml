@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchActivity">
+    tools:context=".search.SearchActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,26 +17,21 @@
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                android:src="@drawable/searchback"
-                android:id="@+id/backpresssed"
+                android:id="@+id/backpresssed" />
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/border"
+                android:id="@+id/cardSearch"
+                android:drawableStart="@drawable/search"
+                android:hint="Search your Grocery"
+                android:textColorHint="@color/colorText"
+                android:layout_gravity="center_vertical"
+                android:textSize="15sp" />
 
-                />
-
-
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border"
-            android:id="@+id/cardSearch"
-            android:drawableStart="@drawable/search"
-            android:hint="Search your Grocery"
-            android:textColorHint="@color/colorText"
-            android:layout_gravity="center_vertical"
-            android:textSize="15dp"
-            />
         </LinearLayout>
     </RelativeLayout>
 

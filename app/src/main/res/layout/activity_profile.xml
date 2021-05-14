@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity">
+    tools:context=".profile.ProfileActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
         android:layout_marginTop="20dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageview_profile"
+            android:id="@+id/admin_profile_pic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/profile_image"
@@ -52,7 +52,8 @@
         android:padding="10dp"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/imageView"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/shape_rect02">
 
         <TextView
             android:id="@+id/nameTextView"
@@ -63,7 +64,8 @@
             android:textStyle="bold"
             android:drawableStart="@drawable/profile"
             android:textSize="20sp"
-            android:text="Name: " />
+            android:text="Name: "
+            />
 
         <TextView
             android:id="@+id/nameEditText"
@@ -87,7 +89,8 @@
         android:paddingRight="20dp"
         android:padding="10dp"
         android:layout_below="@+id/profile"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/shape_rect02">
 
         <TextView
             android:id="@+id/mobileTextView"
@@ -121,7 +124,8 @@
         android:paddingRight="20dp"
         android:padding="10dp"
         android:layout_below="@+id/mobileLinearLayout"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/shape_rect02">
 
         <TextView
             android:id="@+id/emailTextView"
