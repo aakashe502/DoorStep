@@ -14,21 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".admin.home.AdminHomePage" />
+        <activity android:name=".order_details.OrderDetailsActivity" />
         <activity android:name=".search.SearchActivity" />
         <activity
             android:name=".fragment_ui.home.ViewProduct"
             android:parentActivityName=".homePage.HomePage" />
-        <activity android:name=".chooser.WhoYouAreActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".admin.AdminSignupActivity" />
-        <activity android:name=".admin.AdminLoginActivity" />
         <activity android:name=".fragment_ui.Admin.AddProduct" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
@@ -45,14 +36,20 @@
         <activity
             android:name=".login_signup.SignUpActivity"
             android:parentActivityName=".login_signup.LoginActivity" />
-        <activity android:name=".login_signup.LoginActivity" />
+
+        <activity android:name=".login_signup.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
 
         <service
-            android:name=".service.MyFirebaseMessaging"
+            android:name=".fcm.MyFirebaseMessaging"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

@@ -14,10 +14,10 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hadIt.doorstep.login_signup.LoginActivity;
 import com.hadIt.doorstep.profile.ProfileActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.Users;
-import com.hadIt.doorstep.chooser.WhoYouAreActivity;
 import com.hadIt.doorstep.dao.PaperDb;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -78,7 +78,7 @@ public class Profile extends Fragment  {
             @Override
             public void onClick(View v) {
                 firebaseAuth.signOut();
-                startActivity(new Intent(getActivity(), WhoYouAreActivity.class));
+                startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
 

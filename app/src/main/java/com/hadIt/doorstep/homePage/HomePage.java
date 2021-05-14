@@ -12,9 +12,9 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hadIt.doorstep.Checkout;
 import com.hadIt.doorstep.R;
+import com.hadIt.doorstep.login_signup.LoginActivity;
 import com.hadIt.doorstep.search.SearchActivity;
 import com.hadIt.doorstep.cache.model.Users;
-import com.hadIt.doorstep.chooser.WhoYouAreActivity;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.fragment_ui.Admin.AddGrocery;
 
@@ -99,7 +99,7 @@ public class HomePage extends AppCompatActivity {
                         break;
                     case R.id.logout:
                         FirebaseAuth.getInstance().signOut();
-                        startActivity(new Intent(HomePage.this, WhoYouAreActivity.class));
+                        startActivity(new Intent(HomePage.this, LoginActivity.class));
                         break;
                     case R.id.basket:
                         startActivity(new Intent(HomePage.this, AddGrocery.class));
