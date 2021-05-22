@@ -28,7 +28,7 @@ import java.util.Objects;
 
 public class ViewCategory extends AppCompatActivity  {
     RecyclerView recyclerView;
-    public ArrayList<InfoData> arrayList;
+    public ArrayList<ProductInfo> arrayList;
     public Button addprod;
     FirebaseFirestore firestore;
     private DataRepository dataRespository;
@@ -84,7 +84,7 @@ public class ViewCategory extends AppCompatActivity  {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for(DocumentSnapshot dpc:task.getResult().getDocuments()){
-                                InfoData productInfoModel=dpc.toObject(InfoData.class);
+                                ProductInfo productInfoModel=dpc.toObject(ProductInfo.class);
                                 arrayList.add(productInfoModel);
                                 modelAdapter.notifyDataSetChanged();
 

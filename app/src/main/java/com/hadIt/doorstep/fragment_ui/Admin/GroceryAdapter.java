@@ -59,7 +59,7 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.ItemView
         public TextView groceryname;
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            groceryimage=itemView.findViewById(R.id.groceryimage);
+           // groceryimage=itemView.findViewById(R.id.groceryimage);
             groceryname=itemView.findViewById(R.id.groceryname);
         }
     }

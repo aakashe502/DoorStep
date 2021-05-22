@@ -39,7 +39,6 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.view
         Glide.with(context).load(images[position]).into(holder.image);
 
 
-
     }
 
     @Override
