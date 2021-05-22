@@ -22,15 +22,10 @@ public class AdminAddapter extends RecyclerView.Adapter<AdminAddapter.ViewHolder
     ArrayList<InfoData> arrayList;
     Context context;
 
-   // public Datatransfer datatransfer;
-
-
-
     ArrayList<InfoData> savearraylist=new ArrayList<>();
     public AdminAddapter(ArrayList<InfoData> arrayList,Context context) {
         this.arrayList = arrayList;
         this.context = context;
-        //this.datatransfer = datatransfer;
     }
     @NonNull
     @Override
@@ -54,7 +49,6 @@ public class AdminAddapter extends RecyclerView.Adapter<AdminAddapter.ViewHolder
                 holder.linear.setVisibility(View.VISIBLE);
                 savearraylist.add(arrayList.get(position));
                 //datatransfer.onSetValues(savearraylist);
-
             }
         });
         holder.minus.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +73,7 @@ public class AdminAddapter extends RecyclerView.Adapter<AdminAddapter.ViewHolder
     public int getItemCount() {
         return arrayList.size();
     }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView productimage;
         public TextView productname;

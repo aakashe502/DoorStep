@@ -45,11 +45,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
         final Data data = dataList.get(position);
         holder.name.setText(data.getName());
         holder.ruppee.setText(data.getRate());
-        //holder.priority.setText("Priority : " + data.getPriority());
-
-        //holder.linear.setMinimumWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-
-       // holder.minus.setVisibility(View.GONE);
 
         holder.number.setText(data.getQuantity());
         Glide.with(context).load(data.getId()).into(holder.image);
@@ -66,10 +61,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
 
     static class DataViewHolder extends RecyclerView.ViewHolder {
         public TextView name, ruppee, number;
-       ImageView image;
-
-
-
+        ImageView image;
 
         public DataViewHolder(@NonNull View itemView) {
             super(itemView);
