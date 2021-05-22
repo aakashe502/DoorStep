@@ -19,11 +19,12 @@ import com.hadIt.doorstep.R;
 import java.util.ArrayList;
 
 public class AdminAddapter extends RecyclerView.Adapter<AdminAddapter.ViewHolder> {
-    ArrayList<InfoData> arrayList;
+    ArrayList<ProductInfo> arrayList;
     Context context;
 
-    ArrayList<InfoData> savearraylist=new ArrayList<>();
-    public AdminAddapter(ArrayList<InfoData> arrayList,Context context) {
+    ArrayList<ProductInfo> savearraylist=new ArrayList<>();
+    public AdminAddapter(ArrayList<ProductInfo> arrayList,Context context) {
+
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -35,39 +36,41 @@ public class AdminAddapter extends RecyclerView.Adapter<AdminAddapter.ViewHolder
     }
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder,final int position) {
-        holder.productname.setText(arrayList.get(position).getProductname().toString());
-        holder.productrate.setText(arrayList.get(position).getProductrate().toString());
-        //holder.productimage.setImageResource(arrayList.get(position).getProductimage());
-        Glide.with(context).load(arrayList.get(position).getProductimage()).into(holder.productimage);
-        holder.addbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar snackbar = Snackbar
-                        .make(view, "ITEM ADDED TO CART", Snackbar.LENGTH_LONG);
-                snackbar.show();
-                holder.addbutton.setVisibility(View.GONE);
-                holder.linear.setVisibility(View.VISIBLE);
-                savearraylist.add(arrayList.get(position));
-                //datatransfer.onSetValues(savearraylist);
-            }
-        });
-        holder.minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.number.setText(""+(Integer.parseInt(holder.number.getText().toString())-1));
-                if(Integer.parseInt(holder.number.getText().toString())<=0){
-                    holder.linear.setVisibility(View.GONE);
-                    holder.addbutton.setVisibility(View.VISIBLE);
-                    savearraylist.remove(arrayList.get(position));
-                }
-            }
-        });
-        holder.plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.number.setText(""+(Integer.parseInt(holder.number.getText().toString())+1));
-            }
-        });
+
+//        holder.productname.setText(arrayList.get(position).getProductname().toString());
+//        holder.productrate.setText(arrayList.get(position).getProductrate().toString());
+//        //holder.productimage.setImageResource(arrayList.get(position).getProductimage());
+//        Glide.with(context).load(arrayList.get(position).getProductimage()).into(holder.productimage);
+//        holder.addbutton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar snackbar = Snackbar
+//                        .make(view, "ITEM ADDED TO CART", Snackbar.LENGTH_LONG);
+//                snackbar.show();
+//                holder.addbutton.setVisibility(View.GONE);
+//                holder.linear.setVisibility(View.VISIBLE);
+//                savearraylist.add(arrayList.get(position));
+//                //datatransfer.onSetValues(savearraylist);
+//
+//            }
+//        });
+//        holder.minus.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                holder.number.setText(""+(Integer.parseInt(holder.number.getText().toString())-1));
+//                if(Integer.parseInt(holder.number.getText().toString())<=0){
+//                    holder.linear.setVisibility(View.GONE);
+//                    holder.addbutton.setVisibility(View.VISIBLE);
+//                    savearraylist.remove(arrayList.get(position));
+//                }
+//            }
+//        });
+//        holder.plus.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                holder.number.setText(""+(Integer.parseInt(holder.number.getText().toString())+1));
+//            }
+//        });
     }
     @Override
     public int getItemCount() {

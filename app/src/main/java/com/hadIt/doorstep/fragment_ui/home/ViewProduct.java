@@ -19,6 +19,7 @@ import android.graphics.Color;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -28,7 +29,7 @@ import com.hadIt.doorstep.Repository.DataRepository;
 import com.hadIt.doorstep.ViewModa.DataViewModal;
 import com.hadIt.doorstep.cache.model.Data;
 import com.hadIt.doorstep.fragment_ui.Admin.AddgroceryAdapter;
-import com.hadIt.doorstep.fragment_ui.Admin.InfoData;
+import com.hadIt.doorstep.fragment_ui.Admin.ProductInfo;
 import com.hadIt.doorstep.fragment_ui.Interfaces.Datatransfer;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ import java.util.Objects;
 public class ViewProduct extends AppCompatActivity implements Datatransfer {
     public RecyclerView recyclerView;
     FirebaseFirestore firestore;
-    ArrayList<InfoData> data;
+    ArrayList<ProductInfo> data;
     Toolbar toolbar;
     private DataRepository dataRespository;
     TextView textCartItemCount;
@@ -77,16 +78,15 @@ public class ViewProduct extends AppCompatActivity implements Datatransfer {
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(modelAdapter);
 
-        firestore.collection("Products").document("products").collection(str).get()
+        firestore.collection("AdminProducts").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection(str).get()
               .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                   @Override
                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
                       if(task.isSuccessful()){
                           for(DocumentSnapshot dpc:task.getResult().getDocuments()){
-                              InfoData productInfoModel=dpc.toObject(InfoData.class);
+                              ProductInfo productInfoModel=dpc.toObject(ProductInfo.class);
                               data.add(productInfoModel);
-                             modelAdapter.notifyDataSetChanged();
-
+                              modelAdapter.notifyDataSetChanged();
                           }
                       }
                   }
