@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -20,9 +21,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hadIt.doorstep.Adapter.DataAdapter;
 import com.hadIt.doorstep.ViewModa.DataViewModal;
+import com.hadIt.doorstep.address.AddNewAddress;
+import com.hadIt.doorstep.address.EditAddress;
+import com.hadIt.doorstep.address.SelectAddress;
 import com.hadIt.doorstep.cache.model.Data;
 
 import com.hadIt.doorstep.order_details.OrderDetailsActivity;
@@ -32,7 +37,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 import java.util.Map;
 
@@ -50,6 +54,9 @@ public class CheckoutActivity extends AppCompatActivity  {
     private Button checkout;
     private FirebaseAuth firebaseAuth;
     int sum=0;
+    public TextView address;
+    private ImageButton backBtn;
+    BottomNavigationView bottomNavigationView;
 
     Toolbar toolbar;
     final String timestamp = ""+System.currentTimeMillis();
@@ -58,23 +65,6 @@ public class CheckoutActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
-        toolbar=findViewById(R.id.toolBar);
-        toolbar.setTitle("Cart items");
-
-
-        toolbar.setTitleTextColor(Color.WHITE);
-
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationIcon(R.drawable.back_button);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-        setSupportActionBar(toolbar);
 
         dataList=new ArrayList<>();
         recyclerView=findViewById(R.id.recycler);
@@ -82,18 +72,17 @@ public class CheckoutActivity extends AppCompatActivity  {
         getDataList=new ArrayList<>();
         dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
         checkout=findViewById(R.id.checkout);
-
-        setContentView(R.layout.activity_checkout);
         firebaseAuth = FirebaseAuth.getInstance();
+        backBtn = findViewById(R.id.backBtn);
 
-        dataList = new ArrayList<>();
-        recyclerView = findViewById(R.id.recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        getDataList = new ArrayList<>();
-        dataViewModal = new ViewModelProvider(this).get(DataViewModal.class);
-        checkout = findViewById(R.id.checkout);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
-        dataAdapter = new DataAdapter(this,getDataList);
+        dataAdapter = new DataAdapter(this, getDataList);
 
         dataViewModal.getAllData().observe(this, new Observer<List<Data>>() {
             @Override
@@ -105,10 +94,38 @@ public class CheckoutActivity extends AppCompatActivity  {
                     sum += Integer.parseInt(ds.getQuantity())*Integer.parseInt(ds.getRate());
                 }
                 recyclerView.setAdapter(dataAdapter);
-                checkout.setText("Checkout = " + "Rs " + sum);
+                checkout.setText("Proceed To Checkout = " + "\u20B9" + sum);
+            }
+        });
+
+        checkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CheckoutActivity.this, OrderDetailsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        address = findViewById(R.id.address);
+
+        address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CheckoutActivity.this, SelectAddress.class));
             }
         });
     }
+
+//    private void detailsBottomSheet() {
+//         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+//        //inflate view
+//         View view= LayoutInflater.from(this).inflate(R.layout.fragment_select_address, null);
+//        bottomSheetDialog.setContentView(view);
+//
+//        //show dialog
+//
+//        bottomSheetDialog.show();
+//    }
 
     private void submitOrder(){
         prepareNotificationMessage(timestamp);
