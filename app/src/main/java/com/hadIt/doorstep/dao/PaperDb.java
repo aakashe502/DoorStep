@@ -11,17 +11,17 @@ import io.paperdb.Paper;
 import static java.lang.Thread.sleep;
 
 public class PaperDb {
-    private FirebaseAuth auth;
-    private FirebaseFirestore db;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firebaseFirestore;
     public Users userData;
 
     public PaperDb(){
-        auth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
     }
 
     public Users getFromPaperDb(){
-        userData = Paper.book().read(auth.getCurrentUser().getUid());
+        userData = Paper.book().read(firebaseAuth.getCurrentUser().getUid());
         if(userData==null){
             saveInPaperDb();
         }
@@ -29,15 +29,15 @@ public class PaperDb {
     }
 
     public void saveInPaperDb(){
-        String currentUser = auth.getCurrentUser().getEmail();
+        String currentUser = firebaseAuth.getCurrentUser().getEmail();
 
         try {
-            Task<DocumentSnapshot> documents = db.collection("users").document(currentUser).get();
+            Task<DocumentSnapshot> documents = firebaseFirestore.collection("users").document(currentUser).get();
             sleep(1000);
             DocumentSnapshot userObject = documents.getResult();
             if(userObject!=null){
                 userData = userObject.toObject(Users.class);
-                Paper.book().write(auth.getCurrentUser().getUid(), userData);
+                Paper.book().write(firebaseAuth.getCurrentUser().getUid(), userData);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

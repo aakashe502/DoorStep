@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_margin="0dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/colorWhite"
+            app:cardCornerRadius="5dp"
+            android:padding="10dp"
+            app:cardElevation="12dp"
+            app:cardMaxElevation="12dp"
+            app:cardPreventCornerOverlap="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:id="@+id/LeftRelative">
+
+                <ImageButton
+                    android:id="@+id/radioBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@null"
+                    android:src="@drawable/radio_button" />
+
+                <TextView
+                    android:id="@+id/tag"
+                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Address: "
+                    android:layout_toEndOf="@+id/radioBtn"
+                    android:layout_toStartOf="@+id/editBtn"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/customerName"
+                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Door Step Full Name"
+                    android:layout_below="@+id/tag"
+                    android:layout_toEndOf="@+id/radioBtn"
+                    android:layout_toStartOf="@+id/editBtn"
+                    android:textColor="@color/colorText"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/houseNumber"
+                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="105T, apartment name"
+                    android:layout_below="@+id/customerName"
+                    android:layout_toEndOf="@+id/radioBtn"
+                    android:layout_toStartOf="@+id/editBtn"
+                    android:textColor="@color/colorText"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/landmark"
+                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="landmark"
+                    android:layout_below="@+id/houseNumber"
+                    android:layout_toEndOf="@+id/radioBtn"
+                    android:layout_toStartOf="@+id/editBtn"
+                    android:textColor="@color/colorText"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/areaDetails"
+                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Area Details, City-pincode"
+                    android:layout_below="@+id/landmark"
+                    android:layout_toEndOf="@+id/radioBtn"
+                    android:layout_toStartOf="@+id/editBtn"
+                    android:textColor="@color/colorText"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/phoneNumber"
+                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Phone: +911234567890"
+                    android:layout_below="@+id/areaDetails"
+                    android:layout_toEndOf="@+id/radioBtn"
+                    android:layout_toStartOf="@+id/editBtn"
+                    android:textColor="@color/colorText"
+                    android:textSize="12sp" />
+
+                <ImageButton
+                    android:id="@+id/deleteBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@null"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/delete_button_black"/>
+
+                <ImageButton
+                    android:id="@+id/editBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@null"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toStartOf="@+id/deleteBtn"
+                    android:src="@drawable/edit_pen_black"/>
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

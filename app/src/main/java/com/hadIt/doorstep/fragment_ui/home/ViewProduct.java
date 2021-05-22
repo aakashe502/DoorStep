@@ -129,8 +129,6 @@ public class ViewProduct extends AppCompatActivity implements Datatransfer {
         return super.onOptionsItemSelected(item);
     }
     private void setupBadge() {
-        CheckoutActivity searchActivity=new CheckoutActivity();
-
         if (textCartItemCount != null) {
             textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
 
@@ -151,11 +149,11 @@ public class ViewProduct extends AppCompatActivity implements Datatransfer {
     @Override
     public void onSetValues(Data al) {
         dataRespository.insert(al);
-        setLeggnth();
+        setLength();
       //textCartItemCount.setText(""+(mCartItemCount+1));
     }
 
-    private void setLeggnth() {
+    private void setLength() {
         if(dataViewModal==null)
         dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
         dataViewModal.getAllData().observe(this, new Observer<List<Data>>() {
