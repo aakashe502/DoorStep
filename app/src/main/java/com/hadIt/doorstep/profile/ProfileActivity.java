@@ -86,7 +86,7 @@ public class ProfileActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        userData = paperDb.getFromPaperDb();
+        userData = paperDb.getUserFromPaperDb();
         title.setText(userData.userName);
         email.setText(userData.emailId);
         mobile.setText(userData.mobile);
@@ -145,7 +145,7 @@ public class ProfileActivity extends AppCompatActivity {
                     while(!uriTask.isSuccessful());
                     Uri downloadImageUri= uriTask.getResult();
                     if (uriTask.isSuccessful()) {
-                        Users user = paperDb.getFromPaperDb();
+                        Users user = paperDb.getUserFromPaperDb();
                         user.setProfilePhoto(downloadImageUri.toString());
                         db.collection("users").document(user.emailId).set(user).
                             addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -154,7 +154,7 @@ public class ProfileActivity extends AppCompatActivity {
                                     if(task.isSuccessful()){
                                         Log.i(Tag, "Successfully uploaded your dp...");
                                         Toast.makeText(ProfileActivity.this,"Successfully uploaded profile pic: ",Toast.LENGTH_SHORT).show();
-                                        paperDb.saveInPaperDb();
+                                        paperDb.saveUserInPaperDb();
                                     }
                                 }
                             })

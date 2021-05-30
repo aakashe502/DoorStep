@@ -14,7 +14,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hadIt.doorstep.Adapter.SelectAddressAdapter;
-import com.hadIt.doorstep.CheckoutActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.AddressModelClass;
 import com.hadIt.doorstep.cache.model.Users;
@@ -22,6 +21,8 @@ import com.hadIt.doorstep.dao.PaperDb;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.paperdb.Paper;
 
 import static java.lang.Thread.sleep;
 
@@ -89,14 +90,14 @@ public class SelectAddress extends AppCompatActivity {
     }
 
     private void getUserInfo() {
-        if(paperDb.getFromPaperDb() == null){
+        if(paperDb.getUserFromPaperDb() == null){
             try {
-                paperDb.saveInPaperDb();
+                paperDb.saveUserInPaperDb();
                 sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        usersData = paperDb.getFromPaperDb();
+        usersData = paperDb.getUserFromPaperDb();
     }
 }

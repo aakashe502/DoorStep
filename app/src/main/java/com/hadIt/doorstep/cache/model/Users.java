@@ -1,7 +1,21 @@
 package com.hadIt.doorstep.cache.model;
 
 public class Users {
-    public String userName, emailId, password, mobile, profilePhoto;
+    public String userName;
+    public String emailId;
+    public String password;
+    public String mobile;
+    public String profilePhoto;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String uid;
 
     public String getUserName() {
         return userName;

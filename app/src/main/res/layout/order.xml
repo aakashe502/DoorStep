@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_margin="0dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/colorLessWhite"
+            app:cardCornerRadius="5dp"
+            android:padding="10dp"
+            app:cardElevation="12dp"
+            app:cardMaxElevation="12dp"
+            app:cardPreventCornerOverlap="true"
+            android:id="@+id/order">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/colorGrey01">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_marginTop="10dp">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/orderDetail">
+                        <TextView
+                            android:id="@+id/orderIdTag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="OrderID: "
+                            android:textStyle="bold"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/orderId"
+                            android:layout_toEndOf="@+id/orderIdTag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1234568658"
+                            android:textColor="@color/colorText"
+                            android:textStyle="bold"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/date"
+                            android:layout_toEndOf="@+id/orderId"
+                            android:layout_alignParentEnd="true"
+                            android:textAlignment="textEnd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="27-MAY-2021"
+                            android:textColor="@color/colorText"
+                            android:textStyle="italic|bold"
+                            android:textSize="15sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/orderDetail"
+                        android:id="@id/shopNameRv"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp">
+                        <TextView
+                            android:id="@+id/shopName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DheeruBhai Ki Dukaan"
+                            android:textStyle="bold"
+                            android:textColor="@color/ColorGrey"
+                            android:textSize="15sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/shopNameRv"
+                        android:layout_marginBottom="10dp">
+                        <TextView
+                            android:id="@+id/amountTag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Amount: "
+                            android:textStyle="bold"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/amount"
+                            android:layout_toEndOf="@+id/amountTag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="\u20B9 500"
+                            android:textColor="@color/colorText"
+                            android:textStyle="bold"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/status"
+                            android:layout_toEndOf="@+id/amount"
+                            android:layout_alignParentEnd="true"
+                            android:textAlignment="textEnd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pending"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textStyle="italic"
+                            android:textSize="15sp" />
+                    </RelativeLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

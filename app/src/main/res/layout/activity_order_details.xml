@@ -30,14 +30,6 @@
             android:textStyle="bold"
             android:textColor="@color/colorWhite"/>
 
-        <ImageButton
-            android:id="@+id/editBtn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@null"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/edit_pen"/>
-
     </RelativeLayout>
 
     <!--Order Info-->
@@ -82,7 +74,7 @@
                     android:id="@+id/dateTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="dd/MM/yyyy"
+                    android:text="dd-MMM-yyyy"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:textColor="?android:attr/textColorPrimary"/>
@@ -111,13 +103,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Customer Email: "
+                    android:text="Shop Email: "
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="5dp"
                     android:textStyle="bold"
                     android:textColor="?android:attr/textColorPrimary"/>
                 <TextView
-                    android:id="@+id/customerEmailTv"
+                    android:id="@+id/shopEmailTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="gmail.com"
@@ -130,13 +122,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Customer Phone: "
+                    android:text="Shop Phone: "
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="5dp"
                     android:textStyle="bold"
                     android:textColor="?android:attr/textColorPrimary"/>
                 <TextView
-                    android:id="@+id/customerPhoneTv"
+                    android:id="@+id/shopPhoneTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="+9112345678"
@@ -159,7 +151,6 @@
                     android:id="@+id/totalItemsTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:textColor="?android:attr/textColorPrimary"/>

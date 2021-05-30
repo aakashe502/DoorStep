@@ -72,15 +72,15 @@ public class HomePage extends AppCompatActivity {
         userName = header.findViewById(R.id.name);
 
         PaperDb paperDb=new PaperDb();
-        if(paperDb.getFromPaperDb() == null){
+        if(paperDb.getUserFromPaperDb() == null){
             try {
-                paperDb.saveInPaperDb();
+                paperDb.saveUserInPaperDb();
                 sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        userData = paperDb.getFromPaperDb();
+        userData = paperDb.getUserFromPaperDb();
         userName.setText(userData.userName);
 
         if(userData.profilePhoto != null){

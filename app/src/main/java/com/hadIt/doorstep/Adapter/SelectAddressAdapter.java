@@ -1,31 +1,40 @@
 package com.hadIt.doorstep.Adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadIt.doorstep.CheckoutActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.address.EditAddress;
+import com.hadIt.doorstep.address.SelectAddress;
 import com.hadIt.doorstep.cache.model.AddressModelClass;
-import com.hadIt.doorstep.cache.model.Data;
-import com.hadIt.doorstep.order_details.OrderDetailsActivity;
+import com.hadIt.doorstep.cache.model.Users;
+import com.hadIt.doorstep.dao.PaperDb;
 
 import java.util.List;
 
 public class SelectAddressAdapter extends RecyclerView.Adapter<SelectAddressAdapter.ViewHolder> {
-    private static final String TAG = "SelectAddressAdapter";
+    private static final String Tag = "SelectAddressAdapter";
     private Context context;
     private List<AddressModelClass> dataList;
+    private FirebaseFirestore firebaseFirestore;
+    private PaperDb paperDb;
+    private Users users;
 
     public SelectAddressAdapter(Context context, List<AddressModelClass> dataList) {
         this.context = context;
@@ -67,6 +76,61 @@ public class SelectAddressAdapter extends RecyclerView.Adapter<SelectAddressAdap
                 context.startActivity(intent);
             }
         });
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        paperDb = new PaperDb();
+        users = paperDb.getUserFromPaperDb();
+
+        holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String addressUid = dataList.get(position).addressUid;
+
+                String[] options={"Delete","Cancel"};
+                //dialog
+                final android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(context);
+                builder.setTitle("Delete Address")
+                    .setItems(options,new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface,int i) {
+                            if(i==0){
+                                removeAddress(addressUid);
+                            }
+                        }
+                    }).show();
+            }
+        });
+
+        holder.LeftRelative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    paperDb.saveAddressInPaperDb(dataList.get(position));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                context.startActivity(new Intent(context, CheckoutActivity.class));
+            }
+        });
+    }
+
+    private void removeAddress(String addressUid) {
+        firebaseFirestore.collection("users").document(users.emailId).collection("address").document(addressUid)
+            .delete()
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(context, "Address Deleted Successfully...", Toast.LENGTH_SHORT).show();
+                    context.startActivity(new Intent(context, SelectAddress.class));
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e(Tag, e.getStackTrace().toString());
+                    Toast.makeText( context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
     }
 
     @Override
@@ -81,6 +145,7 @@ public class SelectAddressAdapter extends RecyclerView.Adapter<SelectAddressAdap
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView customerName, houseNumber, landmark, areaDetails, phoneNumber;
         public ImageButton editBtn, deleteBtn;
+        public RelativeLayout LeftRelative;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -91,7 +156,7 @@ public class SelectAddressAdapter extends RecyclerView.Adapter<SelectAddressAdap
             phoneNumber = itemView.findViewById(R.id.phoneNumber);
             deleteBtn = itemView.findViewById(R.id.deleteBtn);
             editBtn = itemView.findViewById(R.id.editBtn);
-
+            LeftRelative = itemView.findViewById(R.id.LeftRelative);
         }
     }
 }
