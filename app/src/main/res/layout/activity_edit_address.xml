@@ -28,371 +28,370 @@
             android:textColor="@color/colorWhite"/>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/personalDetailsRv"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/toolBar"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/personalDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/colorText"
-            android:text="Personal Details"/>
-
-
-        <LinearLayout
-            android:id="@+id/nameTag"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/personalDetails"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <TextView
-                android:id="@+id/firstName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/ColorGrey"
-                android:text="Enter First Name"/>
-
-            <TextView
-                android:id="@+id/lastName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/ColorGrey"
-                android:text="Enter Last Name"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editName"
-            android:layout_below="@+id/nameTag"
-            android:orientation="horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <EditText
-                android:id="@+id/firstNameEt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:layout_weight="1"
-                android:ems="3"
-                android:text="Door"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/colorGrey02"/>
-
-            <EditText
-                android:id="@+id/lastNameEt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="3"
-                android:layout_gravity="right|bottom"
-                android:textSize="10dp"
-                android:text="Step"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/colorGrey02"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/contactNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/editName"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <TextView
-                android:id="@+id/mobileNumberTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/ColorGrey"
-                android:text="Mobile Number"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/contactNumber"
-            android:orientation="horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <EditText
-                android:id="@+id/mobileNumberEt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:layout_weight="1"
-                android:text="+911234567890"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/colorGrey02"/>
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/addressDetailsRv"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/personalDetailsRv"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/addressDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/colorText"
-            android:text="Address Details"/>
-
-
-        <LinearLayout
-            android:id="@+id/house"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/addressDetails"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <TextView
-                android:id="@+id/houseNumber"
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:text=" House Number"
-                android:textColor="@color/ColorGrey"
-                android:textSize="10dp" />
-
-            <TextView
-                android:id="@+id/apartmentName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:textSize="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/ColorGrey"
-                android:text=" Apartment Name"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editHouse"
-            android:layout_below="@+id/house"
-            android:orientation="horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <EditText
-                android:id="@+id/houseNumberEt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:layout_weight="1"
-                android:ems="3"
-                android:text="Door"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/colorGrey02"/>
-
-            <EditText
-                android:id="@+id/apartmentNameEt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:ems="3"
-                android:textSize="10dp"
-                android:text="Step"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/colorGrey02"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/landmark"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/editHouse"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <TextView
-                android:id="@+id/landmarkText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/ColorGrey"
-                android:text="Please Enter any landmark nearby"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/landmarkEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/landmark"
-            android:orientation="horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <EditText
-                android:id="@+id/landmarkEt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:layout_weight="1"
-                android:text="behind any gas agency"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/colorGrey02"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/area"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/landmarkEdit"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <TextView
-                android:id="@+id/areaDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/ColorGrey"
-                android:text="Area Details"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/areaText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/area"
-            android:orientation="horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <EditText
-                android:id="@+id/areaDetailsEt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:layout_weight="1"
-                android:text="Sector 2"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/colorGrey02"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/city"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/areaText"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <TextView
-                android:id="@+id/cityDropdown"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:text=" City"
-                android:textColor="@color/ColorGrey"
-                android:textSize="10dp" />
-
-            <TextView
-                android:id="@+id/pincode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/ColorGrey"
-                android:text="pincode"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cityEdit"
-            android:layout_below="@+id/city"
-            android:orientation="horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <EditText
-                android:id="@+id/cityName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:layout_weight="1"
-                android:ems="3"
-                android:text="Satna"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/colorGrey02"/>
-
-            <EditText
-                android:id="@+id/pincodeEt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="3"
-                android:textSize="10dp"
-                android:text="485001"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/colorGrey02"/>
-        </LinearLayout>
-
-    </RelativeLayout>
-
-
-    <Button
-        android:id="@+id/saveAddress"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Save"/>
+        android:layout_below="@+id/toolBar"
+        android:layout_marginTop="10dp"
+        android:fillViewport="true" >
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/personalDetailsRv"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/personalDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorText"
+                    android:text="Personal Details"/>
+
+
+                <LinearLayout
+                    android:id="@+id/nameTag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/personalDetails"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <TextView
+                        android:id="@+id/firstName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/ColorGrey"
+                        android:text="Enter First Name"/>
+
+                    <TextView
+                        android:id="@+id/lastName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="12sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/ColorGrey"
+                        android:text="Enter Last Name"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editName"
+                    android:layout_below="@+id/nameTag"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <EditText
+                        android:id="@+id/firstNameEt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_weight="1"
+                        android:ems="3"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorGrey02"/>
+
+                    <EditText
+                        android:id="@+id/lastNameEt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="3"
+                        android:layout_gravity="right|bottom"
+                        android:textSize="12sp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorGrey02"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/contactNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/editName"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <TextView
+                        android:id="@+id/mobileNumberTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/ColorGrey"
+                        android:text="Mobile Number"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/contactNumber"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <EditText
+                        android:id="@+id/mobileNumberEt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorGrey02"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/addressDetailsRv"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_below="@+id/personalDetailsRv"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/addressDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorText"
+                    android:text="Address Details"/>
+
+
+                <LinearLayout
+                    android:id="@+id/house"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/addressDetails"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <TextView
+                        android:id="@+id/houseNumber"
+                        android:layout_width="45dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text=" House Number"
+                        android:textColor="@color/ColorGrey"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/apartmentName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:textSize="12sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/ColorGrey"
+                        android:text=" Apartment Name"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editHouse"
+                    android:layout_below="@+id/house"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <EditText
+                        android:id="@+id/houseNumberEt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_weight="1"
+                        android:ems="3"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorGrey02"/>
+
+                    <EditText
+                        android:id="@+id/apartmentNameEt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:ems="3"
+                        android:textSize="12sp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorGrey02"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/landmark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/editHouse"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <TextView
+                        android:id="@+id/landmarkText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/ColorGrey"
+                        android:text="Please Enter any landmark nearby"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/landmarkEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/landmark"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <EditText
+                        android:id="@+id/landmarkEt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorGrey02"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/landmarkEdit"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <TextView
+                        android:id="@+id/areaDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/ColorGrey"
+                        android:text="Area Details"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/areaText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/area"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <EditText
+                        android:id="@+id/areaDetailsEt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorGrey02"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/areaText"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <TextView
+                        android:id="@+id/cityDropdown"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text=" City"
+                        android:textColor="@color/ColorGrey"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/pincode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="12sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/ColorGrey"
+                        android:text="pincode"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cityEdit"
+                    android:layout_below="@+id/city"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <EditText
+                        android:id="@+id/cityName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_weight="1"
+                        android:ems="3"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorGrey02"/>
+
+                    <EditText
+                        android:id="@+id/pincodeEt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="3"
+                        android:textSize="12sp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorGrey02"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/saveAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addressDetailsRv"
+                android:layout_margin="15dp"
+                android:text="Save"/>
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

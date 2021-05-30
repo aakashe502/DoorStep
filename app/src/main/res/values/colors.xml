@@ -8,9 +8,13 @@
     <color name="colorButton">#FFFEFE</color>
     <color name="colorBackground">#22008577</color>
     <color name="colorWhite">#FFF</color>
+    <color name="colorLessWhite">#F4F4F3</color>
     <color name="colorMargins">#BCB9B9</color>
     <color name="colorRed">#F4511E</color>
     <color name="colorGrey01">#c9c9c9</color>
     <color name="colorGrey02">#252424</color>
     <color name="ColorGrey">#DA786F6F</color>
+    <color name="colorBlue">#AE084768</color>
+    <color name="colorLightBlue">#AE58AFDD</color>
+
 </resources>

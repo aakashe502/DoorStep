@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadIt.doorstep.login_signup.LoginActivity;
+import com.hadIt.doorstep.order_details.OrdersActivity;
 import com.hadIt.doorstep.profile.ProfileActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.Users;
@@ -59,7 +60,7 @@ public class Profile extends Fragment  {
         For Title
          */
         paperDb = new PaperDb();
-        userData = paperDb.getFromPaperDb();
+        userData = paperDb.getUserFromPaperDb();
         title.setText(userData.userName);
         email.setText(userData.emailId);
 
@@ -79,6 +80,13 @@ public class Profile extends Fragment  {
             public void onClick(View v) {
                 firebaseAuth.signOut();
                 startActivity(new Intent(getActivity(), LoginActivity.class));
+            }
+        });
+
+        orders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), OrdersActivity.class));
             }
         });
 

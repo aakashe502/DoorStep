@@ -48,6 +48,18 @@
         android:layout_below="@+id/appbar"
         android:id="@+id/recycler" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="14sp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:background="@color/colorGrey01"
+        android:id="@+id/addressSelected"
+        android:layout_above="@+id/address"
+        android:textColor="@color/colorText"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
