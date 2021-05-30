@@ -20,6 +20,7 @@ import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.AddressModelClass;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
+import com.hadIt.doorstep.progressBar.CustomProgressBar;
 
 public class EditAddress extends AppCompatActivity {
 
@@ -114,19 +115,23 @@ public class EditAddress extends AppCompatActivity {
 
         Users users = paperDb.getUserFromPaperDb();
 
+        final CustomProgressBar customProgressBar = new CustomProgressBar(EditAddress.this);
+        customProgressBar.show();
         firebaseFirestore.collection("users").document(users.emailId).collection("address").document(addressUid)
                 .set(addressModelClass)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(EditAddress.this, "Address Added Successfully...", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(EditAddress.this, SelectAddress.class));
+                        customProgressBar.dismiss();
+                        Toast.makeText(EditAddress.this, "Address Added Successfully...", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.e(Tag, e.getStackTrace().toString());
+                        customProgressBar.dismiss();
                         Toast.makeText( EditAddress.this, "Error in saving the address", Toast.LENGTH_SHORT).show();
                     }
                 });

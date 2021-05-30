@@ -28,18 +28,20 @@ import com.hadIt.doorstep.homePage.HomePage;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.md5.PasswordGeneratorMd5;
 import com.hadIt.doorstep.cache.model.Users;
+import com.hadIt.doorstep.progressBar.CustomProgressBar;
 
 public class SignUpActivity extends AppCompatActivity {
 
     public EditText userName, emailId, password, phoneNumber;
     public Button saveDetails;
-    public FirebaseFirestore db;
-    public FirebaseAuth auth;
+    public FirebaseFirestore firebaseFirestore;
+    public FirebaseAuth firebaseAuth;
     public String Tag = "SaveDetailsToFirestore Activity";
     public PasswordGeneratorMd5 md5;
     public boolean phoneNumberExists = false;
     public boolean emailExists = false;
     public boolean isNewUser;
+    private CustomProgressBar customProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +51,9 @@ public class SignUpActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_sign_up);
 
-        db = FirebaseFirestore.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
         md5 = new PasswordGeneratorMd5();
-        auth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         userName = findViewById(R.id.editName);
         emailId = findViewById(R.id.editEmail);
@@ -65,7 +67,9 @@ public class SignUpActivity extends AppCompatActivity {
             int status = checkInput(userName, emailId, password, phoneNumber);
             if(status == 0)
                 return;
-            auth.fetchSignInMethodsForEmail(emailId.getText().toString())
+            customProgressBar = new CustomProgressBar(SignUpActivity.this);
+            customProgressBar.show();
+            firebaseAuth.fetchSignInMethodsForEmail(emailId.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
                     @Override
                     public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
@@ -86,25 +90,21 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void setSignUp(){
-        auth.createUserWithEmailAndPassword(emailId.getText().toString(), md5.btnMd5(password))
+        firebaseAuth.createUserWithEmailAndPassword(emailId.getText().toString(), md5.btnMd5(password))
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(Tag, "createUserWithEmail:success");
-                            FirebaseUser user = auth.getCurrentUser();
-                            createAccount(userName, emailId, password, phoneNumber);
-//                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(Tag, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-//                            updateUI(null);
-                        }
-
-                        // ...
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(Tag, "createUserWithEmail:success");
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                        createAccount(userName, emailId, password, phoneNumber);
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(Tag, "createUserWithEmail:failure", task.getException());
+                        Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
                     }
                 });
     }
@@ -112,7 +112,7 @@ public class SignUpActivity extends AppCompatActivity {
     public void createAccount(EditText userName, EditText emailId, EditText password, EditText phoneNumber){
 
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder().build();
-        db.setFirestoreSettings(settings);
+        firebaseFirestore.setFirestoreSettings(settings);
 
         Users user=new Users();
         user.setEmailId(emailId.getText().toString());
@@ -121,26 +121,27 @@ public class SignUpActivity extends AppCompatActivity {
         user.setUserName(userName.getText().toString());
 
         Log.i("Id", "DocumentSnapshot added with ID: HELLO");
-        db.collection("users").document(user.getEmailId())
-                .set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.i(Tag, "Success");
-                        Intent intent=new Intent(SignUpActivity.this, HomePage.class);
-                        startActivity(intent);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @SuppressLint("ShowToast")
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        String error = e.getMessage();
-                        Toast.makeText( SignUpActivity.this,"Error " + error, Toast.LENGTH_SHORT).show();
-                        Log.i(Tag, "Error adding document", e);
-                    }
-                });
-        Log.i(Tag,"Done");
+        firebaseFirestore.collection("users").document(user.getEmailId())
+            .set(user)
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.i(Tag, "Success");
+                    Intent intent=new Intent(SignUpActivity.this, HomePage.class);
+                    startActivity(intent);
+                    customProgressBar.dismiss();
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @SuppressLint("ShowToast")
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    String error = e.getMessage();
+                    Toast.makeText( SignUpActivity.this,"Error " + error, Toast.LENGTH_SHORT).show();
+                    customProgressBar.dismiss();
+                    Log.i(Tag, "Error adding document", e);
+                }
+            });
     }
 
     protected int checkInput(EditText userName, EditText emailId, EditText password, EditText phoneNumber){

@@ -29,7 +29,7 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".profile.ProfileActivity" />
+        <activity android:name=".profile.EditProfileActivity" />
         <activity android:name=".fragment_ui.Admin.ViewCategory" />
         <activity android:name=".fragment_ui.Admin.AddGrocery" />
         <activity android:name=".CategoryClass" />

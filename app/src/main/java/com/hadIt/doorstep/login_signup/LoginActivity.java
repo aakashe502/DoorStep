@@ -24,18 +24,16 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.hadIt.doorstep.homePage.HomePage;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.md5.PasswordGeneratorMd5;
+import com.hadIt.doorstep.progressBar.CustomProgressBar;
 
 import io.paperdb.Paper;
 
 public class LoginActivity extends AppCompatActivity {
     public Button createNewAccount, loginButton;
-//    public TextView resetPassword;
     public EditText email, password;
     public FirebaseFirestore firebaseFirestore;
     public PasswordGeneratorMd5 md5;
-    public String Tag = "LoginActivity";
-    public String msg_subscribed = "Subscribed";
-    public String msg_subscribe_failed = "Subscription Failed";
+    private CustomProgressBar customProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +43,10 @@ public class LoginActivity extends AppCompatActivity {
         Paper.init(getApplicationContext());
 
         md5 = new PasswordGeneratorMd5();
+        customProgressBar = new CustomProgressBar(LoginActivity.this);
+
         email=findViewById(R.id.etemail);
         password=findViewById(R.id.mypass);
-//        resetPassword = findViewById(R.id.resetPassword);
         createNewAccount=findViewById(R.id.createnewac);
         loginButton=findViewById(R.id.btnlogin);
 
@@ -72,40 +71,28 @@ public class LoginActivity extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(notificationChannel);
         }
-
-        FirebaseMessaging.getInstance().subscribeToTopic("basicTopic")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = getString(R.string.msg_subscribed);
-                        if (!task.isSuccessful()) {
-                            msg = getString(R.string.msg_subscribe_failed);
-                        }
-                        Log.d(Tag, msg);
-                        Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
     private void gotonewActivity() {
         if(!email.getText().toString().isEmpty() && !password.getText().toString().isEmpty()){
-            //logging in the user
+
+            customProgressBar.show();
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email.getText().toString(), md5.btnMd5(password))
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
 
-                            if(task.isSuccessful()){
-                                //start the profile activity
-
-                                startActivity(new Intent(getApplicationContext(), HomePage.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
-
-                            }
-                            else{
-                                Toast.makeText(LoginActivity.this, "failed", Toast.LENGTH_SHORT).show();
-                            }
+                        if(task.isSuccessful()){
+                            //start the profile activity
+                            startActivity(new Intent(getApplicationContext(), HomePage.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            customProgressBar.dismiss();
                         }
-                    });
+                        else{
+                            customProgressBar.dismiss();
+                            Toast.makeText(LoginActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
         }
         else{
             Toast.makeText(LoginActivity.this,"Email and password cannot be empty!",Toast.LENGTH_SHORT).show();

@@ -38,15 +38,17 @@ import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.AddressModelClass;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
+import com.hadIt.doorstep.progressBar.CustomProgressBar;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 public class AddNewAddress extends AppCompatActivity {
 
     private static final int REQUEST_LOCATION = 1;
-    LocationManager locationManager;
-    String latitude, longitude;
+    private LocationManager locationManager;
+    private String latitude, longitude;
     private FusedLocationProviderClient fusedLocationProviderClient;
 
     private ImageButton backBtn, gpsBtn;
@@ -143,7 +145,7 @@ public class AddNewAddress extends AppCompatActivity {
                         setAddress();
                     }
                     else{
-                        //TODO(Open Map here and open location)
+                        //TODO(Open Map here and save current location)
                         String address = "https://maps.google.com/maps?saddr=" + 27 + "," + 84 + "&daddr=" + 27 + "," + 84;
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(address));
                         startActivity(intent);
@@ -167,14 +169,13 @@ public class AddNewAddress extends AppCompatActivity {
             addresses = geocoder.getFromLocation(Double.parseDouble(latitude), Double.parseDouble(longitude), 1);
             //complete address
             String address = addresses.get(0).getAddressLine(0);
-            String addressList[] = address.split(",");
+            String[] addressList = address.split(",");
             StringBuilder sb = new StringBuilder();
             for(int i=0;i<addressList.length-3; i++)
-                sb.append(addressList[i]+",");
+                sb.append(addressList[i]).append(",");
             areaDetailsEt.setText(sb.delete(sb.length()-1, sb.length()).toString());
-            cityName.setText(addressList[addressList.length-3].trim());
-            String state[] = addressList[addressList.length-2].split(" ");
-            pincodeEt.setText(state[state.length-1].trim());
+            cityName.setText(addresses.get(0).getLocality());
+            pincodeEt.setText(addresses.get(0).getPostalCode());
         } catch (Exception e){
             Toast.makeText(AddNewAddress.this,"Unable to fetch customers address. " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -212,6 +213,9 @@ public class AddNewAddress extends AppCompatActivity {
             return;
         }
 
+        final CustomProgressBar customProgressBar = new CustomProgressBar(AddNewAddress.this);
+        customProgressBar.show();
+
         String addressUid = "" + System.currentTimeMillis();
         AddressModelClass addressModelClass = new AddressModelClass(firstNameEt.getText().toString(), lastNameEt.getText().toString(),
                 mobileNumberEt.getText().toString(), houseNumberEt.getText().toString(),
@@ -225,14 +229,16 @@ public class AddNewAddress extends AppCompatActivity {
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Toast.makeText(AddNewAddress.this, "Address Added Successfully...", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(AddNewAddress.this, SelectAddress.class));
+                    customProgressBar.dismiss();
+                    Toast.makeText(AddNewAddress.this, "Address Added Successfully...", Toast.LENGTH_SHORT).show();
                 }
             })
             .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.e(Tag, e.getStackTrace().toString());
+                    Log.e(Tag, Arrays.toString(e.getStackTrace()));
+                    customProgressBar.dismiss();
                     Toast.makeText( AddNewAddress.this, "Error in saving the address", Toast.LENGTH_SHORT).show();
                 }
             });
