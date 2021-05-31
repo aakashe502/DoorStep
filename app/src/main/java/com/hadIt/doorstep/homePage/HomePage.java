@@ -12,7 +12,10 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hadIt.doorstep.CheckoutActivity;
 import com.hadIt.doorstep.R;
+import com.hadIt.doorstep.cache.model.OrderDetails;
+import com.hadIt.doorstep.fragment_ui.Settings.Settings;
 import com.hadIt.doorstep.login_signup.LoginActivity;
+import com.hadIt.doorstep.order_details.OrdersActivity;
 import com.hadIt.doorstep.search.SearchActivity;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
@@ -106,6 +109,9 @@ public class HomePage extends AppCompatActivity {
                         break;
                     case  R.id.cart:
                         startActivity(new Intent(HomePage.this, CheckoutActivity.class));
+                        break;
+                    case R.id.orders:
+                        startActivity(new Intent(HomePage.this, OrdersActivity.class));
                         break;
                 }
                 return true;

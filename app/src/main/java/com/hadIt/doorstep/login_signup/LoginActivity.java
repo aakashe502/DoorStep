@@ -20,7 +20,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.hadIt.doorstep.homePage.HomePage;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.md5.PasswordGeneratorMd5;

@@ -20,16 +20,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.hadIt.doorstep.Adapter.SelectAddressAdapter;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.AddressModelClass;
-import com.hadIt.doorstep.cache.model.OrderDetails;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
-import com.hadIt.doorstep.order_details.OrdersActivity;
-import com.hadIt.doorstep.progressBar.CustomProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.paperdb.Paper;
 
 import static java.lang.Thread.sleep;
 
