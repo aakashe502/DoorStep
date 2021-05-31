@@ -1,4 +1,4 @@
-package com.hadIt.doorstep.fragment_ui.Admin;
+package com.hadIt.doorstep.fragment_ui.home;
 
 public class ProductInfoModel {
     public int productimage;

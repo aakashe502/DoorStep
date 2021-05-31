@@ -21,14 +21,14 @@
         <activity android:name=".order_details.OrderDetailsActivity" />
         <activity android:name=".search.SearchActivity" />
         <activity
-            android:name=".fragment_ui.home.ViewProduct"
+            android:name=".fragment_ui.home.ViewShop"
             android:parentActivityName=".homePage.HomePage" />
         <activity android:name=".fragment_ui.Admin.AddProduct" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".profile.ProfileActivity" />
-        <activity android:name=".fragment_ui.Admin.ViewCategory" />
+        <activity android:name=".fragment_ui.home.ViewShopProducts" />
         <activity android:name=".fragment_ui.Admin.AddGrocery" />
         <activity android:name=".CategoryClass" />
         <activity

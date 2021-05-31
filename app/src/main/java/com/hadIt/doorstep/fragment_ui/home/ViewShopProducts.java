@@ -1,4 +1,4 @@
-package com.hadIt.doorstep.fragment_ui.Admin;
+package com.hadIt.doorstep.fragment_ui.home;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,28 +7,27 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.Repository.DataRepository;
+import com.hadIt.doorstep.cache.model.AdminProductModel;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ViewCategory extends AppCompatActivity  {
+public class ViewShopProducts extends AppCompatActivity  {
     RecyclerView recyclerView;
-    public ArrayList<ProductInfo> arrayList;
+    public ArrayList<AdminProductModel> arrayList;
     public Button addprod;
     FirebaseFirestore firestore;
     private DataRepository dataRespository;
@@ -42,6 +41,7 @@ public class ViewCategory extends AppCompatActivity  {
 
         dataRespository=new DataRepository(getApplication());
         final String sessionId = getIntent().getStringExtra("grocery");
+        Log.i("shoptypeisit",sessionId);
 
         toolbar = findViewById(R.id.toolBar);
         toolbar.setTitle(sessionId);
@@ -61,16 +61,6 @@ public class ViewCategory extends AppCompatActivity  {
         arrayList=new ArrayList<>();
         firestore=FirebaseFirestore.getInstance();
 
-        addprod=findViewById(R.id.addprod);
-        Toast.makeText(this,"id 1"+sessionId,Toast.LENGTH_SHORT).show();
-        addprod.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(ViewCategory.this,AddProduct.class);
-                intent.putExtra("name",""+sessionId);
-                startActivity(intent);
-            }
-        });
 
 
 
@@ -78,26 +68,26 @@ public class ViewCategory extends AppCompatActivity  {
         // LinearLayoutManager linearLayoutManager=new LinearLayoutManager(root.getContext(),LinearLayoutManager.VERTICAL,false);
         GridLayoutManager gridLayoutManager=new GridLayoutManager(this,1,LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
-        firestore.collection("Products").document("products").collection(sessionId).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot dpc:task.getResult().getDocuments()){
-                                ProductInfo productInfoModel=dpc.toObject(ProductInfo.class);
-                                arrayList.add(productInfoModel);
-                                modelAdapter.notifyDataSetChanged();
-
-                            }
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+        firestore.collection("Products").whereEqualTo("shopUid",sessionId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(DocumentSnapshot dpc:task.getResult().getDocuments()){
+                        AdminProductModel productInfoModel=dpc.toObject(AdminProductModel.class);
+                        arrayList.add(productInfoModel);
+                        modelAdapter.notifyDataSetChanged();
 
                     }
-                });
+                }
+            }
+        }).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+            }
+        });
+
+
         recyclerView.setAdapter(modelAdapter);
     }
 

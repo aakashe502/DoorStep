@@ -40,13 +40,12 @@ public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.ItemViewHold
             @Override
             public void onClick(View view) {
 
-                Intent intent=new Intent(context,ViewProduct.class);
+                Intent intent=new Intent(context,ViewShop.class);
                 intent.putExtra("grocery",holder.groceryname.getText().toString());
                context.startActivity(intent);
             }
         });
     }
-
     @Override
     public int getItemCount() {
         return arrayList.size();
@@ -57,7 +56,7 @@ public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.ItemViewHold
         public TextView groceryname;
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-           // groceryimage=itemView.findViewById(R.id.groceryimage);
+            groceryimage=itemView.findViewById(R.id.shopimage);
             groceryname=itemView.findViewById(R.id.groceryname);
         }
     }
