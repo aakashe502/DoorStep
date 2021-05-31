@@ -14,8 +14,10 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hadIt.doorstep.address.SelectAddress;
 import com.hadIt.doorstep.login_signup.LoginActivity;
-import com.hadIt.doorstep.profile.ProfileActivity;
+import com.hadIt.doorstep.order_details.OrdersActivity;
+import com.hadIt.doorstep.profile.EditProfileActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
@@ -30,6 +32,7 @@ public class Profile extends Fragment  {
     public TextView orders;
     public TextView share;
     public TextView email;
+    public TextView address;
     public Button logout;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
@@ -51,6 +54,7 @@ public class Profile extends Fragment  {
         logout = root.findViewById(R.id.logout);
         email = root.findViewById(R.id.email);
         profilePhoto = root.findViewById(R.id.admin_profile_pic);
+        address = root.findViewById(R.id.address);
 
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -59,7 +63,7 @@ public class Profile extends Fragment  {
         For Title
          */
         paperDb = new PaperDb();
-        userData = paperDb.getFromPaperDb();
+        userData = paperDb.getUserFromPaperDb();
         title.setText(userData.userName);
         email.setText(userData.emailId);
 
@@ -69,7 +73,7 @@ public class Profile extends Fragment  {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
                 startActivity(intent);
             }
         });
@@ -79,6 +83,20 @@ public class Profile extends Fragment  {
             public void onClick(View v) {
                 firebaseAuth.signOut();
                 startActivity(new Intent(getActivity(), LoginActivity.class));
+            }
+        });
+
+        orders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), OrdersActivity.class));
+            }
+        });
+
+        address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), SelectAddress.class));
             }
         });
 

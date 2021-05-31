@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CpuUsageInfo;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -28,13 +29,14 @@ import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.homePage.HomePage;
 import com.hadIt.doorstep.fragment_ui.Profile.Profile;
+import com.hadIt.doorstep.progressBar.CustomProgressBar;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileActivity extends AppCompatActivity {
+public class EditProfileActivity extends AppCompatActivity {
     private String Tag = "ProfileActivity";
 
     public TextView title;
@@ -53,11 +55,14 @@ public class ProfileActivity extends AppCompatActivity {
     private Users userData;
     private HomePage homePage;
     private Profile profile;
+    private CustomProgressBar customProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_edit_profile);
+
+        customProgressBar = new CustomProgressBar(EditProfileActivity.this);
         paperDb = new PaperDb();
         homePage = new HomePage();
         profile = new Profile();
@@ -86,7 +91,7 @@ public class ProfileActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        userData = paperDb.getFromPaperDb();
+        userData = paperDb.getUserFromPaperDb();
         title.setText(userData.userName);
         email.setText(userData.emailId);
         mobile.setText(userData.mobile);
@@ -96,15 +101,17 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // start cropping activity for pre-acquired image saved on the device
                 CropImage.activity(selectedImageURI).setAspectRatio(1,1)
-                      .start(ProfileActivity.this);
+                      .start(EditProfileActivity.this);
             }
         });
 
 
         if(userData.profilePhoto!=null){
+            customProgressBar.show();
             Glide.with(this)
                     .load(userData.profilePhoto) // Uri of the picture
                     .into(profilePhoto);
+            customProgressBar.dismiss();
         }
     }
 
@@ -135,7 +142,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void uploadToFireStore() {
         Log.i(Tag, "Uploading to uploadToFireStore...");
         String createPath = "profilePhoto/" + userData.emailId;
-
+        customProgressBar.show();
         storageReference.child(createPath).putFile(selectedImageURI)
             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -145,7 +152,7 @@ public class ProfileActivity extends AppCompatActivity {
                     while(!uriTask.isSuccessful());
                     Uri downloadImageUri= uriTask.getResult();
                     if (uriTask.isSuccessful()) {
-                        Users user = paperDb.getFromPaperDb();
+                        Users user = paperDb.getUserFromPaperDb();
                         user.setProfilePhoto(downloadImageUri.toString());
                         db.collection("users").document(user.emailId).set(user).
                             addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -153,8 +160,9 @@ public class ProfileActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
                                         Log.i(Tag, "Successfully uploaded your dp...");
-                                        Toast.makeText(ProfileActivity.this,"Successfully uploaded profile pic: ",Toast.LENGTH_SHORT).show();
-                                        paperDb.saveInPaperDb();
+                                        Toast.makeText(EditProfileActivity.this,"Successfully uploaded profile pic: ",Toast.LENGTH_SHORT).show();
+                                        paperDb.saveUserInPaperDb();
+                                        customProgressBar.dismiss();
                                     }
                                 }
                             })
@@ -162,13 +170,15 @@ public class ProfileActivity extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Log.i(Tag, "Failed to upload your dp...");
-                                    Toast.makeText(ProfileActivity.this,"Failed to upload profile pic: ",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(EditProfileActivity.this,"Failed to upload profile pic: ",Toast.LENGTH_SHORT).show();
+                                    customProgressBar.dismiss();
                                 }
                             });
                     }
                     else{
                         Log.i(Tag, "inside error to upload profile dp...");
-                        Toast.makeText(ProfileActivity.this,"inside error to upload profile pic: ",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditProfileActivity.this,"inside error to upload profile pic: ",Toast.LENGTH_SHORT).show();
+                        customProgressBar.dismiss();
                     }
                 }
             });

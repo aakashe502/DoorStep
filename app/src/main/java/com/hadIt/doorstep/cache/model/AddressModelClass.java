@@ -1,5 +1,7 @@
 package com.hadIt.doorstep.cache.model;
 
+import androidx.annotation.NonNull;
+
 public class AddressModelClass {
     public String firstName, lastName, contactNumber, houseNumber, apartmentName, landmark,
             areaDetails, city, pincode, latitude, longitude, addressUid;
@@ -116,5 +118,12 @@ public class AddressModelClass {
 
     public void setAddressUid(String addressUid) {
         this.addressUid = addressUid;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return firstName + "-" + lastName + ", " + contactNumber + ", " + houseNumber + "-" + apartmentName + ", " + landmark + ", "
+                + areaDetails + ", " + city + "-" + pincode;
     }
 }

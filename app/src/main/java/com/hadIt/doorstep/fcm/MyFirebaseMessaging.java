@@ -10,6 +10,8 @@ import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -19,7 +21,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
 import com.hadIt.doorstep.R;
+import com.hadIt.doorstep.cache.model.OrderDetails;
+import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.order_details.OrderDetailsActivity;
 
 import java.util.Random;
@@ -38,25 +43,24 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
-
+        Log.i("HEY", "DoorStep Message Rec");
         //get data from notification
         String notificationType = remoteMessage.getData().get("notificationType");
 
-        if(notificationType.equals("OrderStatusChanged")){
-            String buyerUid = remoteMessage.getData().get("buyerUid");
-            String sellerUid = remoteMessage.getData().get("sellerUid");
-            String orderId = remoteMessage.getData().get("orderId");
+        if(notificationType.equals("Order Status Changed")){
+            Gson gson = new Gson();
+            OrderDetails orderDetails = gson.fromJson(remoteMessage.getData().get("orderDetailsObj"), OrderDetails.class);
             String notificationTitle = remoteMessage.getData().get("notificationTitle");
             String notificationMessage = remoteMessage.getData().get("notificationMessage");
 
-            if(firebaseUser != null && firebaseAuth.getUid().equals(buyerUid)){
+            if(firebaseUser != null && firebaseAuth.getUid().equals(orderDetails.buyerUid)){
                 //user is signed in and is same user to whom notification is sent.
-                showNotification(buyerUid, sellerUid, orderId, notificationTitle, notificationMessage, notificationType);
+                showNotification(orderDetails, notificationTitle, notificationMessage, notificationType);
             }
         }
     }
 
-    private void showNotification(String buyerUid, String sellerUid, String orderId, String notificationTitle, String notificationMessage, String notificationType){
+    private void showNotification(OrderDetails orderDetails, String notificationTitle, String notificationMessage, String notificationType){
         //notification
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -69,16 +73,15 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         }
 
         Intent intent = null;
-        if(notificationType.equals("OrderStatusChanged")) {
+        if(notificationType.equals("Order Status Changed")) {
             //open order details seller activity
             intent = new Intent(this, OrderDetailsActivity.class);
-            intent.putExtra("orderId", orderId);
-            intent.putExtra("orderTo", sellerUid);
+            intent.putExtra("orderDetailsObj", orderDetails);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         }
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Large icon
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.doorstep);
@@ -108,9 +111,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         notificationChannel.enableLights(true);
         notificationChannel.setLightColor(R.color.colorRed);
         notificationChannel.enableVibration(true);
-
-        if(notificationManager != null){
-            notificationManager.createNotificationChannel(notificationChannel);
-        }
+        Log.i("TAG got the message", notificationManager.toString());
+        notificationManager.createNotificationChannel(notificationChannel);
     }
 }

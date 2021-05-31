@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -14,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".address.SelectAddress"></activity>
+        <activity android:name=".order_details.OrdersActivity" />
+        <activity android:name=".address.SelectAddress" />
         <activity android:name=".address.EditAddress" />
         <activity android:name=".address.AddNewAddress" />
         <activity android:name=".CheckoutActivity" />
@@ -23,13 +25,12 @@
         <activity
             android:name=".fragment_ui.home.ViewShop"
             android:parentActivityName=".homePage.HomePage" />
-        <activity android:name=".fragment_ui.Admin.AddProduct" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".profile.ProfileActivity" />
         <activity android:name=".fragment_ui.home.ViewShopProducts" />
-        <activity android:name=".fragment_ui.Admin.AddGrocery" />
+        <activity android:name=".profile.EditProfileActivity" />
+
         <activity android:name=".CategoryClass" />
         <activity
             android:name=".homePage.HomePage"
