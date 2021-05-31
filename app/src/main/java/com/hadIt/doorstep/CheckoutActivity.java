@@ -39,7 +39,9 @@ import com.hadIt.doorstep.cache.model.OrderStatus;
 import com.hadIt.doorstep.cache.model.OrderDetails;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
+import com.hadIt.doorstep.login_signup.LoginActivity;
 import com.hadIt.doorstep.order_details.OrderDetailsActivity;
+import com.hadIt.doorstep.progressBar.CustomProgressBar;
 import com.hadIt.doorstep.utils.Constants;
 import org.json.JSONObject;
 

@@ -1,5 +1,6 @@
 package com.hadIt.doorstep.address;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,7 +9,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,8 +25,6 @@ import com.hadIt.doorstep.dao.PaperDb;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.paperdb.Paper;
 
 import static java.lang.Thread.sleep;
 
@@ -72,21 +74,26 @@ public class SelectAddress extends AppCompatActivity {
     }
 
     private void getUserAddress() {
-        try {
-            Task<QuerySnapshot> documents = firebaseFirestore.collection("users").document(usersData.emailId).collection("address").get();
-            sleep(1000);
-            QuerySnapshot userObject = documents.getResult();
-            if(userObject!=null){
-                for(DocumentSnapshot dpc:userObject.getDocuments()){
-                    AddressModelClass addressModelClass=dpc.toObject(AddressModelClass.class);
-                    addressModelClassList.add(addressModelClass);
+        firebaseFirestore.collection("users").document(usersData.emailId).collection("address")
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if(task.isSuccessful()){
+                        for(DocumentSnapshot dpc:task.getResult().getDocuments()){
+                            AddressModelClass addressModelClass=dpc.toObject(AddressModelClass.class);
+                            addressModelClassList.add(addressModelClass);
+                        }
+                        selectAddressAdapter.notifyDataSetChanged();
+                    }
                 }
-                selectAddressAdapter.notifyDataSetChanged();
-            }
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(SelectAddress.this, ""+e.getStackTrace(), Toast.LENGTH_SHORT).show();
+                }
+            });
     }
 
     private void getUserInfo() {

@@ -98,6 +98,31 @@
         android:layout_below="@+id/orders_layout"
         android:orientation="vertical"
         android:padding="10dp"
+        android:id="@+id/saved_address"
+        android:background="@drawable/border"
+        >
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Saved Address"
+            android:textColor="@color/colorText"
+            android:layout_centerHorizontal="false"
+            android:layout_marginTop="5dp"
+            android:textStyle="bold"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/address"
+            android:textSize="20dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/saved_address"
+        android:orientation="vertical"
+        android:padding="10dp"
         android:id="@+id/share_with_friends"
         android:background="@drawable/border"
         >
