@@ -30,10 +30,8 @@ public class HomeFragment extends Fragment {
     public ArrayList<ModelClass> model;
     ViewPager2 mViewPager;
     CircleIndicator3 circleIndicator;
-
     // images array
     int[] images = {R.drawable.a1, R.drawable.a2, R.drawable.a3};
-
     // Creating Object of ViewPagerAdapter
     Timer timer;
     Handler handler;
@@ -106,8 +104,6 @@ public class HomeFragment extends Fragment {
                 });
             }
         },4000,4000);
-
-
         return root;
     }
 

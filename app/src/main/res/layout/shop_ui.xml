@@ -19,6 +19,7 @@
                 android:id="@+id/shopPhoto"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/doorstep"/>
 
             <TextView

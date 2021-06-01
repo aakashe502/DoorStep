@@ -39,8 +39,8 @@
                     <ImageView
                         android:layout_width="120dp"
                         android:layout_height="120dp"
-                        android:id="@+id/image23"
-                        android:src="@drawable/straw"
+                        android:id="@+id/itemImage1"
+                        android:src="@drawable/plusicon"
 
                         android:layout_margin="8dp"
                         android:scaleType="fitXY" />
@@ -65,7 +65,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/name"
+                            android:id="@+id/itemName"
                             style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -80,17 +80,17 @@
                             style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/name"
+                            android:layout_below="@+id/itemName"
                             android:layout_marginStart="15dp"
                             android:text="\u20B9"
-                            android:textColor="@color/colorText"
+                            android:textColor="@color/colorPrimaryDark"
                             android:textSize="12sp" />
 
                         <TextView
-                            android:id="@+id/ruppee"
+                            android:id="@+id/itemCost"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/name"
+                            android:layout_below="@+id/itemName"
                             android:layout_marginStart="5dp"
                             android:layout_toEndOf="@+id/rs"
                             android:text="20"
@@ -99,71 +99,20 @@
                             android:textSize="12dp" />
 
                         <TextView
-                            android:id="@+id/value"
+                            android:id="@+id/itemPerType"
                             style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/name"
-                            android:layout_toEndOf="@+id/ruppee"
+                            android:layout_below="@+id/itemName"
+                            android:layout_toEndOf="@+id/itemCost"
                             android:text="/Kg"
                             android:textAlignment="center"
                             android:textColor="#000"
                             android:textSize="12sp" />
 
-                        <Button
-                            android:id="@+id/addbutton"
-                            android:layout_width="90dp"
-                            android:layout_height="30dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_centerInParent="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentEnd="true"
-                            android:background="@color/colorAccent"
-                            android:text="viewshop"
-                            android:textColor="@color/colorButton"
-                            android:textSize="16sp"
-                            android:visibility="visible" />
 
-                        <LinearLayout
-                            android:id="@+id/linear"
-                            android:layout_width="90dp"
-                            android:layout_height="30dp"
-                            android:layout_centerInParent="true"
-                            android:orientation="horizontal"
-                            android:visibility="visible"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentEnd="true"
-                            android:background="@drawable/border_button"
-                            >
 
-                            <Button
-                                android:id="@+id/minus"
-                                android:layout_width="30dp"
-                                android:layout_height="match_parent"
-                                android:background="@drawable/minus1"
 
-                                />
-
-                            <TextView
-                                android:id="@+id/number"
-                                android:layout_width="30dp"
-                                android:layout_height="match_parent"
-                                android:background="@color/colorAccent"
-                                android:text="1"
-                                android:gravity="center"
-                                android:textColor="@color/colorText" />
-
-                            <Button
-                                android:id="@+id/plus"
-                                android:layout_width="30dp"
-                                android:layout_height="match_parent"
-                                android:background="@drawable/plusicon"
-                                />
-
-                        </LinearLayout>
                     </RelativeLayout>
 
                 </androidx.cardview.widget.CardView>

@@ -12,7 +12,7 @@
 
     app:cardMaxElevation="10dp"
     app:cardPreventCornerOverlap="true"
-   >
+    >
 
     <!--
         In the above cardview widget
@@ -31,38 +31,28 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
 
         <!--ImageVIew to display our Course Image-->
         <ImageView
-            android:id="@+id/shopimage"
+            android:id="@+id/groceryimage"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
-            android:layout_weight="0.4"
+
             android:padding="15dp"
-             />
+            />
 
         <!--Text View to display Course Name-->
         <TextView
             android:id="@+id/groceryname"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
             android:layout_marginTop="2dp"
-            android:layout_weight="0.6"
-            android:layout_below="@+id/shopimage"
-
-
+            android:layout_below="@+id/groceryimage"
+            android:layout_centerHorizontal="true"
             android:textColor="@color/test"
             android:textSize="10dp"
             android:textStyle="bold" />
-
-
-        </LinearLayout>
 
 
 
