@@ -56,7 +56,7 @@ public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.ItemViewHold
         public TextView groceryname;
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            groceryimage=itemView.findViewById(R.id.shopimage);
+            groceryimage=itemView.findViewById(R.id.groceryimage);
             groceryname=itemView.findViewById(R.id.groceryname);
         }
     }

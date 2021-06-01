@@ -41,7 +41,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<ShopDetailsAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.productlist, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_ui, parent, false);
 
 
        //datatransfer.onSetValues(savearraylist);
@@ -51,17 +51,18 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<ShopDetailsAdapter.
     public void onBindViewHolder(@NonNull final ViewHolder holder,final int position) {
         holder.productname.setText(arrayList.get(position).shopName);
        // holder.productrate.setText(arrayList.get(position).);
+        holder.shopLocation.setText(arrayList.get(position).city);
 
         Glide.with(context).load(arrayList.get(position).profileImage).into(holder.productimage);
-        holder.addbutton.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(context,ViewShopProducts.class);
+                Intent intent=new Intent(context, ViewShopProducts.class);
                 intent.putExtra("grocery",arrayList.get(position).uid);
                 context.startActivity(intent);
-
             }
         });
+
 //
     }
     @Override
@@ -72,21 +73,14 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<ShopDetailsAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView productimage;
         public TextView productname;
-        public TextView productrate,number;
-        public Button addbutton;
-        public LinearLayout linear;
-        public Button plus,minus;
+        public TextView shopLocation;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            productimage= itemView.findViewById(R.id.image23);
-            productname= itemView.findViewById(R.id.name);
-            productrate=itemView.findViewById(R.id.ruppee);
-            addbutton=itemView.findViewById(R.id.addbutton);
-            linear=itemView.findViewById(R.id.linear);
-            plus=itemView.findViewById(R.id.plus);
-            minus=itemView.findViewById(R.id.minus);
-            number=itemView.findViewById(R.id.number);
+            productimage= itemView.findViewById(R.id.shopPhoto);
+            productname= itemView.findViewById(R.id.shopName);
+           shopLocation=itemView.findViewById(R.id.shopLocation);
         }
     }
 }
