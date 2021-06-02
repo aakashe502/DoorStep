@@ -19,7 +19,7 @@ import com.hadIt.doorstep.order_details.OrdersActivity;
 import com.hadIt.doorstep.search.SearchActivity;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
-import com.hadIt.doorstep.fragment_ui.Admin.AddGrocery;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -104,7 +104,7 @@ public class HomePage extends AppCompatActivity {
                         startActivity(new Intent(HomePage.this, LoginActivity.class));
                         break;
                     case R.id.basket:
-                        startActivity(new Intent(HomePage.this, AddGrocery.class));
+                       // startActivity(new Intent(HomePage.this, AddGrocery.class));
                         break;
                     case  R.id.cart:
                         startActivity(new Intent(HomePage.this, CheckoutActivity.class));

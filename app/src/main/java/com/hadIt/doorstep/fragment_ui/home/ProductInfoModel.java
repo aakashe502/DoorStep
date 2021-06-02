@@ -1,24 +1,24 @@
-package com.hadIt.doorstep.fragment_ui.Admin;
+package com.hadIt.doorstep.fragment_ui.home;
 
-public class InfoData {
-    public String productimage;
+public class ProductInfoModel {
+    public int productimage;
     public String productname;
     public String productrate;
 
-    public InfoData(String productimage,String productname,String productrate) {
+    public ProductInfoModel(int productimage,String productname,String productrate) {
         this.productimage = productimage;
         this.productname = productname;
         this.productrate = productrate;
     }
 
-    public InfoData() {
+    public ProductInfoModel() {
     }
 
-    public String getProductimage() {
+    public int getProductimage() {
         return productimage;
     }
 
-    public void setProductimage(String productimage) {
+    public void setProductimage(int productimage) {
         this.productimage = productimage;
     }
 

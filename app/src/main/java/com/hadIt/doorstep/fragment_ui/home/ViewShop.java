@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.graphics.Color;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,19 +28,18 @@ import com.hadIt.doorstep.CheckoutActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.Repository.DataRepository;
 import com.hadIt.doorstep.ViewModa.DataViewModal;
+import com.hadIt.doorstep.cache.model.Admin;
 import com.hadIt.doorstep.cache.model.Data;
-import com.hadIt.doorstep.fragment_ui.Admin.AddgroceryAdapter;
-import com.hadIt.doorstep.fragment_ui.Admin.InfoData;
 import com.hadIt.doorstep.fragment_ui.Interfaces.Datatransfer;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ViewProduct extends AppCompatActivity implements Datatransfer {
+public class ViewShop extends AppCompatActivity implements Datatransfer {
     public RecyclerView recyclerView;
     FirebaseFirestore firestore;
-    ArrayList<InfoData> data;
+    ArrayList<Admin> data;
     Toolbar toolbar;
     private DataRepository dataRespository;
     TextView textCartItemCount;
@@ -71,26 +72,45 @@ public class ViewProduct extends AppCompatActivity implements Datatransfer {
         firestore=FirebaseFirestore.getInstance();
         data=new ArrayList<>();
         String str=getIntent().getStringExtra("grocery");
-        final AddgroceryAdapter modelAdapter=new AddgroceryAdapter(data,this,this);
+        final ShopDetailsAdapter modelAdapter=new ShopDetailsAdapter(data,this,this);
         GridLayoutManager gridLayoutManager=new GridLayoutManager(this,1,LinearLayoutManager.VERTICAL,false);
 
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(modelAdapter);
 
-        firestore.collection("Products").document("products").collection(str).get()
-              .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                  @Override
-                  public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                      if(task.isSuccessful()){
-                          for(DocumentSnapshot dpc:task.getResult().getDocuments()){
-                              InfoData productInfoModel=dpc.toObject(InfoData.class);
-                              data.add(productInfoModel);
-                             modelAdapter.notifyDataSetChanged();
+//        firestore.collection("AdminProducts").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection(str).get()
+//              .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                  @Override
+//                  public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                      if(task.isSuccessful()){
+//                          for(DocumentSnapshot dpc:task.getResult().getDocuments()){
+//                              ProductInfo productInfoModel=dpc.toObject(ProductInfo.class);
+//                              data.add(productInfoModel);
+//                              modelAdapter.notifyDataSetChanged();
+//                          }
+//                      }
+//                  }
+//              });
+        firestore.collection("admin").whereEqualTo("shoptype", str).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(DocumentSnapshot dpc:task.getResult().getDocuments()){
 
-                          }
-                      }
-                  }
-              });
+                        Admin productInfoModel=dpc.toObject(Admin.class);
+                        data.add(productInfoModel);
+                        modelAdapter.notifyDataSetChanged();}
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+
+
         dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
         dataViewModal.getAllData().observe(this, new Observer<List<Data>>() {
             @Override
