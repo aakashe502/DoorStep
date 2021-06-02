@@ -9,10 +9,8 @@
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:layout_marginBottom="5dp"
-
     app:cardMaxElevation="10dp"
-    app:cardPreventCornerOverlap="true"
-   >
+    app:cardPreventCornerOverlap="true">
 
     <!--
         In the above cardview widget
@@ -29,17 +27,14 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        >
+        android:layout_marginBottom="10dp" >
 
         <!--ImageVIew to display our Course Image-->
         <ImageView
             android:id="@+id/groceryimage"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
-
-            android:padding="15dp"
-             />
+            android:padding="15dp" />
 
         <!--Text View to display Course Name-->
         <TextView
@@ -53,8 +48,6 @@
             android:textColor="@color/test"
             android:textSize="10dp"
             android:textStyle="bold" />
-
-
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

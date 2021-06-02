@@ -45,19 +45,21 @@ public class AddGrocery extends AppCompatActivity {
         });
 
         model=new ArrayList<>();
-        model.add(new ModelClass("VEGETABLES",R.drawable.vegetable));
-        model.add(new ModelClass("GROCERY",R.drawable.bake));
-        model.add(new ModelClass("MEAT",R.drawable.meat));
-        model.add(new ModelClass("DESERT",R.drawable.desert));
+        model.add(new ModelClass("VEGETABLES & FRUITS", R.drawable.vegetable));
+        model.add(new ModelClass("GROCERY", R.drawable.bake));
+        model.add(new ModelClass("BEVERAGES",R.drawable.beverages));
+        model.add(new ModelClass("NON-VEG",R.drawable.meat));
+        model.add(new ModelClass("CAKES & MORE",R.drawable.desert));
         model.add(new ModelClass("HARVEST",R.drawable.harvest));
         model.add(new ModelClass("BREAD",R.drawable.bread));
         model.add(new ModelClass("CLEANING",R.drawable.cleaning));
-        model.add(new ModelClass("BEVERAGES",R.drawable.beverages));
-        model.add(new ModelClass("NON-VEG",R.drawable.non_veg));
+        model.add(new ModelClass("BOOKS & STATIONERY",R.drawable.books_and_stationary));
+        model.add(new ModelClass("NUTRITION & HEALTHCARE",R.drawable.nutrition_and_healthcare));
+        model.add(new ModelClass("HOME-MADE",R.drawable.home_made));
+        model.add(new ModelClass("DAIRY PRODUCTS",R.drawable.dairy_products));
 
         GroceryAdapter modelAdapter=new GroceryAdapter(model,this);
-        // LinearLayoutManager linearLayoutManager=new LinearLayoutManager(root.getContext(),LinearLayoutManager.VERTICAL,false);
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(this,3,LinearLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager=new GridLayoutManager(this,3, LinearLayoutManager.VERTICAL,false);
 
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(modelAdapter);

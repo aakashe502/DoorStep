@@ -38,7 +38,7 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
 
     ArrayList<InfoData> saveArrayList =new ArrayList<>();
 
-    public AddgroceryAdapter(ArrayList<InfoData> arrayList,Context context,Datatransfer datatransfer) {
+    public AddgroceryAdapter(ArrayList<InfoData> arrayList, Context context, Datatransfer datatransfer) {
         this.arrayList = arrayList;
         this.context = context;
         this.datatransfer = datatransfer;
@@ -56,8 +56,8 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder,final int position) {
-        holder.productname.setText(arrayList.get(position).getProductname().toString());
-        holder.productrate.setText(arrayList.get(position).getProductrate().toString());
+        holder.productname.setText(arrayList.get(position).getProductname());
+        holder.productrate.setText(arrayList.get(position).getProductrate());
         //holder.productimage.setImageResource(arrayList.get(position).getProductimage());
         Glide.with(context).load(arrayList.get(position).getProductimage()).into(holder.productimage);
         Data cart=new Data(arrayList.get(position).productimage,arrayList.get(position).productname,arrayList.get(position).productrate,(String.valueOf(addtocartArrayList.size())),holder.number.getText().toString());
@@ -112,6 +112,7 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
             }
         });
     }
+    
     @Override
     public int getItemCount() {
         return arrayList.size();
@@ -119,11 +120,9 @@ public class AddgroceryAdapter extends RecyclerView.Adapter<AddgroceryAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView productimage;
-        public TextView productname;
-        public TextView productrate,number;
-        public Button addbutton;
+        public TextView productname, productrate, number;
+        public Button addbutton, plus, minus;
         public LinearLayout linear;
-        public Button plus,minus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -41,9 +41,8 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.ItemView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent intent=new Intent(context,ViewCategory.class);
-                intent.putExtra("grocery",holder.groceryname.getText().toString());
+                Intent intent=new Intent(context, ViewCategory.class);
+                intent.putExtra("grocery", holder.groceryname.getText().toString());
                 context.startActivity(intent);
             }
         });
