@@ -10,6 +10,7 @@ public class Constants {
 
         products.put("GROCERY", new String[]{"Bakery and Bread",
                 "Rice and Pulses",
+                "Spices",
                 "Oils, Sauces, Salad Dressings, and Condiments",
                 "Cereals and Breakfast Foods",
                 "Soups and Canned Goods",
