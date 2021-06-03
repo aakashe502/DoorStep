@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,13 +36,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class ViewShop extends AppCompatActivity implements Datatransfer {
-    public RecyclerView recyclerView;
-    FirebaseFirestore firestore;
-    ArrayList<Admin> data;
-    Toolbar toolbar;
+    private RecyclerView recyclerView;
+    private FirebaseFirestore firebaseFirestore;
+    private ArrayList<Admin> data;
+    private Toolbar toolbar;
     private DataRepository dataRespository;
-    TextView textCartItemCount;
-    int mCartItemCount = 10;
+    private TextView textCartItemCount;
+    private int mCartItemCount = 10;
     private DataViewModal dataViewModal;
     public List<Data> arra=new ArrayList<>();
 
@@ -51,10 +50,11 @@ public class ViewShop extends AppCompatActivity implements Datatransfer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_product);
-       // getSupportActionBar().hide();
+
         recyclerView=findViewById(R.id.recyclerproduct);
         toolbar=findViewById(R.id.toolBar);
-        toolbar.setTitle("ViewProduct");
+        String shopType=getIntent().getStringExtra("shopType");
+        toolbar.setTitle(shopType + " SHOP'S");
 
         dataRespository=new DataRepository(getApplication());
         toolbar.setTitleTextColor(Color.WHITE);
@@ -69,47 +69,34 @@ public class ViewShop extends AppCompatActivity implements Datatransfer {
             }
         });
 
-        firestore=FirebaseFirestore.getInstance();
+        firebaseFirestore =FirebaseFirestore.getInstance();
         data=new ArrayList<>();
-        String str=getIntent().getStringExtra("grocery");
+
         final ShopDetailsAdapter modelAdapter=new ShopDetailsAdapter(data,this,this);
         GridLayoutManager gridLayoutManager=new GridLayoutManager(this,1,LinearLayoutManager.VERTICAL,false);
 
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(modelAdapter);
 
-//        firestore.collection("AdminProducts").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection(str).get()
-//              .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                  @Override
-//                  public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                      if(task.isSuccessful()){
-//                          for(DocumentSnapshot dpc:task.getResult().getDocuments()){
-//                              ProductInfo productInfoModel=dpc.toObject(ProductInfo.class);
-//                              data.add(productInfoModel);
-//                              modelAdapter.notifyDataSetChanged();
-//                          }
-//                      }
-//                  }
-//              });
-        firestore.collection("admin").whereEqualTo("shoptype", str).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(DocumentSnapshot dpc:task.getResult().getDocuments()){
-
-                        Admin productInfoModel=dpc.toObject(Admin.class);
-                        data.add(productInfoModel);
-                        modelAdapter.notifyDataSetChanged();}
+        firebaseFirestore.collection("admin").whereEqualTo("shoptype", shopType)
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        @Override
+        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            if(task.isSuccessful()){
+                for(DocumentSnapshot dpc:task.getResult().getDocuments()){
+                    Admin productInfoModel=dpc.toObject(Admin.class);
+                    data.add(productInfoModel);
+                    modelAdapter.notifyDataSetChanged();
                 }
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
 
-            }
-        });
-
-
+                }
+            });
 
         dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
         dataViewModal.getAllData().observe(this, new Observer<List<Data>>() {
@@ -123,6 +110,7 @@ public class ViewShop extends AppCompatActivity implements Datatransfer {
             textCartItemCount.setText(""+mCartItemCount);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.addcart, menu);
@@ -143,7 +131,7 @@ public class ViewShop extends AppCompatActivity implements Datatransfer {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_carta:
-              startActivity(new Intent(this, CheckoutActivity.class));
+                startActivity(new Intent(this, CheckoutActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -164,13 +152,11 @@ public class ViewShop extends AppCompatActivity implements Datatransfer {
                 }
             }
         }
-
     }
     @Override
     public void onSetValues(Data al) {
         dataRespository.insert(al);
         setLength();
-      //textCartItemCount.setText(""+(mCartItemCount+1));
     }
 
     private void setLength() {

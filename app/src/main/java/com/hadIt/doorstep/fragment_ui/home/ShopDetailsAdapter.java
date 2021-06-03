@@ -29,9 +29,6 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<ShopDetailsAdapter.
     public Datatransfer datatransfer;
     public ArrayList<Data> addtocartArrayList=new ArrayList<>();
 
-
-    //ArrayList<ProductInfo> saveArrayList =new ArrayList<>();
-
     public ShopDetailsAdapter(ArrayList<Admin> arrayList,Context context,Datatransfer datatransfer) {
         this.arrayList = arrayList;
         this.context = context;
@@ -42,15 +39,11 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<ShopDetailsAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_ui, parent, false);
-
-
-       //datatransfer.onSetValues(savearraylist);
         return new ViewHolder(view);
     }
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder,final int position) {
         holder.productname.setText(arrayList.get(position).shopName);
-       // holder.productrate.setText(arrayList.get(position).);
         holder.shopLocation.setText(arrayList.get(position).city);
 
         Glide.with(context).load(arrayList.get(position).profileImage).into(holder.productimage);
@@ -58,14 +51,12 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<ShopDetailsAdapter.
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(context, ViewShopProducts.class);
-                intent.putExtra("grocery",arrayList.get(position).uid);
+                intent.putExtra("shopUid",arrayList.get(position).uid);
                 intent.putExtra("shopType", arrayList.get(position).shoptype);
                 intent.putExtra("shopName", arrayList.get(position).shopName);
                 context.startActivity(intent);
             }
         });
-
-//
     }
     @Override
     public int getItemCount() {

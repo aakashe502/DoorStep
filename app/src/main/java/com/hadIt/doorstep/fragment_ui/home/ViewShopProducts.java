@@ -3,12 +3,17 @@ package com.hadIt.doorstep.fragment_ui.home;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,6 +22,7 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,15 +31,20 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.hadIt.doorstep.CheckoutActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.Repository.DataRepository;
+import com.hadIt.doorstep.ViewModa.DataViewModal;
 import com.hadIt.doorstep.cache.model.AdminProductModel;
+import com.hadIt.doorstep.cache.model.Data;
+import com.hadIt.doorstep.fragment_ui.Interfaces.Datatransfer;
 import com.hadIt.doorstep.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class ViewShopProducts extends AppCompatActivity {
+public class ViewShopProducts extends AppCompatActivity implements Datatransfer {
     RecyclerView recyclerView;
     public ArrayList<AdminProductModel> arrayList;
     public Button addprod;
@@ -43,13 +54,18 @@ public class ViewShopProducts extends AppCompatActivity {
     public Toolbar toolbar;
     private AdminAddapter modelAdapter;
 
+    private TextView textCartItemCount;
+    private int mCartItemCount = 10;
+    private DataViewModal dataViewModal;
+    public List<Data> arra=new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_category);
 
         dataRespository = new DataRepository(getApplication());
-        final String shopUid = getIntent().getStringExtra("grocery");
+        final String shopUid = getIntent().getStringExtra("shopUid");
         final String shopName = getIntent().getStringExtra("shopName");
         final String shopType = getIntent().getStringExtra("shopType");
 
@@ -86,6 +102,102 @@ public class ViewShopProducts extends AppCompatActivity {
                 setRecyclerView(radioButton, shopType, shopUid);
             }
         });
+
+        dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
+        dataViewModal.getAllData().observe(this, new Observer<List<Data>>() {
+            @Override
+            public void onChanged(List<Data> dataList) {
+                arra=dataList;
+                mCartItemCount=dataList.size();
+            }
+        });
+        if(textCartItemCount!=null){
+            textCartItemCount.setText(""+mCartItemCount);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.addcart, menu);
+        final MenuItem menuItem = menu.findItem(R.id.action_carta);
+
+        View actionView = menuItem.getActionView();
+        textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
+        setupBadge();
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItem);
+            }
+        });
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_carta:
+                startActivity(new Intent(this, CheckoutActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void setupBadge() {
+        if (textCartItemCount != null) {
+            textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
+
+            if (mCartItemCount == 0) {
+                if (textCartItemCount.getVisibility() != View.GONE) {
+                    textCartItemCount.setVisibility(View.GONE);
+                }
+            }
+            else {
+                textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
+                if (textCartItemCount.getVisibility() != View.VISIBLE) {
+                    textCartItemCount.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onSetValues(Data al) {
+        dataRespository.insert(al);
+        setLength();
+    }
+
+    private void setLength() {
+        if(dataViewModal==null)
+            dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
+        dataViewModal.getAllData().observe(this, new Observer<List<Data>>() {
+            @Override
+            public void onChanged(List<Data> dataList) {
+                mCartItemCount=dataList.size();
+            }
+        });
+        if(textCartItemCount!=null){
+            textCartItemCount.setText(""+(mCartItemCount));
+        }
+    }
+    @Override
+    public void onDelete(Data data) {
+        dataRespository.delete(data.getId());
+        if(textCartItemCount!=null){
+            textCartItemCount.setText(""+(mCartItemCount-1));
+        }
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
+        dataViewModal.getAllData().observe(this, new Observer<List<Data>>() {
+            @Override
+            public void onChanged(List<Data> dataList) {
+                mCartItemCount=dataList.size();
+            }
+        });
+        if(textCartItemCount!=null){
+            textCartItemCount.setText(""+mCartItemCount);
+        }
     }
 
     private void setRecyclerView(RadioButton radioButton, String shopType, String shopUid) {
