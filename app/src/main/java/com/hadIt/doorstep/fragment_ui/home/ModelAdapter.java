@@ -39,7 +39,6 @@ public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.ItemViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent=new Intent(context,ViewShop.class);
                 intent.putExtra("grocery",holder.groceryname.getText().toString());
                context.startActivity(intent);

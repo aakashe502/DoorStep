@@ -59,6 +59,8 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<ShopDetailsAdapter.
             public void onClick(View view) {
                 Intent intent=new Intent(context, ViewShopProducts.class);
                 intent.putExtra("grocery",arrayList.get(position).uid);
+                intent.putExtra("shopType", arrayList.get(position).shoptype);
+                intent.putExtra("shopName", arrayList.get(position).shopName);
                 context.startActivity(intent);
             }
         });

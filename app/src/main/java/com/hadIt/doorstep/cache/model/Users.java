@@ -1,11 +1,7 @@
 package com.hadIt.doorstep.cache.model;
 
 public class Users {
-    public String userName;
-    public String emailId;
-    public String password;
-    public String mobile;
-    public String profilePhoto;
+    public String userName, emailId, password, mobile, profilePhoto, uid;
 
     public String getUid() {
         return uid;
@@ -14,8 +10,6 @@ public class Users {
     public void setUid(String uid) {
         this.uid = uid;
     }
-
-    public String uid;
 
     public String getUserName() {
         return userName;
@@ -55,6 +49,18 @@ public class Users {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public Users(String userName, String emailId, String password, String mobile, String profilePhoto, String uid) {
+        this.userName = userName;
+        this.emailId = emailId;
+        this.password = password;
+        this.mobile = mobile;
+        this.profilePhoto = profilePhoto;
+        this.uid = uid;
+    }
+
+    public Users() {
     }
 
     @Override
