@@ -24,7 +24,4 @@ public interface DataDao {
 
     @Query("DELETE FROM data WHERE id=:id")
     void delete(String id);
-
-
-
 }
