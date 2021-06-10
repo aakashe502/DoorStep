@@ -28,7 +28,7 @@ public class DataViewModal extends AndroidViewModel {
         dataRespository.insert(dataList);
     }
 
-    public LiveData<List<Data>> getAllData()
+    public LiveData<List<Data>> getCheckoutdata()
     {
         return getAllData;
     }

@@ -15,9 +15,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -26,8 +24,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -52,7 +48,7 @@ public class ViewShopProducts extends AppCompatActivity implements Datatransfer 
     private DataRepository dataRespository;
     private GridLayout gridLayout;
     public Toolbar toolbar;
-    private AdminAddapter modelAdapter;
+    private ShopProductAdapter modelAdapter;
 
     private TextView textCartItemCount;
     private int mCartItemCount = 10;
@@ -91,7 +87,7 @@ public class ViewShopProducts extends AppCompatActivity implements Datatransfer 
         recyclerView = findViewById(R.id.productrecycler);
         arrayList = new ArrayList<>();
         firebaseFirestore = FirebaseFirestore.getInstance();
-        modelAdapter = new AdminAddapter(arrayList, this);
+        modelAdapter = new ShopProductAdapter(arrayList, this, this);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -104,7 +100,7 @@ public class ViewShopProducts extends AppCompatActivity implements Datatransfer 
         });
 
         dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
-        dataViewModal.getAllData().observe(this, new Observer<List<Data>>() {
+        dataViewModal.getCheckoutdata().observe(this, new Observer<List<Data>>() {
             @Override
             public void onChanged(List<Data> dataList) {
                 arra=dataList;
@@ -161,6 +157,9 @@ public class ViewShopProducts extends AppCompatActivity implements Datatransfer 
 
     @Override
     public void onSetValues(Data al) {
+
+//        for(Data d:al)
+//            dataRespository.insert(d);
         dataRespository.insert(al);
         setLength();
     }
@@ -168,7 +167,7 @@ public class ViewShopProducts extends AppCompatActivity implements Datatransfer 
     private void setLength() {
         if(dataViewModal==null)
             dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
-        dataViewModal.getAllData().observe(this, new Observer<List<Data>>() {
+        dataViewModal.getCheckoutdata().observe(this, new Observer<List<Data>>() {
             @Override
             public void onChanged(List<Data> dataList) {
                 mCartItemCount=dataList.size();
@@ -189,7 +188,7 @@ public class ViewShopProducts extends AppCompatActivity implements Datatransfer 
     protected void onStart() {
         super.onStart();
         dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
-        dataViewModal.getAllData().observe(this, new Observer<List<Data>>() {
+        dataViewModal.getCheckoutdata().observe(this, new Observer<List<Data>>() {
             @Override
             public void onChanged(List<Data> dataList) {
                 mCartItemCount=dataList.size();

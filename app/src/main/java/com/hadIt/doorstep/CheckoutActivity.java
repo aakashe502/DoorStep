@@ -39,9 +39,8 @@ import com.hadIt.doorstep.cache.model.OrderStatus;
 import com.hadIt.doorstep.cache.model.OrderDetails;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
-import com.hadIt.doorstep.login_signup.LoginActivity;
+import com.hadIt.doorstep.fragment_ui.Interfaces.Datatransfer;
 import com.hadIt.doorstep.order_details.OrderDetailsActivity;
-import com.hadIt.doorstep.progressBar.CustomProgressBar;
 import com.hadIt.doorstep.utils.Constants;
 import org.json.JSONObject;
 
@@ -55,7 +54,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class CheckoutActivity extends AppCompatActivity  {
+public class CheckoutActivity extends AppCompatActivity implements Datatransfer {
     private RecyclerView recyclerView;
     private List<Data> dataList;
     private DataViewModal dataViewModal;
@@ -106,14 +105,14 @@ public class CheckoutActivity extends AppCompatActivity  {
 
         dataAdapter = new DataAdapter(this, getDataList);
 
-        dataViewModal.getAllData().observe(this, new Observer<List<Data>>() {
+        dataViewModal.getCheckoutdata().observe(this, new Observer<List<Data>>() {
             @Override
             public void onChanged(List<Data> dataList) {
                 length=dataList.size();
                 dataAdapter.getAllDatas(dataList);
                 for(Data ds:dataList) {
                     Log.i("appbar","name="+ds.getName()+ " image="+ds.getImage()+" rate"+ds.getRate()+" quantity="+ds.getQuantity()+" id"+ds.getId());
-                    sum += Integer.parseInt(ds.getQuantity())*Integer.parseInt(ds.getRate());
+//                    sum += Integer.parseInt(ds.getQuantity())*Integer.parseInt(ds.getRate());
                 }
                 recyclerView.setAdapter(dataAdapter);
                 checkout.setText("Proceed To Checkout = " + "\u20B9" + sum);
@@ -248,4 +247,13 @@ public class CheckoutActivity extends AppCompatActivity  {
             });
     }
 
+    @Override
+    public void onSetValues(Data al) {
+        dataViewModal.insert(al);
+    }
+
+    @Override
+    public void onDelete(Data data) {
+
+    }
 }

@@ -9,10 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.graphics.Color;
@@ -23,7 +20,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.hadIt.doorstep.CheckoutActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.Repository.DataRepository;
 import com.hadIt.doorstep.ViewModa.DataViewModal;
@@ -99,7 +95,7 @@ public class ViewShop extends AppCompatActivity implements Datatransfer {
             });
 
         dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
-        dataViewModal.getAllData().observe(this, new Observer<List<Data>>() {
+        dataViewModal.getCheckoutdata().observe(this, new Observer<List<Data>>() {
             @Override
             public void onChanged(List<Data> dataList) {
                 arra=dataList;
@@ -111,58 +107,59 @@ public class ViewShop extends AppCompatActivity implements Datatransfer {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.addcart, menu);
-        final MenuItem menuItem = menu.findItem(R.id.action_carta);
-
-        View actionView = menuItem.getActionView();
-        textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
-        setupBadge();
-        actionView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onOptionsItemSelected(menuItem);
-            }
-        });
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_carta:
-                startActivity(new Intent(this, CheckoutActivity.class));
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    private void setupBadge() {
-        if (textCartItemCount != null) {
-            textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
-
-            if (mCartItemCount == 0) {
-                if (textCartItemCount.getVisibility() != View.GONE) {
-                    textCartItemCount.setVisibility(View.GONE);
-                }
-            }
-            else {
-                textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
-                if (textCartItemCount.getVisibility() != View.VISIBLE) {
-                    textCartItemCount.setVisibility(View.VISIBLE);
-                }
-            }
-        }
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.addcart, menu);
+//        final MenuItem menuItem = menu.findItem(R.id.action_carta);
+//
+//        View actionView = menuItem.getActionView();
+//        textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
+//        setupBadge();
+//        actionView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onOptionsItemSelected(menuItem);
+//            }
+//        });
+//        return true;
+//    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId()){
+//            case R.id.action_carta:
+//                startActivity(new Intent(this, CheckoutActivity.class));
+//                break;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+//    private void setupBadge() {
+//        if (textCartItemCount != null) {
+//            textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
+//
+//            if (mCartItemCount == 0) {
+//                if (textCartItemCount.getVisibility() != View.GONE) {
+//                    textCartItemCount.setVisibility(View.GONE);
+//                }
+//            }
+//            else {
+//                textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
+//                if (textCartItemCount.getVisibility() != View.VISIBLE) {
+//                    textCartItemCount.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        }
+//    }
     @Override
     public void onSetValues(Data al) {
-        dataRespository.insert(al);
+//        for(Data d:al)
+//        dataRespository.insert(d);
         setLength();
     }
 
     private void setLength() {
         if(dataViewModal==null)
         dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
-        dataViewModal.getAllData().observe(this, new Observer<List<Data>>() {
+        dataViewModal.getCheckoutdata().observe(this, new Observer<List<Data>>() {
             @Override
             public void onChanged(List<Data> dataList) {
                 mCartItemCount=dataList.size();
@@ -183,7 +180,7 @@ public class ViewShop extends AppCompatActivity implements Datatransfer {
     protected void onStart() {
         super.onStart();
         dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
-        dataViewModal.getAllData().observe(this, new Observer<List<Data>>() {
+        dataViewModal.getCheckoutdata().observe(this, new Observer<List<Data>>() {
             @Override
             public void onChanged(List<Data> dataList) {
                 mCartItemCount=dataList.size();

@@ -11,6 +11,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/profile_image_add_button"
             android:orientation="horizontal">
 
             <ImageView
@@ -21,16 +22,15 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
                 android:background="@drawable/border"
                 android:id="@+id/cardSearch"
                 android:drawableStart="@drawable/search"
                 android:hint="Search your Grocery"
                 android:textColorHint="@color/colorText"
                 android:layout_gravity="center_vertical"
-                android:textSize="15sp" />
+                android:textSize="25dp" />
 
         </LinearLayout>
     </RelativeLayout>
