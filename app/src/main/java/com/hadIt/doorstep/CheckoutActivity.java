@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -37,9 +38,9 @@ import com.hadIt.doorstep.cache.model.Data;
 
 import com.hadIt.doorstep.cache.model.OrderStatus;
 import com.hadIt.doorstep.cache.model.OrderDetails;
+import com.hadIt.doorstep.cache.model.Products;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
-import com.hadIt.doorstep.fragment_ui.Interfaces.Datatransfer;
 import com.hadIt.doorstep.order_details.OrderDetailsActivity;
 import com.hadIt.doorstep.utils.Constants;
 import org.json.JSONObject;
@@ -54,10 +55,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class CheckoutActivity extends AppCompatActivity implements Datatransfer {
+public class CheckoutActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<Data> dataList;
     private DataViewModal dataViewModal;
+    private List<Products> productsList;
 
     private DataAdapter dataAdapter;
     private List<Data> getDataList;
@@ -89,6 +91,7 @@ public class CheckoutActivity extends AppCompatActivity implements Datatransfer 
         recyclerView=findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         getDataList=new ArrayList<>();
+        productsList = new ArrayList<>();
         dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
         checkout=findViewById(R.id.checkout);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -108,11 +111,12 @@ public class CheckoutActivity extends AppCompatActivity implements Datatransfer 
         dataViewModal.getCheckoutdata().observe(this, new Observer<List<Data>>() {
             @Override
             public void onChanged(List<Data> dataList) {
-                length=dataList.size();
                 dataAdapter.getAllDatas(dataList);
                 for(Data ds:dataList) {
                     Log.i("appbar","name="+ds.getName()+ " image="+ds.getImage()+" rate"+ds.getRate()+" quantity="+ds.getQuantity()+" id"+ds.getId());
-//                    sum += Integer.parseInt(ds.getQuantity())*Integer.parseInt(ds.getRate());
+                    sum += Integer.parseInt(ds.getQuantity())*Integer.parseInt(ds.getRate());
+                    length += Integer.parseInt(ds.getQuantity());
+                    getDataList.add(ds);
                 }
                 recyclerView.setAdapter(dataAdapter);
                 checkout.setText("Proceed To Checkout = " + "\u20B9" + sum);
@@ -194,6 +198,7 @@ public class CheckoutActivity extends AppCompatActivity implements Datatransfer 
                 //after sending fcm start order details activity
                 Intent intent = new Intent(CheckoutActivity.this, OrderDetailsActivity.class);
                 intent.putExtra("orderDetailsObj", orders);
+                intent.putExtra("productItems", new Gson().toJson(productsList));
                 startActivity(intent);
             }
         }, new Response.ErrorListener() {
@@ -202,6 +207,7 @@ public class CheckoutActivity extends AppCompatActivity implements Datatransfer 
                 //if failed sending fcm, still start order details activity
                 Intent intent = new Intent(CheckoutActivity.this, OrderDetailsActivity.class);
                 intent.putExtra("orderDetailsObj", orders);
+                intent.putExtra("productItems", new Gson().toJson(productsList));
                 startActivity(intent);
             }
         }){
@@ -229,6 +235,31 @@ public class CheckoutActivity extends AppCompatActivity implements Datatransfer 
                 "8770771619", "sellerLatitude", "sellerLongitude", "sellerCity", "selletPincode", "sellerAreaDetails", "sellerLandmark", sum, length
         );
 
+        dataViewModal.getCheckoutdata().observe(this, new Observer<List<Data>>() {
+            @Override
+            public void onChanged(List<Data> dataList) {
+                for(Data ds:dataList) {
+                    productsList.add(new Products(ds.getId(), ds.getName(), ds.getRate(), ds.getQuantity(), ds.getImage()));
+                    firebaseFirestore.collection("userOrders").document(orderId).collection("productItems").document(ds.getId()).set(ds)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(CheckoutActivity.this,"Order Address Saved",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.i(Tag_Address, "Order Address Failed...");
+                                Toast.makeText(CheckoutActivity.this,"Order Address Failed",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                }
+            }
+        });
+
         firebaseFirestore.collection("userOrders").document(orderId).set(orders)
             .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -245,15 +276,5 @@ public class CheckoutActivity extends AppCompatActivity implements Datatransfer 
                     Toast.makeText(CheckoutActivity.this,"Order Address Failed",Toast.LENGTH_SHORT).show();
                 }
             });
-    }
-
-    @Override
-    public void onSetValues(Data al) {
-        dataViewModal.insert(al);
-    }
-
-    @Override
-    public void onDelete(Data data) {
-
     }
 }

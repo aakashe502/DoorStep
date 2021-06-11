@@ -25,13 +25,13 @@ import com.hadIt.doorstep.Repository.DataRepository;
 import com.hadIt.doorstep.ViewModa.DataViewModal;
 import com.hadIt.doorstep.cache.model.Admin;
 import com.hadIt.doorstep.cache.model.Data;
-import com.hadIt.doorstep.fragment_ui.Interfaces.Datatransfer;
+import com.hadIt.doorstep.fragment_ui.Interfaces.DataTransfer;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ViewShop extends AppCompatActivity implements Datatransfer {
+public class ViewShop extends AppCompatActivity implements DataTransfer {
     private RecyclerView recyclerView;
     private FirebaseFirestore firebaseFirestore;
     private ArrayList<Admin> data;
@@ -107,50 +107,8 @@ public class ViewShop extends AppCompatActivity implements Datatransfer {
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.addcart, menu);
-//        final MenuItem menuItem = menu.findItem(R.id.action_carta);
-//
-//        View actionView = menuItem.getActionView();
-//        textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
-//        setupBadge();
-//        actionView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onOptionsItemSelected(menuItem);
-//            }
-//        });
-//        return true;
-//    }
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()){
-//            case R.id.action_carta:
-//                startActivity(new Intent(this, CheckoutActivity.class));
-//                break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-//    private void setupBadge() {
-//        if (textCartItemCount != null) {
-//            textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
-//
-//            if (mCartItemCount == 0) {
-//                if (textCartItemCount.getVisibility() != View.GONE) {
-//                    textCartItemCount.setVisibility(View.GONE);
-//                }
-//            }
-//            else {
-//                textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
-//                if (textCartItemCount.getVisibility() != View.VISIBLE) {
-//                    textCartItemCount.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        }
-//    }
     @Override
-    public void onSetValues(Data al) {
+    public void onSetValues(ArrayList<Data> al) {
 //        for(Data d:al)
 //        dataRespository.insert(d);
         setLength();
@@ -169,6 +127,7 @@ public class ViewShop extends AppCompatActivity implements Datatransfer {
             textCartItemCount.setText(""+(mCartItemCount));
         }
     }
+
     @Override
     public void onDelete(Data data) {
         dataRespository.delete(data.getId());

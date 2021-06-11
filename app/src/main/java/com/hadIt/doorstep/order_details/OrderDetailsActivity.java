@@ -2,6 +2,7 @@ package com.hadIt.doorstep.order_details;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,19 +12,32 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.common.reflect.TypeToken;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
+import com.hadIt.doorstep.Adapter.OrderDetailsProductAdapter;
 import com.hadIt.doorstep.R;
+import com.hadIt.doorstep.cache.model.Data;
 import com.hadIt.doorstep.cache.model.OrderDetails;
 import com.hadIt.doorstep.cache.model.OrderStatus;
+import com.hadIt.doorstep.cache.model.Products;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderDetailsActivity extends AppCompatActivity {
 
     private ImageButton backBtn;
     private TextView orderIdTv, dateTv, orderStatusTv, shopEmailTv, shopPhoneTv, totalItemsTv, amountTv, deliveryAddressTv;
     private OrderDetails orderDetails;
+    private RecyclerView itemsRv;
+    private List<Products> getProductsList;
+    private OrderDetailsProductAdapter orderDetailsProductAdapter;
 
     private FirebaseFirestore firebaseFirestore;
     private PaperDb paperDb;
@@ -49,8 +63,15 @@ public class OrderDetailsActivity extends AppCompatActivity {
         totalItemsTv = findViewById(R.id.totalItemsTv);
         amountTv = findViewById(R.id.amountTv);
         deliveryAddressTv = findViewById(R.id.deliveryAddressTv);
+        itemsRv = findViewById(R.id.itemsRv);
 
         orderDetails = (OrderDetails) getIntent().getSerializableExtra("orderDetailsObj");
+
+        Gson gson = new Gson();
+        Type listType = new TypeToken<ArrayList<Products>>(){}.getType();
+        getProductsList = gson.fromJson(getIntent().getStringExtra("productItems"), listType);
+
+        orderDetailsProductAdapter = new OrderDetailsProductAdapter(this, getProductsList);
 
         orderIdTv.setText(String.valueOf(orderDetails.orderId));
         dateTv.setText(String.valueOf(orderDetails.orderDate));
@@ -75,7 +96,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
         shopEmailTv.setText(String.valueOf(orderDetails.sellerEmail));
         shopPhoneTv.setText(String.valueOf(orderDetails.sellerMobileNumber));
         totalItemsTv.setText(String.valueOf(orderDetails.itemCount));
-        amountTv.setText("\u20B9" + String.valueOf(orderDetails.totalAmount));
+        amountTv.setText("\u20B9" + orderDetails.totalAmount);
         deliveryAddressTv.setText(orderDetails.usersAddress());
+        itemsRv.setAdapter(orderDetailsProductAdapter);
     }
 }

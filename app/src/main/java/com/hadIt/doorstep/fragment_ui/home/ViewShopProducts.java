@@ -33,14 +33,14 @@ import com.hadIt.doorstep.Repository.DataRepository;
 import com.hadIt.doorstep.ViewModa.DataViewModal;
 import com.hadIt.doorstep.cache.model.AdminProductModel;
 import com.hadIt.doorstep.cache.model.Data;
-import com.hadIt.doorstep.fragment_ui.Interfaces.Datatransfer;
+import com.hadIt.doorstep.fragment_ui.Interfaces.DataTransfer;
 import com.hadIt.doorstep.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ViewShopProducts extends AppCompatActivity implements Datatransfer {
+public class ViewShopProducts extends AppCompatActivity implements DataTransfer {
     RecyclerView recyclerView;
     public ArrayList<AdminProductModel> arrayList;
     public Button addprod;
@@ -53,7 +53,7 @@ public class ViewShopProducts extends AppCompatActivity implements Datatransfer 
     private TextView textCartItemCount;
     private int mCartItemCount = 10;
     private DataViewModal dataViewModal;
-    public List<Data> arra=new ArrayList<>();
+    public List<Data> array = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,13 +103,16 @@ public class ViewShopProducts extends AppCompatActivity implements Datatransfer 
         dataViewModal.getCheckoutdata().observe(this, new Observer<List<Data>>() {
             @Override
             public void onChanged(List<Data> dataList) {
-                arra=dataList;
-                mCartItemCount=dataList.size();
+                array =dataList;
+                int total = 0;
+                for(Data data: dataList)
+                    total += Integer.parseInt(data.getQuantity());
+                mCartItemCount=total;
+                if(textCartItemCount!=null){
+                    textCartItemCount.setText(""+mCartItemCount);
+                }
             }
         });
-        if(textCartItemCount!=null){
-            textCartItemCount.setText(""+mCartItemCount);
-        }
     }
 
     @Override
@@ -141,48 +144,44 @@ public class ViewShopProducts extends AppCompatActivity implements Datatransfer 
         if (textCartItemCount != null) {
             textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
 
-            if (mCartItemCount == 0) {
-                if (textCartItemCount.getVisibility() != View.GONE) {
-                    textCartItemCount.setVisibility(View.GONE);
-                }
-            }
-            else {
-                textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
-                if (textCartItemCount.getVisibility() != View.VISIBLE) {
-                    textCartItemCount.setVisibility(View.VISIBLE);
-                }
+            if (textCartItemCount.getVisibility() != View.VISIBLE) {
+                textCartItemCount.setVisibility(View.VISIBLE);
             }
         }
     }
 
     @Override
-    public void onSetValues(Data al) {
-
-//        for(Data d:al)
-//            dataRespository.insert(d);
-        dataRespository.insert(al);
+    public void onSetValues(ArrayList<Data> dataArrayList) {
+        for(Data data: dataArrayList)
+            dataRespository.insert(data);
         setLength();
     }
 
     private void setLength() {
         if(dataViewModal==null)
-            dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
+            dataViewModal = new ViewModelProvider(this).get(DataViewModal.class);
         dataViewModal.getCheckoutdata().observe(this, new Observer<List<Data>>() {
             @Override
             public void onChanged(List<Data> dataList) {
-                mCartItemCount=dataList.size();
+                int total = 0;
+                for(Data data: dataList)
+                    total += Integer.parseInt(data.getQuantity());
+                mCartItemCount=total;
+                if(textCartItemCount!=null)
+                    textCartItemCount.setText(""+(mCartItemCount));
             }
         });
-        if(textCartItemCount!=null){
-            textCartItemCount.setText(""+(mCartItemCount));
-        }
     }
+
     @Override
     public void onDelete(Data data) {
-        dataRespository.delete(data.getId());
-        if(textCartItemCount!=null){
-            textCartItemCount.setText(""+(mCartItemCount-1));
+        if(Integer.parseInt(data.getQuantity()) >= 1){
+            dataRespository.insert(data);
         }
+        else{
+            dataRespository.delete(data.getId());
+        }
+        setLength();
     }
     @Override
     protected void onStart() {
@@ -191,12 +190,14 @@ public class ViewShopProducts extends AppCompatActivity implements Datatransfer 
         dataViewModal.getCheckoutdata().observe(this, new Observer<List<Data>>() {
             @Override
             public void onChanged(List<Data> dataList) {
-                mCartItemCount=dataList.size();
+                int total = 0;
+                for(Data data: dataList)
+                    total += Integer.parseInt(data.getQuantity());
+                mCartItemCount=total;
+                if(textCartItemCount!=null)
+                    textCartItemCount.setText(""+mCartItemCount);
             }
         });
-        if(textCartItemCount!=null){
-            textCartItemCount.setText(""+mCartItemCount);
-        }
     }
 
     private void setRecyclerView(RadioButton radioButton, String shopType, String shopUid) {
