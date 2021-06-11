@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,7 +16,7 @@ import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.Admin;
 import com.hadIt.doorstep.cache.model.Data;
 
-import com.hadIt.doorstep.fragment_ui.Interfaces.Datatransfer;
+import com.hadIt.doorstep.fragment_ui.Interfaces.DataTransfer;
 
 import java.util.ArrayList;
 
@@ -26,10 +24,10 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<ShopDetailsAdapter.
 
     ArrayList<Admin> arrayList;
     Context context;
-    public Datatransfer datatransfer;
+    public DataTransfer datatransfer;
     public ArrayList<Data> addtocartArrayList=new ArrayList<>();
 
-    public ShopDetailsAdapter(ArrayList<Admin> arrayList,Context context,Datatransfer datatransfer) {
+    public ShopDetailsAdapter(ArrayList<Admin> arrayList, Context context, DataTransfer datatransfer) {
         this.arrayList = arrayList;
         this.context = context;
         this.datatransfer = datatransfer;

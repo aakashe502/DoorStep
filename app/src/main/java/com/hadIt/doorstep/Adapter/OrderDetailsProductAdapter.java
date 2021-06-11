@@ -5,30 +5,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import androidx.annotation.NonNull;
-
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
-
 import com.bumptech.glide.Glide;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.cache.model.Data;
+import com.hadIt.doorstep.cache.model.Products;
 
 import java.util.List;
 
-public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder> {
-    private static final String TAG = "main";
-    private Context context;
-    private List<Data> dataList;
+public class OrderDetailsProductAdapter extends RecyclerView.Adapter<OrderDetailsProductAdapter.DataViewHolder> {
+    private static final String TAG = "OrderDetailsProductAdapter";
 
-    public DataAdapter(Context context, List<Data> dataList) {
+    private Context context;
+    private List<Products> dataList;
+
+    public OrderDetailsProductAdapter(Context context, List<Products> dataList) {
         this.context = context;
         this.dataList = dataList;
     }
@@ -42,7 +36,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final DataViewHolder holder, final int position) {
-        final Data data = dataList.get(position);
+        final Products data = dataList.get(position);
         holder.name.setText(data.getName());
         holder.ruppee.setText(data.getRate());
         holder.number.setText(data.getQuantity());
@@ -54,7 +48,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
         return dataList.size();
     }
 
-    public void getAllDatas(List<Data> dataList) {
+    public void getAllDatas(List<Products> dataList) {
         this.dataList = dataList;
     }
 

@@ -7,24 +7,41 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 import com.hadIt.doorstep.CheckoutActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.AddressModelClass;
 import com.hadIt.doorstep.cache.model.OrderDetails;
 import com.hadIt.doorstep.cache.model.OrderStatus;
+import com.hadIt.doorstep.cache.model.Products;
 import com.hadIt.doorstep.order_details.OrderDetailsActivity;
+import com.hadIt.doorstep.order_details.OrdersActivity;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Thread.sleep;
 
 public class PickOrderAdapter extends RecyclerView.Adapter<PickOrderAdapter.ViewHolder> {
 
     private Context context;
     private List<OrderDetails> dataList;
+    private List<Products> productsList;
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseAuth firebaseAuth;
 
     public PickOrderAdapter(Context context, List<OrderDetails> dataList) {
         this.context = context;
@@ -58,16 +75,38 @@ public class PickOrderAdapter extends RecyclerView.Adapter<PickOrderAdapter.View
         holder.order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = getIntent(orderDetails);
-                context.startActivity(intent);
+                productsList = new ArrayList<>();
+                getProductList(orderDetails.orderId, orderDetails);
             }
         });
     }
 
-    private Intent getIntent(OrderDetails orderDetails) {
-        Intent intent = new Intent(context, OrderDetailsActivity.class);
-        intent.putExtra("orderDetailsObj", orderDetails);
-        return intent;
+    private void getProductList(String orderId, final OrderDetails orderDetails) {
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        firebaseFirestore.collection("userOrders").document(orderId).collection("productItems")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot dpc:task.getResult().getDocuments()){
+                                Products products = dpc.toObject(Products.class);
+                                productsList.add(products);
+                            }
+                            Intent intent = new Intent(context, OrderDetailsActivity.class);
+                            intent.putExtra("orderDetailsObj", orderDetails);
+                            intent.putExtra("productItems", new Gson().toJson(productsList));
+                            context.startActivity(intent);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, ""+e.getStackTrace(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
