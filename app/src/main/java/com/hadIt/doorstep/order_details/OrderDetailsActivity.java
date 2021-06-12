@@ -1,6 +1,5 @@
 package com.hadIt.doorstep.order_details;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,22 +7,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.common.reflect.TypeToken;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
 import com.hadIt.doorstep.Adapter.OrderDetailsProductAdapter;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.cache.model.Data;
 import com.hadIt.doorstep.cache.model.OrderDetails;
 import com.hadIt.doorstep.cache.model.OrderStatus;
 import com.hadIt.doorstep.cache.model.Products;
-import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
 
 import java.lang.reflect.Type;

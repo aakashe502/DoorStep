@@ -21,11 +21,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.Repository.DataRepository;
-import com.hadIt.doorstep.ViewModa.DataViewModal;
+import com.hadIt.doorstep.roomDatabase.orders.DataRepository;
+import com.hadIt.doorstep.roomDatabase.orders.DataViewModal;
 import com.hadIt.doorstep.cache.model.Admin;
-import com.hadIt.doorstep.cache.model.Data;
-import com.hadIt.doorstep.fragment_ui.Interfaces.DataTransfer;
+import com.hadIt.doorstep.roomDatabase.orders.model.Data;
+import com.hadIt.doorstep.roomDatabase.orders.DataTransfer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +108,7 @@ public class ViewShop extends AppCompatActivity implements DataTransfer {
     }
 
     @Override
-    public void onSetValues(ArrayList<Data> al) {
+    public void onSetValues(Data al) {
 //        for(Data d:al)
 //        dataRespository.insert(d);
         setLength();

@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.Admin;
-import com.hadIt.doorstep.cache.model.Data;
+import com.hadIt.doorstep.roomDatabase.orders.model.Data;
 
-import com.hadIt.doorstep.fragment_ui.Interfaces.DataTransfer;
+import com.hadIt.doorstep.roomDatabase.orders.DataTransfer;
 
 import java.util.ArrayList;
 

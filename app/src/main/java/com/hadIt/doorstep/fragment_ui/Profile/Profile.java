@@ -17,7 +17,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadIt.doorstep.address.SelectAddress;
 import com.hadIt.doorstep.login_signup.LoginActivity;
 import com.hadIt.doorstep.order_details.OrdersActivity;
-import com.hadIt.doorstep.profile.EditProfileActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;

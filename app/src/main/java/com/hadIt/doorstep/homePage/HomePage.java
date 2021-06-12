@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.hadIt.doorstep.CheckoutActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.OrderDetails;
@@ -19,6 +23,7 @@ import com.hadIt.doorstep.order_details.OrdersActivity;
 import com.hadIt.doorstep.search.SearchActivity;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
+import com.hadIt.doorstep.utils.Constants;
 
 
 import androidx.annotation.NonNull;
@@ -68,6 +73,7 @@ public class HomePage extends AppCompatActivity {
         drawerLayout.close();
         toggle.syncState();
         navigationView = findViewById(R.id.nav_get);
+        subscribeToTopic();
 
         header = navigationView.getHeaderView(0);
         profilePhoto = header.findViewById(R.id.admin_profile_pic);
@@ -116,6 +122,23 @@ public class HomePage extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public void subscribeToTopic(){
+        FirebaseMessaging.getInstance().subscribeToTopic(Constants.FCM_TOPIC)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(HomePage.this, "Enabled Notification", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //failed to subscribe
+                        Toast.makeText(HomePage.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public void setProfilePhoto(String uri){

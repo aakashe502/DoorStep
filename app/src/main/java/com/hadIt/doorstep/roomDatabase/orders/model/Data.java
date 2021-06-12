@@ -1,4 +1,4 @@
-package com.hadIt.doorstep.cache.model;
+package com.hadIt.doorstep.roomDatabase.orders.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -24,13 +24,16 @@ public class Data {
     private String image;
     @ColumnInfo(name = "quantity")
     private String quantity;
+    @ColumnInfo(name = "shopUid")
+    private String shopUid;
 
-    public Data(String id, String name, String rate, String image, String quantity) {
+    public Data(String id, String name, String rate, String image, String quantity, String shopUid) {
         this.id = id;
         this.name = name;
         this.rate = rate;
         this.image = image;
         this.quantity = quantity;
+        this.shopUid = shopUid;
     }
 
     public String getId() {
@@ -71,5 +74,13 @@ public class Data {
 
     public void setQuantity(String quantity) {
         this.quantity = quantity;
+    }
+
+    public String getShopUid() {
+        return shopUid;
+    }
+
+    public void setShopUid(String shopUid) {
+        this.shopUid = shopUid;
     }
 }
