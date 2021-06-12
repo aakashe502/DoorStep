@@ -41,21 +41,6 @@ public class DataRepository {
         new DeleteAsynTask(dataDatabase).execute(id);
     }
 
-    public void getUid(){new GetUidAsyncTask(dataDatabase).execute();}
-
-    static class GetUidAsyncTask extends AsyncTask<Data, Void, Data>
-    {
-        GetUidAsyncTask(DataDatabase dataDatabase)
-        {
-            shopUid = dataDatabase.dataDao().getShopUid();
-        }
-
-        @Override
-        protected Data doInBackground(Data... data) {
-            return null;
-        }
-    }
-
 
     static class InsertAsynTask extends AsyncTask<Data,Void,Void>
     {

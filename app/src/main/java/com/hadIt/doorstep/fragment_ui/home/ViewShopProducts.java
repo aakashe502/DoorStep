@@ -166,7 +166,9 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer 
                         .dataDao()
                         .getShopUid();
 
-                if(shopUid.equals(data.getShopUid()))
+                if(shopUid == null)
+                    dataRespository.insert(data);
+                else if(shopUid.equals(data.getShopUid()))
                     dataRespository.insert(data);
                 else{
                     dataRespository.deleteAll();
