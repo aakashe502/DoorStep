@@ -184,6 +184,7 @@ public class CheckoutActivity extends AppCompatActivity {
             //what to send
             notificationBodyJo.put("notificationType", NOTIFICATION_TYPE);
             notificationBodyJo.put("orderDetailsObj", new Gson().toJson(orders));
+            notificationBodyJo.put("productItems", new Gson().toJson(productsList));
             notificationBodyJo.put("notificationTitle", NOTIFICATION_TITLE);
             notificationBodyJo.put("notificationMessage", NOTIFICATION_MESSAGE);
             //where to send

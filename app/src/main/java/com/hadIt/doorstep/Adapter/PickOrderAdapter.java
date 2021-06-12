@@ -41,7 +41,6 @@ public class PickOrderAdapter extends RecyclerView.Adapter<PickOrderAdapter.View
     private List<OrderDetails> dataList;
     private List<Products> productsList;
     private FirebaseFirestore firebaseFirestore;
-    private FirebaseAuth firebaseAuth;
 
     public PickOrderAdapter(Context context, List<OrderDetails> dataList) {
         this.context = context;
