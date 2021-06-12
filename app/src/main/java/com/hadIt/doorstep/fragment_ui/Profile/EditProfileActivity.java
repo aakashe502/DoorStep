@@ -1,4 +1,4 @@
-package com.hadIt.doorstep.profile;
+package com.hadIt.doorstep.fragment_ui.Profile;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.CpuUsageInfo;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -28,7 +27,6 @@ import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.homePage.HomePage;
-import com.hadIt.doorstep.fragment_ui.Profile.Profile;
 import com.hadIt.doorstep.progressBar.CustomProgressBar;
 import com.theartofdev.edmodo.cropper.CropImage;
 

@@ -1,27 +1,24 @@
-package com.hadIt.doorstep.Repository;
+package com.hadIt.doorstep.roomDatabase.orders;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 
-import com.hadIt.doorstep.Database.DataDatabase;
-import com.hadIt.doorstep.cache.model.Data;
-import com.hadIt.doorstep.dao.DataDao;
+import com.hadIt.doorstep.roomDatabase.orders.model.Data;
 
 import java.util.List;
 
 public class DataRepository {
     private DataDatabase dataDatabase;
     private LiveData<List<Data>> getAllData;
+    private static String shopUid;
 
     public DataRepository(Application application)
     {
-        dataDatabase=DataDatabase.getInstance(application);
-        getAllData=dataDatabase.dataDao().getAllData();
+        dataDatabase = DataDatabase.getInstance(application);
+        getAllData = dataDatabase.dataDao().getAllData();
     }
 
     public void insert(Data dataList)
@@ -43,13 +40,24 @@ public class DataRepository {
     {
         new DeleteAsynTask(dataDatabase).execute(id);
     }
-   // public void Search(String id){ new UpdateAsyncTask(dataDatabase).excecute(id);}
+
+    public void getUid(){new GetUidAsyncTask(dataDatabase).execute();}
+
+    static class GetUidAsyncTask extends AsyncTask<Data, Void, Data>
+    {
+        GetUidAsyncTask(DataDatabase dataDatabase)
+        {
+            shopUid = dataDatabase.dataDao().getShopUid();
+        }
+
+        @Override
+        protected Data doInBackground(Data... data) {
+            return null;
+        }
+    }
 
 
-
-
-
-static class InsertAsynTask extends AsyncTask<Data,Void,Void>
+    static class InsertAsynTask extends AsyncTask<Data,Void,Void>
     {
         private DataDao dataDao;
         InsertAsynTask(DataDatabase dataDatabase)
@@ -89,26 +97,4 @@ static class InsertAsynTask extends AsyncTask<Data,Void,Void>
             return null;
         }
     }
-
-
-
 }
-/* static class DeleteAsynTask extends AsyncTask<Integer,Void,Void>
-    {
-        private DataDao dataDao;
-        DeleteAsynTask(DataDatabase dataDatabase)
-        {
-            dataDao=dataDatabase.dataDao();
-        }
-
-        @Override
-        protected Void doInBackground(Integer... integers) {
-            dataDao.delete(integers[0]);
-
-            return null;
-        }
-
-
-
-
-}*/

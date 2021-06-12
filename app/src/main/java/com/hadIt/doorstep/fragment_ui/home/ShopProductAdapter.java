@@ -14,21 +14,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.cache.model.AdminProductModel;
-import com.hadIt.doorstep.cache.model.Data;
-import com.hadIt.doorstep.fragment_ui.Interfaces.DataTransfer;
+import com.hadIt.doorstep.cache.model.ProductModel;
+import com.hadIt.doorstep.roomDatabase.orders.model.Data;
+import com.hadIt.doorstep.roomDatabase.orders.DataTransfer;
 
 import java.util.ArrayList;
 
 public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.ViewHolder> {
-    ArrayList<AdminProductModel> productInfoModels;
+    ArrayList<ProductModel> productInfoModels;
     Context context;
 
     public DataTransfer datatransfer;
-    public ArrayList<Data> addtocartArrayList=new ArrayList<>();
 
     ArrayList<Data> savearraylist=new ArrayList<>();
-    public ShopProductAdapter(ArrayList<AdminProductModel> arrayList,Context context, DataTransfer datatransfer) {
+    public ShopProductAdapter(ArrayList<ProductModel> arrayList, Context context, DataTransfer datatransfer) {
         this.datatransfer = datatransfer;
         this.productInfoModels = arrayList;
         this.context = context;
@@ -53,10 +52,9 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
                 holder.addbutton.setVisibility(View.GONE);
                 holder.linear.setVisibility(View.VISIBLE);
                 Data cart=new Data(productInfoModels.get(position).shopUid + productInfoModels.get(position).productName, productInfoModels.get(position).productName,
-                        productInfoModels.get(position).productPrice, productInfoModels.get(position).productIcon, holder.numb.getText().toString());
+                        productInfoModels.get(position).productPrice, productInfoModels.get(position).productIcon, holder.numb.getText().toString(), productInfoModels.get(position).shopUid);
 
-                addtocartArrayList.add(cart);
-                datatransfer.onSetValues(addtocartArrayList);
+                datatransfer.onSetValues(cart);
             }
         });
         holder.plus.setOnClickListener(new View.OnClickListener() {
@@ -64,10 +62,9 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
             public void onClick(View view) {
                 holder.numb.setText((Integer.parseInt(holder.numb.getText().toString())+1)+"");
                 Data cart=new Data(productInfoModels.get(position).shopUid + productInfoModels.get(position).productName, productInfoModels.get(position).productName,
-                        productInfoModels.get(position).productPrice, productInfoModels.get(position).productIcon, holder.numb.getText().toString());
+                        productInfoModels.get(position).productPrice, productInfoModels.get(position).productIcon, holder.numb.getText().toString(), productInfoModels.get(position).shopUid);
 
-                addtocartArrayList.add(cart);
-                datatransfer.onSetValues(addtocartArrayList);
+                datatransfer.onSetValues(cart);
             }
         });
         holder.minus.setOnClickListener(new View.OnClickListener() {
@@ -79,13 +76,13 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
                     holder.addbutton.setVisibility(View.VISIBLE);
                     holder.linear.setVisibility(View.GONE);
                     Data cart=new Data(productInfoModels.get(position).shopUid + productInfoModels.get(position).productName, productInfoModels.get(position).productName,
-                            productInfoModels.get(position).productPrice, productInfoModels.get(position).productIcon, holder.numb.getText().toString());
+                            productInfoModels.get(position).productPrice, productInfoModels.get(position).productIcon, holder.numb.getText().toString(), productInfoModels.get(position).shopUid);
 
                     datatransfer.onDelete(cart);
                 }
                 else{
                     Data cart=new Data(productInfoModels.get(position).shopUid + productInfoModels.get(position).productName, productInfoModels.get(position).productName,
-                            productInfoModels.get(position).productPrice, productInfoModels.get(position).productIcon, holder.numb.getText().toString());
+                            productInfoModels.get(position).productPrice, productInfoModels.get(position).productIcon, holder.numb.getText().toString(), productInfoModels.get(position).shopUid);
 
                     datatransfer.onDelete(cart);
                 }
