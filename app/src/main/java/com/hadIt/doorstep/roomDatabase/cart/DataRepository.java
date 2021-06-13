@@ -1,4 +1,4 @@
-package com.hadIt.doorstep.roomDatabase.orders;
+package com.hadIt.doorstep.roomDatabase.cart;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 
-import com.hadIt.doorstep.roomDatabase.orders.model.Data;
+import com.hadIt.doorstep.roomDatabase.cart.model.Data;
 
 import java.util.List;
 

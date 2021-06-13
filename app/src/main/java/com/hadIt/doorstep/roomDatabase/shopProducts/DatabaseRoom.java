@@ -1,5 +1,4 @@
-package com.hadIt.doorstep.roomDatabase.orders;
-
+package com.hadIt.doorstep.roomDatabase.shopProducts;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -7,20 +6,17 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
-import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.hadIt.doorstep.roomDatabase.orders.model.Data;
+import com.hadIt.doorstep.roomDatabase.cart.DataDatabase;
 
+@Database(entities = {RoomData.class},version = 5)
+public abstract class DatabaseRoom extends androidx.room.RoomDatabase {
+    private static final String DATABASE_NAME="Shops";
+    public abstract DaoQuery Daodata();
+    private static volatile DatabaseRoom INSTANCE=null;
 
-@Database(entities = {Data.class},version = 5)
-public abstract class DataDatabase extends RoomDatabase {
-
-    private static final String DATABASE_NAME="Data";
-    public abstract DataDao dataDao();
-    private static volatile DataDatabase INSTANCE=null;
-
-    public static DataDatabase getInstance(Context context)
+    public static DatabaseRoom getInstance(Context context)
     {
         if(INSTANCE == null)
         {
@@ -28,7 +24,7 @@ public abstract class DataDatabase extends RoomDatabase {
             {
                 if(INSTANCE == null)
                 {
-                    INSTANCE=Room.databaseBuilder(context,DataDatabase.class,
+                    INSTANCE= Room.databaseBuilder(context,DatabaseRoom.class,
                             DATABASE_NAME)
                             .addCallback(callback)
                             .fallbackToDestructiveMigration()
@@ -46,16 +42,16 @@ public abstract class DataDatabase extends RoomDatabase {
         }
     };
 
-    static class PopulateAsynTask extends AsyncTask<Void,Void,Void>{
-        private DataDao dataDao;
+    static class PopulateAsynTask extends AsyncTask<Void,Void,Void> {
+        private DaoQuery dataDaoQuery;
 
-        PopulateAsynTask(DataDatabase dataDatabase)
+        PopulateAsynTask(DatabaseRoom dataDatabase)
         {
-            dataDao=dataDatabase.dataDao();
+            dataDaoQuery =dataDatabase.Daodata();
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            dataDao.deleteAll();
+            dataDaoQuery.deleteAll();
             return null;
         }
     }

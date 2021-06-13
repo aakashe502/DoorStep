@@ -9,13 +9,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,13 +29,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hadIt.doorstep.CheckoutActivity;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.roomDatabase.orders.DataDao;
-import com.hadIt.doorstep.roomDatabase.orders.DataDatabase;
-import com.hadIt.doorstep.roomDatabase.orders.DataRepository;
-import com.hadIt.doorstep.roomDatabase.orders.DataViewModal;
+
+import com.hadIt.doorstep.roomDatabase.cart.DataDatabase;
+import com.hadIt.doorstep.roomDatabase.cart.DataRepository;
+import com.hadIt.doorstep.roomDatabase.cart.DataViewModal;
 import com.hadIt.doorstep.cache.model.ProductModel;
-import com.hadIt.doorstep.roomDatabase.orders.model.Data;
-import com.hadIt.doorstep.roomDatabase.orders.DataTransfer;
+import com.hadIt.doorstep.roomDatabase.cart.model.Data;
+import com.hadIt.doorstep.roomDatabase.cart.DataTransfer;
 import com.hadIt.doorstep.utils.Constants;
 
 import java.util.ArrayList;

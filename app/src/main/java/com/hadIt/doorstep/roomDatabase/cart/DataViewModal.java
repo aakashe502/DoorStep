@@ -1,15 +1,13 @@
-package com.hadIt.doorstep.roomDatabase.orders;
+package com.hadIt.doorstep.roomDatabase.cart;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 
-import com.hadIt.doorstep.roomDatabase.orders.model.Data;
+import com.hadIt.doorstep.roomDatabase.cart.model.Data;
 
 import java.util.List;
 

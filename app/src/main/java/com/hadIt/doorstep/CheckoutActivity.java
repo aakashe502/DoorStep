@@ -32,11 +32,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.hadIt.doorstep.Adapter.DataAdapter;
 import com.hadIt.doorstep.cache.model.Admin;
-import com.hadIt.doorstep.roomDatabase.orders.DataDatabase;
-import com.hadIt.doorstep.roomDatabase.orders.DataViewModal;
+import com.hadIt.doorstep.roomDatabase.cart.DataDatabase;
+import com.hadIt.doorstep.roomDatabase.cart.DataViewModal;
 import com.hadIt.doorstep.address.SelectAddress;
 import com.hadIt.doorstep.cache.model.AddressModelClass;
-import com.hadIt.doorstep.roomDatabase.orders.model.Data;
+import com.hadIt.doorstep.roomDatabase.cart.model.Data;
 
 import com.hadIt.doorstep.cache.model.OrderStatus;
 import com.hadIt.doorstep.cache.model.OrderDetails;

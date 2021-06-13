@@ -7,30 +7,37 @@
     tools:context=".search.SearchActivity">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/profile_image_add_button"
+
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                android:src="@drawable/searchback"
+                android:background="@null"
                 android:id="@+id/backpresssed" />
+
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:background="@drawable/border"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="10dp"
+                android:padding="10dp"
+                android:background="#ffffff"
                 android:id="@+id/cardSearch"
-                android:drawableStart="@drawable/search"
                 android:hint="Search your Grocery"
                 android:textColorHint="@color/colorText"
-                android:layout_gravity="center_vertical"
-                android:textSize="25dp" />
+                android:textSize="20dp"
+                />
 
         </LinearLayout>
     </RelativeLayout>

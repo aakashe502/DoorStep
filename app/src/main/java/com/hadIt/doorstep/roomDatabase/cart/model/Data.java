@@ -1,13 +1,10 @@
-package com.hadIt.doorstep.roomDatabase.orders.model;
+package com.hadIt.doorstep.roomDatabase.cart.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
-import javax.annotation.Nonnull;
 
 @Entity(tableName = "data" ,indices = @Index(value = {"id"},unique = true))
 public class Data {
