@@ -25,7 +25,7 @@ import com.hadIt.doorstep.Repository.DataRepository;
 import com.hadIt.doorstep.ViewModa.DataViewModal;
 import com.hadIt.doorstep.cache.model.Admin;
 import com.hadIt.doorstep.cache.model.Data;
-import com.hadIt.doorstep.fragment_ui.Interfaces.DataTransfer;
+import com.hadIt.doorstep.fragment_ui.interfaces.DataTransfer;
 
 import java.util.ArrayList;
 import java.util.List;

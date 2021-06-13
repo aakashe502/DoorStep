@@ -1,4 +1,4 @@
-package com.hadIt.doorstep.fragment_ui.Interfaces;
+package com.hadIt.doorstep.fragment_ui.interfaces;
 
 import com.hadIt.doorstep.cache.model.Data;
 

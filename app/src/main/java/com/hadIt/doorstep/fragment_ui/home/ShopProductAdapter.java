@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.AdminProductModel;
 import com.hadIt.doorstep.cache.model.Data;
-import com.hadIt.doorstep.fragment_ui.Interfaces.DataTransfer;
+import com.hadIt.doorstep.fragment_ui.interfaces.DataTransfer;
 
 import java.util.ArrayList;
 

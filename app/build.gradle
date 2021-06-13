@@ -81,5 +81,4 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:1.0.0'
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
-
 }
