@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
+import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -24,9 +25,12 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.OrderDetails;
+import com.hadIt.doorstep.cache.model.Products;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.order_details.OrderDetailsActivity;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MyFirebaseMessaging extends FirebaseMessagingService {
@@ -50,17 +54,21 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         if(notificationType.equals("Order Status Changed")){
             Gson gson = new Gson();
             OrderDetails orderDetails = gson.fromJson(remoteMessage.getData().get("orderDetailsObj"), OrderDetails.class);
+
+            Type listType = new TypeToken<ArrayList<Products>>(){}.getType();
+            ArrayList<Products> getProductsList = gson.fromJson(remoteMessage.getData().get("productItems"), listType);
+
             String notificationTitle = remoteMessage.getData().get("notificationTitle");
             String notificationMessage = remoteMessage.getData().get("notificationMessage");
 
             if(firebaseUser != null && firebaseAuth.getUid().equals(orderDetails.buyerUid)){
                 //user is signed in and is same user to whom notification is sent.
-                showNotification(orderDetails, notificationTitle, notificationMessage, notificationType);
+                showNotification(orderDetails, getProductsList, notificationTitle, notificationMessage, notificationType);
             }
         }
     }
 
-    private void showNotification(OrderDetails orderDetails, String notificationTitle, String notificationMessage, String notificationType){
+    private void showNotification(OrderDetails orderDetails, ArrayList<Products> productsArrayList, String notificationTitle, String notificationMessage, String notificationType){
         //notification
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -77,6 +85,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
             //open order details seller activity
             intent = new Intent(this, OrderDetailsActivity.class);
             intent.putExtra("orderDetailsObj", orderDetails);
+            intent.putExtra("productItems", new Gson().toJson(productsArrayList));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         }

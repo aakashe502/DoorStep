@@ -1,10 +1,10 @@
-package com.hadIt.doorstep.RoomDb.ShopProducts;
+package com.hadIt.doorstep.roomDatabase.shopProducts;
 
 import androidx.room.TypeConverter;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.hadIt.doorstep.fragment_ui.home.ProductInfoModel;
+import com.hadIt.doorstep.cache.model.ProductModel;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
@@ -13,26 +13,26 @@ import java.util.List;
 public class DataConverter implements Serializable {
 
     @TypeConverter // note this annotation
-    public String fromOptionValuesList(List<ProductInfoModel> optionValues) {
+    public String fromOptionValuesList(List<ProductModel> optionValues) {
         if (optionValues == null) {
             return null;
         }
         Gson gson = new Gson();
-        Type type = new TypeToken<List<ProductInfoModel>>() {
+        Type type = new TypeToken<List<ProductModel>>() {
         }.getType();
         String json = gson.toJson(optionValues, type);
         return json;
     }
 
     @TypeConverter // note this annotation
-    public List<ProductInfoModel> toOptionValuesList(String optionValuesString) {
+    public List<ProductModel> toOptionValuesList(String optionValuesString) {
         if (optionValuesString == null) {
             return (null);
         }
         Gson gson = new Gson();
-        Type type = new TypeToken<List<ProductInfoModel>>() {
+        Type type = new TypeToken<List<ProductModel>>() {
         }.getType();
-        List<ProductInfoModel> productCategoriesList = gson.fromJson(optionValuesString, type);
+        List<ProductModel> productCategoriesList = gson.fromJson(optionValuesString, type);
         return productCategoriesList;
     }
 }

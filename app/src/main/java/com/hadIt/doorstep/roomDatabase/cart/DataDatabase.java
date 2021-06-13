@@ -1,4 +1,4 @@
-package com.hadIt.doorstep.Database;
+package com.hadIt.doorstep.roomDatabase.cart;
 
 
 import android.content.Context;
@@ -10,8 +10,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.hadIt.doorstep.dao.DataDao;
-import com.hadIt.doorstep.cache.model.Data;
+import com.hadIt.doorstep.roomDatabase.cart.model.Data;
 
 
 @Database(entities = {Data.class},version = 5)

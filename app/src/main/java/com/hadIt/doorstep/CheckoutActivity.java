@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,12 +28,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.hadIt.doorstep.Adapter.DataAdapter;
-import com.hadIt.doorstep.ViewModa.DataViewModal;
+import com.hadIt.doorstep.cache.model.Admin;
+import com.hadIt.doorstep.roomDatabase.cart.DataDatabase;
+import com.hadIt.doorstep.roomDatabase.cart.DataViewModal;
 import com.hadIt.doorstep.address.SelectAddress;
 import com.hadIt.doorstep.cache.model.AddressModelClass;
-import com.hadIt.doorstep.cache.model.Data;
+import com.hadIt.doorstep.roomDatabase.cart.model.Data;
 
 import com.hadIt.doorstep.cache.model.OrderStatus;
 import com.hadIt.doorstep.cache.model.OrderDetails;
@@ -98,6 +100,7 @@ public class CheckoutActivity extends AppCompatActivity {
         paperDb = new PaperDb();
         backBtn = findViewById(R.id.backBtn);
         addressSelected = findViewById(R.id.addressSelected);
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,8 +158,12 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private void submitOrder(){
         AddressModelClass addressModelClass = paperDb.getAddressFromPaperDb();
-        if(addressModelClass != null)
-            prepareNotificationMessage(timestamp);
+        if(addressModelClass != null){
+            Users users = paperDb.getUserFromPaperDb();
+            AddressModelClass userAddress = paperDb.getAddressFromPaperDb();
+
+            createOrdersObject(users, userAddress, timestamp);
+        }
         else{
             Toast.makeText(this, "Please select Address First", Toast.LENGTH_SHORT).show();
         }
@@ -169,7 +176,7 @@ public class CheckoutActivity extends AppCompatActivity {
         String NOTIFICATION_TITLE = "New Order: " +  orderId;
         String NOTIFICATION_MESSAGE = "Congratulations...! You have new order.";
         String NOTIFICATION_TYPE = "NewOrder";
-        saveOrderDetailsFirst(orderId);
+
         //prepare json (what to send and where to send)
         JSONObject notificationJo = new JSONObject();
         JSONObject notificationBodyJo = new JSONObject();
@@ -177,6 +184,7 @@ public class CheckoutActivity extends AppCompatActivity {
             //what to send
             notificationBodyJo.put("notificationType", NOTIFICATION_TYPE);
             notificationBodyJo.put("orderDetailsObj", new Gson().toJson(orders));
+            notificationBodyJo.put("productItems", new Gson().toJson(productsList));
             notificationBodyJo.put("notificationTitle", NOTIFICATION_TITLE);
             notificationBodyJo.put("notificationMessage", NOTIFICATION_MESSAGE);
             //where to send
@@ -226,14 +234,6 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void saveOrderDetailsFirst(final String orderId) {
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        Users users = paperDb.getUserFromPaperDb();
-        AddressModelClass userAddress = paperDb.getAddressFromPaperDb();
-
-        orders = new OrderDetails(todaysDate, orderId, OrderStatus.Pending.name(), users.emailId, firebaseAuth.getUid(), userAddress.firstName+" "+userAddress.lastName, userAddress.contactNumber, userAddress.houseNumber+"-"+userAddress.apartmentName,
-                userAddress.landmark, userAddress.areaDetails, userAddress.city, userAddress.pincode, userAddress.latitude, userAddress.longitude, "dheerubhai@gmail.com", "VIbafv2xECXoDENwBWCgZ166Sku2", "sellerShopName",
-                "8770771619", "sellerLatitude", "sellerLongitude", "sellerCity", "selletPincode", "sellerAreaDetails", "sellerLandmark", sum, length
-        );
 
         dataViewModal.getCheckoutdata().observe(this, new Observer<List<Data>>() {
             @Override
@@ -276,5 +276,41 @@ public class CheckoutActivity extends AppCompatActivity {
                     Toast.makeText(CheckoutActivity.this,"Order Address Failed",Toast.LENGTH_SHORT).show();
                 }
             });
+    }
+
+    private void createOrdersObject(final Users users, final AddressModelClass userAddress, final String orderId) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String shopUid = DataDatabase.getInstance(getApplicationContext())
+                        .dataDao()
+                        .getShopUid();
+
+                firebaseFirestore.collection("admin").whereEqualTo("uid", shopUid)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    Admin admin = task.getResult().getDocuments().get(0).toObject(Admin.class);
+
+                                    orders = new OrderDetails(todaysDate, orderId, OrderStatus.Pending.name(), users.emailId, firebaseAuth.getUid(),
+                                            userAddress.firstName+" "+userAddress.lastName, userAddress.contactNumber, userAddress.houseNumber+"-"+userAddress.apartmentName,
+                                            userAddress.landmark, userAddress.areaDetails, userAddress.city, userAddress.pincode, userAddress.latitude, userAddress.longitude,
+                                            admin.shopEmail, admin.uid, admin.shopName, admin.shopPhone, admin.latitude, admin.longitude, admin.city, "sellerPincode",
+                                            "sellerAreaDetails", "sellerLandmark", sum, length
+                                    );
+                                    saveOrderDetailsFirst(orderId);
+                                    prepareNotificationMessage(timestamp);
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(CheckoutActivity.this,"Failed to create orders object",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        }).start();
     }
 }

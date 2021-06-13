@@ -1,4 +1,4 @@
-package com.hadIt.doorstep.RoomDb.ShopProducts;
+package com.hadIt.doorstep.roomDatabase.shopProducts;
 
 import android.app.Application;
 import android.os.AsyncTask;
