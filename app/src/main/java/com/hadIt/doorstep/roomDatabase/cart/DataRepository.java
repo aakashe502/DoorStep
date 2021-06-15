@@ -13,7 +13,6 @@ import java.util.List;
 public class DataRepository {
     private DataDatabase dataDatabase;
     private LiveData<List<Data>> getAllData;
-    private static String shopUid;
 
     public DataRepository(Application application)
     {

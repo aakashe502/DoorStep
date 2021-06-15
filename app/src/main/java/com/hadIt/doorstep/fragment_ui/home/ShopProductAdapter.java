@@ -15,20 +15,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.hadIt.doorstep.R;
 
-import com.hadIt.doorstep.cache.model.ProductModel;
 import com.hadIt.doorstep.roomDatabase.cart.model.Data;
 import com.hadIt.doorstep.roomDatabase.cart.DataTransfer;
+import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 
 import java.util.ArrayList;
 
 public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.ViewHolder> {
-    ArrayList<ProductModel> productInfoModels;
+    ArrayList<ProductsTable> productInfoModels;
     Context context;
 
     public DataTransfer datatransfer;
 
     ArrayList<Data> savearraylist=new ArrayList<>();
-    public ShopProductAdapter(ArrayList<ProductModel> arrayList, Context context, DataTransfer datatransfer) {
+    public ShopProductAdapter(ArrayList<ProductsTable> arrayList, Context context, DataTransfer datatransfer) {
         this.datatransfer = datatransfer;
         this.productInfoModels = arrayList;
         this.context = context;
@@ -43,17 +43,17 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder,final int position) {
-        holder.productname.setText(productInfoModels.get(position).productName);
-        holder.productrate.setText(productInfoModels.get(position).productPrice);
-        Glide.with(context).load(productInfoModels.get(position).productIcon).into(holder.productimage);
+        holder.productname.setText(productInfoModels.get(position).getProductName());
+        holder.productrate.setText(productInfoModels.get(position).getProductPrice());
+        Glide.with(context).load(productInfoModels.get(position).getProductIcon()).into(holder.productimage);
 
         holder.addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 holder.addbutton.setVisibility(View.GONE);
                 holder.linear.setVisibility(View.VISIBLE);
-                Data cart=new Data(productInfoModels.get(position).shopUid + productInfoModels.get(position).productName, productInfoModels.get(position).productName,
-                        productInfoModels.get(position).productPrice, productInfoModels.get(position).productIcon, holder.numb.getText().toString(), productInfoModels.get(position).shopUid);
+                Data cart=new Data(productInfoModels.get(position).getShopUid() + productInfoModels.get(position).getProductName(), productInfoModels.get(position).getProductName(),
+                        productInfoModels.get(position).getProductPrice(), productInfoModels.get(position).getProductIcon(), holder.numb.getText().toString(), productInfoModels.get(position).getShopUid());
 
                 datatransfer.onSetValues(cart);
             }
@@ -62,8 +62,8 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
             @Override
             public void onClick(View view) {
                 holder.numb.setText((Integer.parseInt(holder.numb.getText().toString())+1)+"");
-                Data cart=new Data(productInfoModels.get(position).shopUid + productInfoModels.get(position).productName, productInfoModels.get(position).productName,
-                        productInfoModels.get(position).productPrice, productInfoModels.get(position).productIcon, holder.numb.getText().toString(), productInfoModels.get(position).shopUid);
+                Data cart=new Data(productInfoModels.get(position).getShopUid() + productInfoModels.get(position).getProductName(), productInfoModels.get(position).getProductName(),
+                        productInfoModels.get(position).getProductPrice(), productInfoModels.get(position).getProductIcon(), holder.numb.getText().toString(), productInfoModels.get(position).getShopUid());
 
                 datatransfer.onSetValues(cart);
             }
@@ -76,14 +76,14 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
                     holder.numb.setText("0");
                     holder.addbutton.setVisibility(View.VISIBLE);
                     holder.linear.setVisibility(View.GONE);
-                    Data cart=new Data(productInfoModels.get(position).shopUid + productInfoModels.get(position).productName, productInfoModels.get(position).productName,
-                            productInfoModels.get(position).productPrice, productInfoModels.get(position).productIcon, holder.numb.getText().toString(), productInfoModels.get(position).shopUid);
+                    Data cart=new Data(productInfoModels.get(position).getShopUid() + productInfoModels.get(position).getProductName(), productInfoModels.get(position).getProductName(),
+                            productInfoModels.get(position).getProductPrice(), productInfoModels.get(position).getProductIcon(), holder.numb.getText().toString(), productInfoModels.get(position).getShopUid());
 
                     datatransfer.onDelete(cart);
                 }
                 else{
-                    Data cart=new Data(productInfoModels.get(position).shopUid + productInfoModels.get(position).productName, productInfoModels.get(position).productName,
-                            productInfoModels.get(position).productPrice, productInfoModels.get(position).productIcon, holder.numb.getText().toString(), productInfoModels.get(position).shopUid);
+                    Data cart=new Data(productInfoModels.get(position).getShopUid() + productInfoModels.get(position).getProductName(), productInfoModels.get(position).getProductName(),
+                            productInfoModels.get(position).getProductPrice(), productInfoModels.get(position).getProductIcon(), holder.numb.getText().toString(), productInfoModels.get(position).getShopUid());
 
                     datatransfer.onDelete(cart);
                 }

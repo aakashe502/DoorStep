@@ -20,6 +20,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.homePage.HomePage;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.md5.PasswordGeneratorMd5;
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     public FirebaseFirestore firebaseFirestore;
     public PasswordGeneratorMd5 md5;
     private CustomProgressBar customProgressBar;
+    private PaperDb paperDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Paper.init(getApplicationContext());
+        paperDb = new PaperDb();
 
         md5 = new PasswordGeneratorMd5();
         customProgressBar = new CustomProgressBar(LoginActivity.this);
@@ -83,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         if(task.isSuccessful()){
                             //start the profile activity
+                            paperDb.saveUserInPaperDb();
                             startActivity(new Intent(getApplicationContext(), HomePage.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
                             customProgressBar.dismiss();
                         }
