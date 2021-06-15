@@ -55,10 +55,21 @@
         android:hint="Mobile Number"
         android:inputType="phone"
         android:drawableStart="@drawable/phoneicon"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAcount"
+        app:layout_constraintBottom_toTopOf="@+id/areaDetails"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editPass" />
+
+    <TextView
+        android:id="@+id/areaDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Area Details"
+        android:drawableStart="@drawable/ic_location_gray"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAcount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editMobile" />
 
     <Button
         android:id="@+id/buttonAcount"
@@ -73,7 +84,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editMobile" />
+        app:layout_constraintTop_toBottomOf="@+id/areaDetails" />
 
     <TextView
         android:id="@+id/textView"

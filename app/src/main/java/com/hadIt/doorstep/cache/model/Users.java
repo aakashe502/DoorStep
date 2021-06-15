@@ -1,26 +1,25 @@
 package com.hadIt.doorstep.cache.model;
 
 public class Users {
-    public String userName, emailId, password, mobile, profilePhoto, uid;
+    public String userName, emailId, mobile, profilePhoto, uid, city, state, country, pinCode;
 
-    public String getUid() {
-        return uid;
+    public Users() {
     }
 
-    public void setUid(String uid) {
+    public Users(String userName, String emailId, String mobile, String profilePhoto, String uid, String city, String state, String countr, String pinCode) {
+        this.userName = userName;
+        this.emailId = emailId;
+        this.mobile = mobile;
+        this.profilePhoto = profilePhoto;
         this.uid = uid;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.pinCode = pinCode;
     }
 
     public String getUserName() {
         return userName;
-    }
-
-    public String getProfilePhoto() {
-        return profilePhoto;
-    }
-
-    public void setProfilePhoto(String profilePhoto) {
-        this.profilePhoto = profilePhoto;
     }
 
     public void setUserName(String userName) {
@@ -35,14 +34,6 @@ public class Users {
         this.emailId = emailId;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getMobile() {
         return mobile;
     }
@@ -51,16 +42,52 @@ public class Users {
         this.mobile = mobile;
     }
 
-    public Users(String userName, String emailId, String password, String mobile, String profilePhoto, String uid) {
-        this.userName = userName;
-        this.emailId = emailId;
-        this.password = password;
-        this.mobile = mobile;
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(String profilePhoto) {
         this.profilePhoto = profilePhoto;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
-    public Users() {
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getPinCode() {
+        return pinCode;
+    }
+
+    public void setPinCode(String pinCode) {
+        this.pinCode = pinCode;
     }
 
     @Override

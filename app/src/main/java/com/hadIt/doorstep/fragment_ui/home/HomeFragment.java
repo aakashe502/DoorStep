@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 import com.hadIt.doorstep.R;
+import com.hadIt.doorstep.cache.model.Users;
+import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.search.SearchActivity;
 
 import java.util.ArrayList;
@@ -36,14 +38,16 @@ public class HomeFragment extends Fragment {
     Timer timer;
     Handler handler;
     TextView cardSearch;
+    private PaperDb paperDb;
 
     public View root;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,Bundle savedInstanceState) {
 
         root = inflater.inflate(R.layout.fragment_home,container,false);
-
-        getActivity().setTitle("Home");
+        paperDb = new PaperDb();
+        Users users = paperDb.getUserFromPaperDb();
+        getActivity().setTitle("Home - " + users.city + "(" + users.pinCode + ")");
 
         mViewPager = root.findViewById(R.id.viewPagerMain);
         circleIndicator=root.findViewById(R.id.circleindicator);

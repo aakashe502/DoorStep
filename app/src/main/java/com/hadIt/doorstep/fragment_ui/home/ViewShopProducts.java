@@ -36,18 +36,23 @@ import com.hadIt.doorstep.roomDatabase.cart.DataViewModal;
 import com.hadIt.doorstep.cache.model.ProductModel;
 import com.hadIt.doorstep.roomDatabase.cart.model.Data;
 import com.hadIt.doorstep.roomDatabase.cart.DataTransfer;
+import com.hadIt.doorstep.roomDatabase.shopProducts.ProductTransfer;
+import com.hadIt.doorstep.roomDatabase.shopProducts.ProductViewModel;
+import com.hadIt.doorstep.roomDatabase.shopProducts.ProductsRepository;
+import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 import com.hadIt.doorstep.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ViewShopProducts extends AppCompatActivity implements DataTransfer {
+public class ViewShopProducts extends AppCompatActivity implements DataTransfer, ProductTransfer {
     RecyclerView recyclerView;
-    public ArrayList<ProductModel> arrayList;
+    public ArrayList<ProductsTable> arrayList;
     public Button addprod;
     public FirebaseFirestore firebaseFirestore;
     private DataRepository dataRespository;
+    private ProductsRepository productsRepository;
     private GridLayout gridLayout;
     public Toolbar toolbar;
     private ShopProductAdapter modelAdapter;
@@ -55,6 +60,7 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer 
     private TextView textCartItemCount;
     private int mCartItemCount = 10;
     private DataViewModal dataViewModal;
+    private ProductViewModel productViewModel;
     public List<Data> array = new ArrayList<>();
 
     @Override
@@ -152,7 +158,6 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer 
         }
     }
 
-
     @Override
     public void onSetValues(final Data data) {
         new Thread(new Runnable() {
@@ -219,10 +224,30 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer 
         });
     }
 
-    private void setRecyclerView(RadioButton radioButton, String shopType, String shopUid) {
+    private void setRecyclerView(final RadioButton radioButton, final String shopType, final String shopUid) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
 
+        productsRepository = new ProductsRepository(getApplication(), shopUid, shopType+" "+radioButton.getText());
+        productViewModel = new ProductViewModel(getApplication(), shopUid, shopType+" "+radioButton.getText());
+
+        productViewModel.getShopProducts().observe(this, new Observer<List<ProductsTable>>() {
+            @Override
+            public void onChanged(List<ProductsTable> productsTables) {
+                arrayList.clear();
+                for(ProductsTable productsTable: productsTables){
+                    arrayList.add(productsTable);
+                }
+                if(arrayList.size()==0){
+                    storeInRoomDb(radioButton, shopType, shopUid);
+                }
+                modelAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(modelAdapter);
+            }
+        });
+    }
+
+    private void storeInRoomDb(RadioButton radioButton, String shopType, String shopUid){
         firebaseFirestore.collection("Products").whereEqualTo("shopUid", shopUid).whereEqualTo("productCategory", shopType+" "+radioButton.getText())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -230,15 +255,12 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer 
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot dpc : task.getResult().getDocuments()) {
-                                ProductModel productInfoModel = dpc.toObject(ProductModel.class);
-                                arrayList.add(productInfoModel);
+                                ProductsTable productsTable = dpc.toObject(ProductsTable.class);
+                                setProductsTable(productsTable);
                             }
-                            modelAdapter.notifyDataSetChanged();
                         }
                     }
                 });
-
-        recyclerView.setAdapter(modelAdapter);
     }
 
     private void getChipGroup(String shopType, RadioGroup radioGroup) {
@@ -252,5 +274,15 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer 
             radioGroup.addView(radioButton, layoutParams);
         }
         gridLayout.addView(radioGroup);
+    }
+
+    @Override
+    public void setProductsTable(ProductsTable productsTable) {
+        productsRepository.insert(productsTable);
+    }
+
+    @Override
+    public void deleteProductsTable(ProductsTable productsTable) {
+
     }
 }

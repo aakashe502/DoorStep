@@ -9,10 +9,11 @@ import androidx.room.Room;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.hadIt.doorstep.roomDatabase.cart.DataDatabase;
+import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 
-@Database(entities = {RoomData.class},version = 5)
+@Database(entities = {ProductsTable.class}, version = 5)
 public abstract class DatabaseRoom extends androidx.room.RoomDatabase {
-    private static final String DATABASE_NAME="Shops";
+    private static final String DATABASE_NAME="Products";
     public abstract DaoQuery Daodata();
     private static volatile DatabaseRoom INSTANCE=null;
 
@@ -51,7 +52,7 @@ public abstract class DatabaseRoom extends androidx.room.RoomDatabase {
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            dataDaoQuery.deleteAll();
+            dataDaoQuery.refreshDb();
             return null;
         }
     }

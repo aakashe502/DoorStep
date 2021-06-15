@@ -80,6 +80,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private PaperDb paperDb;
     public String Tag_Address = "Address Added";
     private OrderDetails orders;
+    private String shopUid;
 
     Toolbar toolbar;
     final String timestamp = ""+System.currentTimeMillis();
@@ -88,6 +89,7 @@ public class CheckoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+        getShopUidFromRoomDb();
 
         dataList=new ArrayList<>();
         recyclerView=findViewById(R.id.recycler);
@@ -278,39 +280,48 @@ public class CheckoutActivity extends AppCompatActivity {
             });
     }
 
-    private void createOrdersObject(final Users users, final AddressModelClass userAddress, final String orderId) {
+    private void getShopUidFromRoomDb(){
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String shopUid = DataDatabase.getInstance(getApplicationContext())
+                shopUid = DataDatabase.getInstance(getApplicationContext())
                         .dataDao()
                         .getShopUid();
-
-                firebaseFirestore.collection("admin").whereEqualTo("uid", shopUid)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful()){
-                                    Admin admin = task.getResult().getDocuments().get(0).toObject(Admin.class);
-
-                                    orders = new OrderDetails(todaysDate, orderId, OrderStatus.Pending.name(), users.emailId, firebaseAuth.getUid(),
-                                            userAddress.firstName+" "+userAddress.lastName, userAddress.contactNumber, userAddress.houseNumber+"-"+userAddress.apartmentName,
-                                            userAddress.landmark, userAddress.areaDetails, userAddress.city, userAddress.pincode, userAddress.latitude, userAddress.longitude,
-                                            admin.shopEmail, admin.uid, admin.shopName, admin.shopPhone, admin.latitude, admin.longitude, admin.city, "sellerPincode",
-                                            "sellerAreaDetails", "sellerLandmark", sum, length
-                                    );
-                                    saveOrderDetailsFirst(orderId);
-                                    prepareNotificationMessage(timestamp);
-                                }
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(CheckoutActivity.this,"Failed to create orders object",Toast.LENGTH_SHORT).show();
-                            }
-                        });
             }
         }).start();
+    }
+
+    private void createOrdersObject(final Users users, final AddressModelClass userAddress, final String orderId) {
+        if(shopUid == null)
+            try {
+                wait(1000);
+            }catch (Exception e){
+                Log.i(Tag_Address, e.getMessage());
+            }
+
+        firebaseFirestore.collection("admin").whereEqualTo("uid", shopUid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            Admin admin = task.getResult().getDocuments().get(0).toObject(Admin.class);
+
+                            orders = new OrderDetails(todaysDate, orderId, OrderStatus.Pending.name(), users.emailId, firebaseAuth.getUid(),
+                                    userAddress.firstName+" "+userAddress.lastName, userAddress.contactNumber, userAddress.houseNumber+"-"+userAddress.apartmentName,
+                                    userAddress.landmark, userAddress.areaDetails, userAddress.city, userAddress.pincode, userAddress.latitude, userAddress.longitude,
+                                    admin.shopEmail, admin.uid, admin.shopName, admin.shopPhone, admin.latitude, admin.longitude, admin.city, "sellerPincode",
+                                    "sellerAreaDetails", "sellerLandmark", sum, length
+                            );
+                            saveOrderDetailsFirst(orderId);
+                            prepareNotificationMessage(timestamp);
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CheckoutActivity.this,"Failed to create orders object",Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
