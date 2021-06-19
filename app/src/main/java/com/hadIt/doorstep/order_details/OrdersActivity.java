@@ -2,6 +2,7 @@ package com.hadIt.doorstep.order_details;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,18 +22,24 @@ import com.google.gson.Gson;
 import com.hadIt.doorstep.Adapter.PickOrderAdapter;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.OrderDetails;
+import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsRepository;
+import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsTransfer;
+import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsViewModel;
+import com.hadIt.doorstep.roomDatabase.orders.details.model.OrderDetailsRoomModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrdersActivity extends AppCompatActivity {
+public class OrdersActivity extends AppCompatActivity implements OrderDetailsTransfer {
 
     private ImageButton backBtn;
     private RecyclerView recyclerView;
     private PickOrderAdapter pickOrderAdapter;
-    private List<OrderDetails> orderDetailsList;
+    private List<OrderDetailsRoomModel> orderDetailsList;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
+    private OrderDetailsViewModel orderDetailsViewModel;
+    private OrderDetailsRepository orderDetailsRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +69,22 @@ public class OrdersActivity extends AppCompatActivity {
     }
 
     private void getOrdersList() {
+        orderDetailsViewModel = new OrderDetailsViewModel(getApplication(), firebaseAuth.getUid());
+        orderDetailsRepository = new OrderDetailsRepository(getApplication(), firebaseAuth.getUid());
+
+        orderDetailsViewModel.getAllOrders().observe(this, new Observer<List<OrderDetailsRoomModel>>() {
+            @Override
+            public void onChanged(List<OrderDetailsRoomModel> orderDetailsRoomModels) {
+                orderDetailsList.clear();
+                orderDetailsList.addAll(orderDetailsRoomModels);
+                if(orderDetailsList.size() == 0)
+                    storeInRoomDb();
+                pickOrderAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void storeInRoomDb() {
         firebaseFirestore.collection("userOrders").whereEqualTo("buyerUid", firebaseAuth.getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -69,10 +92,9 @@ public class OrdersActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for(DocumentSnapshot dpc:task.getResult().getDocuments()){
-                                OrderDetails orderDetails = dpc.toObject(OrderDetails.class);
-                                orderDetailsList.add(0, orderDetails);
+                                OrderDetailsRoomModel orderDetailsRoomModel = dpc.toObject(OrderDetailsRoomModel.class);
+                                setOrderDetails(orderDetailsRoomModel);
                             }
-                            pickOrderAdapter.notifyDataSetChanged();
                         }
                     }
                 })
@@ -82,5 +104,15 @@ public class OrdersActivity extends AppCompatActivity {
                         Toast.makeText(OrdersActivity.this, ""+e.getStackTrace(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    @Override
+    public void setOrderDetails(OrderDetailsRoomModel orderDetailsRoomModel) {
+        orderDetailsRepository.insert(orderDetailsRoomModel);
+    }
+
+    @Override
+    public void deleteOrderDetails(OrderDetailsRoomModel orderDetailsRoomModel) {
+        orderDetailsRepository.deleteProductUsingOrderId(orderDetailsRoomModel);
     }
 }

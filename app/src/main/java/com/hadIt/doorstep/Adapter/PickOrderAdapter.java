@@ -29,6 +29,7 @@ import com.hadIt.doorstep.cache.model.OrderStatus;
 import com.hadIt.doorstep.cache.model.Products;
 import com.hadIt.doorstep.order_details.OrderDetailsActivity;
 import com.hadIt.doorstep.order_details.OrdersActivity;
+import com.hadIt.doorstep.roomDatabase.orders.details.model.OrderDetailsRoomModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +39,11 @@ import static java.lang.Thread.sleep;
 public class PickOrderAdapter extends RecyclerView.Adapter<PickOrderAdapter.ViewHolder> {
 
     private Context context;
-    private List<OrderDetails> dataList;
+    private List<OrderDetailsRoomModel> dataList;
     private List<Products> productsList;
     private FirebaseFirestore firebaseFirestore;
 
-    public PickOrderAdapter(Context context, List<OrderDetails> dataList) {
+    public PickOrderAdapter(Context context, List<OrderDetailsRoomModel> dataList) {
         this.context = context;
         this.dataList = dataList;
     }
@@ -56,31 +57,31 @@ public class PickOrderAdapter extends RecyclerView.Adapter<PickOrderAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final OrderDetails orderDetails = dataList.get(position);
-        holder.orderId.setText(orderDetails.orderId);
-        holder.amount.setText("\u20B9" + orderDetails.totalAmount);
-        holder.shopName.setText(orderDetails.sellerShopName);
-        holder.date.setText(orderDetails.orderDate);
-        holder.status.setText(orderDetails.orderStatus);
-        if(orderDetails.orderStatus.equals(OrderStatus.Cancelled.name()))
+        final OrderDetailsRoomModel orderDetailsRoomModel = dataList.get(position);
+        holder.orderId.setText(orderDetailsRoomModel.getOrderId());
+        holder.amount.setText("\u20B9" + orderDetailsRoomModel.getTotalAmount());
+        holder.shopName.setText(orderDetailsRoomModel.getSellerShopName());
+        holder.date.setText(orderDetailsRoomModel.getOrderDate());
+        holder.status.setText(orderDetailsRoomModel.getOrderStatus());
+        if(orderDetailsRoomModel.getOrderStatus().equals(OrderStatus.Cancelled.name()))
             holder.status.setTextColor(context.getResources().getColor(R.color.colorRed));
-        else if(orderDetails.orderStatus.equals(OrderStatus.Completed.name()))
+        else if(orderDetailsRoomModel.getOrderStatus().equals(OrderStatus.Completed.name()))
             holder.status.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-        if(orderDetails.orderStatus.equals(OrderStatus.InProgress.name()))
+        if(orderDetailsRoomModel.getOrderStatus().equals(OrderStatus.InProgress.name()))
             holder.status.setTextColor(context.getResources().getColor(R.color.colorBlue));
-        if(orderDetails.orderStatus.equals(OrderStatus.Pending.name()))
+        if(orderDetailsRoomModel.getOrderStatus().equals(OrderStatus.Pending.name()))
             holder.status.setTextColor(context.getResources().getColor(R.color.colorLightBlue));
 
         holder.order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 productsList = new ArrayList<>();
-                getProductList(orderDetails.orderId, orderDetails);
+                getProductList(orderDetailsRoomModel.getOrderId(), orderDetailsRoomModel);
             }
         });
     }
 
-    private void getProductList(String orderId, final OrderDetails orderDetails) {
+    private void getProductList(String orderId, final OrderDetailsRoomModel orderDetailsRoomModel) {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         firebaseFirestore.collection("userOrders").document(orderId).collection("productItems")
@@ -94,8 +95,8 @@ public class PickOrderAdapter extends RecyclerView.Adapter<PickOrderAdapter.View
                                 productsList.add(products);
                             }
                             Intent intent = new Intent(context, OrderDetailsActivity.class);
-                            intent.putExtra("orderDetailsObj", orderDetails);
-                            intent.putExtra("productItems", new Gson().toJson(productsList));
+                            intent.putExtra("orderDetailsObj", orderDetailsRoomModel);
+                            intent.putExtra("orderId", orderDetailsRoomModel.getOrderId());
                             context.startActivity(intent);
                         }
                     }
@@ -113,7 +114,7 @@ public class PickOrderAdapter extends RecyclerView.Adapter<PickOrderAdapter.View
         return dataList.size();
     }
 
-    public void setDataList(List<OrderDetails> dataList) {
+    public void setDataList(List<OrderDetailsRoomModel> dataList) {
         this.dataList = dataList;
     }
 
