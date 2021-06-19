@@ -12,10 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -50,10 +54,10 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
     RecyclerView recyclerView;
     public ArrayList<ProductsTable> arrayList;
     public Button addprod;
+    private EditText search;
     public FirebaseFirestore firebaseFirestore;
     private DataRepository dataRespository;
     private ProductsRepository productsRepository;
-    private GridLayout gridLayout;
     public Toolbar toolbar;
     private ShopProductAdapter modelAdapter;
 
@@ -87,25 +91,12 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
             }
         });
 
-        gridLayout = findViewById(R.id.radioBtn);
-        RadioGroup radioGroup = new RadioGroup(this);
-        radioGroup.setOrientation(LinearLayout.VERTICAL);
-        getChipGroup(shopType, radioGroup);
-
         recyclerView = findViewById(R.id.productrecycler);
+
+        setRecyclerView(shopType, shopUid);
         arrayList = new ArrayList<>();
         firebaseFirestore = FirebaseFirestore.getInstance();
         modelAdapter = new ShopProductAdapter(arrayList, this, this);
-
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                arrayList.clear();
-                modelAdapter.notifyDataSetChanged();
-                RadioButton radioButton = group.findViewById(checkedId);
-                setRecyclerView(radioButton, shopType, shopUid);
-            }
-        });
 
         dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
         dataViewModal.getCheckoutdata().observe(this, new Observer<List<Data>>() {
@@ -121,6 +112,34 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
                 }
             }
         });
+
+        search = findViewById(R.id.search);
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filter(s.toString());
+            }
+        });
+    }
+
+    private void filter(String searchString) {
+        ArrayList<ProductsTable> filteredList = new ArrayList<>();
+
+        for(ProductsTable productsTable: arrayList){
+            if(productsTable.getProductName().toLowerCase().contains(searchString.toLowerCase()))
+                filteredList.add(productsTable);
+        }
+        modelAdapter.filterList(filteredList);
     }
 
     @Override
@@ -139,6 +158,7 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
         });
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -224,12 +244,12 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
         });
     }
 
-    private void setRecyclerView(final RadioButton radioButton, final String shopType, final String shopUid) {
+    private void setRecyclerView(final String shopType, final String shopUid) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        productsRepository = new ProductsRepository(getApplication(), shopUid, shopType+" "+radioButton.getText());
-        productViewModel = new ProductViewModel(getApplication(), shopUid, shopType+" "+radioButton.getText());
+        productsRepository = new ProductsRepository(getApplication(), shopUid);
+        productViewModel = new ProductViewModel(getApplication(), shopUid);
 
         productViewModel.getShopProducts().observe(this, new Observer<List<ProductsTable>>() {
             @Override
@@ -239,7 +259,7 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
                     arrayList.add(productsTable);
                 }
                 if(arrayList.size()==0){
-                    storeInRoomDb(radioButton, shopType, shopUid);
+                    storeInRoomDb(shopType, shopUid);
                 }
                 modelAdapter.notifyDataSetChanged();
                 recyclerView.setAdapter(modelAdapter);
@@ -247,8 +267,8 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
         });
     }
 
-    private void storeInRoomDb(RadioButton radioButton, String shopType, String shopUid){
-        firebaseFirestore.collection("Products").whereEqualTo("shopUid", shopUid).whereEqualTo("productCategory", shopType+" "+radioButton.getText())
+    private void storeInRoomDb(String shopType, String shopUid){
+        firebaseFirestore.collection("Products").whereEqualTo("shopUid", shopUid)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -261,19 +281,6 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
                         }
                     }
                 });
-    }
-
-    private void getChipGroup(String shopType, RadioGroup radioGroup) {
-        String[] product = new Constants().products.get(shopType);
-        RadioGroup.LayoutParams layoutParams;
-        for(String i: product){
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setText(i);
-
-            layoutParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
-            radioGroup.addView(radioButton, layoutParams);
-        }
-        gridLayout.addView(radioGroup);
     }
 
     @Override

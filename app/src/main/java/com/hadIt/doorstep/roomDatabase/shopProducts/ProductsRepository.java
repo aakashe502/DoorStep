@@ -14,10 +14,10 @@ public class ProductsRepository {
     private DatabaseRoom dataDatabase;
     private LiveData<List<ProductsTable>> getAllData;
 
-    public ProductsRepository(Application application, String shopUid, String productCategory)
+    public ProductsRepository(Application application, String shopUid)
     {
         dataDatabase=DatabaseRoom.getInstance(application);
-        getAllData=dataDatabase.Daodata().getDataForShopAndCategory(shopUid, productCategory);
+        getAllData=dataDatabase.Daodata().getDataForShopAndCategory(shopUid);
     }
 
     public void insert(ProductsTable dataList)

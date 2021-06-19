@@ -25,8 +25,8 @@ public interface DaoQuery {
     @Query("DELETE FROM products")
     void refreshDb();
 
-    @Query("SELECT * FROM products WHERE shopUid=:shopUid AND productCategory =:productCategory")
-    LiveData<List<ProductsTable>> getDataForShopAndCategory(String shopUid, String productCategory);
+    @Query("SELECT * FROM products WHERE shopUid=:shopUid")
+    LiveData<List<ProductsTable>> getDataForShopAndCategory(String shopUid);
 
     @Query("SELECT * FROM products WHERE shopUid=:shopUid")
     LiveData<List<ProductsTable>> getDataForShop(String shopUid);

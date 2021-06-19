@@ -27,7 +27,6 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
 
     public DataTransfer datatransfer;
 
-    ArrayList<Data> savearraylist=new ArrayList<>();
     public ShopProductAdapter(ArrayList<ProductsTable> arrayList, Context context, DataTransfer datatransfer) {
         this.datatransfer = datatransfer;
         this.productInfoModels = arrayList;
@@ -94,6 +93,11 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
     @Override
     public int getItemCount() {
         return productInfoModels.size();
+    }
+
+    public void filterList(ArrayList<ProductsTable> filteredList){
+        productInfoModels = filteredList;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
