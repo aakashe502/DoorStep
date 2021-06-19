@@ -44,6 +44,9 @@ import com.hadIt.doorstep.cache.model.Products;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.order_details.OrderDetailsActivity;
+import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsRepository;
+import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsTransfer;
+import com.hadIt.doorstep.roomDatabase.orders.details.model.OrderDetailsRoomModel;
 import com.hadIt.doorstep.utils.Constants;
 import org.json.JSONObject;
 
@@ -57,7 +60,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class CheckoutActivity extends AppCompatActivity {
+public class CheckoutActivity extends AppCompatActivity implements OrderDetailsTransfer {
     private RecyclerView recyclerView;
     private List<Data> dataList;
     private DataViewModal dataViewModal;
@@ -79,11 +82,12 @@ public class CheckoutActivity extends AppCompatActivity {
     private String todaysDate;
     private PaperDb paperDb;
     public String Tag_Address = "Address Added";
-    private OrderDetails orders;
+    private OrderDetailsRoomModel orderDetailsRoomModel;
     private String shopUid;
 
     Toolbar toolbar;
     final String timestamp = ""+System.currentTimeMillis();
+    private OrderDetailsRepository orderDetailsRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +107,7 @@ public class CheckoutActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
         addressSelected = findViewById(R.id.addressSelected);
         firebaseFirestore = FirebaseFirestore.getInstance();
+        orderDetailsRepository = new OrderDetailsRepository(getApplication(), firebaseAuth.getUid());
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,8 +190,7 @@ public class CheckoutActivity extends AppCompatActivity {
         try {
             //what to send
             notificationBodyJo.put("notificationType", NOTIFICATION_TYPE);
-            notificationBodyJo.put("orderDetailsObj", new Gson().toJson(orders));
-            notificationBodyJo.put("productItems", new Gson().toJson(productsList));
+            notificationBodyJo.put("orderDetailsObj", new Gson().toJson(orderDetailsRoomModel));
             notificationBodyJo.put("notificationTitle", NOTIFICATION_TITLE);
             notificationBodyJo.put("notificationMessage", NOTIFICATION_MESSAGE);
             //where to send
@@ -207,8 +211,8 @@ public class CheckoutActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 //after sending fcm start order details activity
                 Intent intent = new Intent(CheckoutActivity.this, OrderDetailsActivity.class);
-                intent.putExtra("orderDetailsObj", orders);
-                intent.putExtra("productItems", new Gson().toJson(productsList));
+                intent.putExtra("orderDetailsObj", orderDetailsRoomModel);
+                intent.putExtra("orderId", orderDetailsRoomModel.getOrderId());
                 startActivity(intent);
             }
         }, new Response.ErrorListener() {
@@ -216,8 +220,8 @@ public class CheckoutActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 //if failed sending fcm, still start order details activity
                 Intent intent = new Intent(CheckoutActivity.this, OrderDetailsActivity.class);
-                intent.putExtra("orderDetailsObj", orders);
-                intent.putExtra("productItems", new Gson().toJson(productsList));
+                intent.putExtra("orderDetailsObj", orderDetailsRoomModel);
+                intent.putExtra("orderId", orderDetailsRoomModel.getOrderId());
                 startActivity(intent);
             }
         }){
@@ -262,12 +266,13 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
 
-        firebaseFirestore.collection("userOrders").document(orderId).set(orders)
+        firebaseFirestore.collection("userOrders").document(orderId).set(orderDetailsRoomModel)
             .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
                         Toast.makeText(CheckoutActivity.this,"Order Address Saved",Toast.LENGTH_SHORT).show();
+                        setOrderDetails(orderDetailsRoomModel);
                     }
                 }
             })
@@ -307,7 +312,7 @@ public class CheckoutActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Admin admin = task.getResult().getDocuments().get(0).toObject(Admin.class);
 
-                            orders = new OrderDetails(todaysDate, orderId, OrderStatus.Pending.name(), users.emailId, firebaseAuth.getUid(),
+                            orderDetailsRoomModel = new OrderDetailsRoomModel(todaysDate, orderId, OrderStatus.Pending.name(), users.emailId, firebaseAuth.getUid(),
                                     userAddress.firstName+" "+userAddress.lastName, userAddress.contactNumber, userAddress.houseNumber+"-"+userAddress.apartmentName,
                                     userAddress.landmark, userAddress.areaDetails, userAddress.city, userAddress.pincode, userAddress.latitude, userAddress.longitude,
                                     admin.shopEmail, admin.uid, admin.shopName, admin.shopPhone, admin.latitude, admin.longitude, admin.city, "sellerPincode",
@@ -323,5 +328,15 @@ public class CheckoutActivity extends AppCompatActivity {
                         Toast.makeText(CheckoutActivity.this,"Failed to create orders object",Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    @Override
+    public void setOrderDetails(OrderDetailsRoomModel orderDetailsRoomModel) {
+        orderDetailsRepository.insert(orderDetailsRoomModel);
+    }
+
+    @Override
+    public void deleteOrderDetails(OrderDetailsRoomModel orderDetailsRoomModel) {
+        orderDetailsRepository.deleteProductUsingOrderId(orderDetailsRoomModel);
     }
 }

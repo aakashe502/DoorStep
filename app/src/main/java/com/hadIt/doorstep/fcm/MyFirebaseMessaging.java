@@ -28,17 +28,21 @@ import com.hadIt.doorstep.cache.model.OrderDetails;
 import com.hadIt.doorstep.cache.model.Products;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.order_details.OrderDetailsActivity;
+import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsRepository;
+import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsTransfer;
+import com.hadIt.doorstep.roomDatabase.orders.details.model.OrderDetailsRoomModel;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MyFirebaseMessaging extends FirebaseMessagingService {
+public class MyFirebaseMessaging extends FirebaseMessagingService implements OrderDetailsTransfer {
 
     private static final String NOTIFICATION_CHANNEL_ID = "MY_NOTIFICATION_CHANNEL_ID"; //FOR ANDROID 0 AND ABOVE
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private OrderDetailsRepository orderDetailsRepository;
 
     //all notifications will be received here
     @Override
@@ -53,22 +57,22 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
         if(notificationType.equals("Order Status Changed")){
             Gson gson = new Gson();
-            OrderDetails orderDetails = gson.fromJson(remoteMessage.getData().get("orderDetailsObj"), OrderDetails.class);
+            OrderDetailsRoomModel orderDetailsRoomModel = gson.fromJson(remoteMessage.getData().get("orderDetailsObj"), OrderDetailsRoomModel.class);
 
-            Type listType = new TypeToken<ArrayList<Products>>(){}.getType();
-            ArrayList<Products> getProductsList = gson.fromJson(remoteMessage.getData().get("productItems"), listType);
+            orderDetailsRepository = new OrderDetailsRepository(getApplication(), firebaseAuth.getUid());
+            setOrderDetails(orderDetailsRoomModel);
 
             String notificationTitle = remoteMessage.getData().get("notificationTitle");
             String notificationMessage = remoteMessage.getData().get("notificationMessage");
 
-            if(firebaseUser != null && firebaseAuth.getUid().equals(orderDetails.buyerUid)){
+            if(firebaseUser != null && firebaseAuth.getUid().equals(orderDetailsRoomModel.getBuyerUid())){
                 //user is signed in and is same user to whom notification is sent.
-                showNotification(orderDetails, getProductsList, notificationTitle, notificationMessage, notificationType);
+                showNotification(orderDetailsRoomModel, notificationTitle, notificationMessage, notificationType);
             }
         }
     }
 
-    private void showNotification(OrderDetails orderDetails, ArrayList<Products> productsArrayList, String notificationTitle, String notificationMessage, String notificationType){
+    private void showNotification(OrderDetailsRoomModel orderDetailsRoomModel, String notificationTitle, String notificationMessage, String notificationType){
         //notification
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -84,8 +88,8 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         if(notificationType.equals("Order Status Changed")) {
             //open order details seller activity
             intent = new Intent(this, OrderDetailsActivity.class);
-            intent.putExtra("orderDetailsObj", orderDetails);
-            intent.putExtra("productItems", new Gson().toJson(productsArrayList));
+            intent.putExtra("orderDetailsObj", orderDetailsRoomModel);
+            intent.putExtra("orderId", orderDetailsRoomModel.getOrderId());
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         }
@@ -122,5 +126,15 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         notificationChannel.enableVibration(true);
         Log.i("TAG got the message", notificationManager.toString());
         notificationManager.createNotificationChannel(notificationChannel);
+    }
+
+    @Override
+    public void setOrderDetails(OrderDetailsRoomModel orderDetailsRoomModel) {
+        orderDetailsRepository.insert(orderDetailsRoomModel);
+    }
+
+    @Override
+    public void deleteOrderDetails(OrderDetailsRoomModel orderDetailsRoomModel) {
+        orderDetailsRepository.deleteProductUsingOrderId(orderDetailsRoomModel);
     }
 }

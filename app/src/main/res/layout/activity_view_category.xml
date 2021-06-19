@@ -13,7 +13,6 @@
             android:layout_width="match_parent"
             android:background="@color/colorPrimary"
             android:id="@+id/toolBar"
-
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:layout_scrollFlags="scroll|enterAlways"
             android:layout_height="60dp" />
@@ -28,43 +27,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="You can select only one catagory at a time from below."
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorText"/>
-
-                <GridLayout
-                    android:id="@+id/radioBtn"
-                    android:layout_below="@id/text"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
+                <EditText
+                    android:id="@+id/search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
+                    android:layout_centerHorizontal="true"
+                    android:padding="10dp"
+                    android:hint="Search"
+                    android:drawableStart="@drawable/search"
+                    android:background="@drawable/search_product"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorText"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_marginTop="20dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/radioBtn"
+                    android:layout_below="@+id/search"
                     android:id="@+id/productrecycler" />
 
             </RelativeLayout>
-
         </ScrollView>
-
-
-
-
-
-
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

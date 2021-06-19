@@ -14,9 +14,9 @@ public class ProductViewModel extends AndroidViewModel {
     private ProductsRepository productsRepository;
     private LiveData<List<ProductsTable>> getAllData;
 
-    public ProductViewModel(@NonNull Application application, String shopUid, String productCategory) {
+    public ProductViewModel(@NonNull Application application, String shopUid) {
         super(application);
-        productsRepository = new ProductsRepository(application, shopUid, productCategory);
+        productsRepository = new ProductsRepository(application, shopUid);
         getAllData=productsRepository.getAllData();
     }
 
