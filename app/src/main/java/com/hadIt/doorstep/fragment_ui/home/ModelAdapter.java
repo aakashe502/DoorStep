@@ -11,9 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.hadIt.doorstep.R;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.ItemViewHolder> {
     private ArrayList<ModelClass> arrayList;
@@ -35,7 +38,7 @@ public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.ItemViewHold
     public void onBindViewHolder(@NonNull final ItemViewHolder holder,int position) {
 
         holder.groceryname.setText(arrayList.get(position).getName());
-        holder.groceryimage.setImageResource(arrayList.get(position).getImages());
+        Glide.with(context).load(arrayList.get(position).getImages()).into(holder.groceryimage);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,7 +54,7 @@ public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.ItemViewHold
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder{
-        public ImageView groceryimage;
+        public CircleImageView groceryimage;
         public TextView groceryname;
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);

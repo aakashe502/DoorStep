@@ -1,6 +1,5 @@
 package com.hadIt.doorstep.roomDatabase.cart;
 
-
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -11,7 +10,6 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.hadIt.doorstep.roomDatabase.cart.model.Data;
-
 
 @Database(entities = {Data.class},version = 5)
 public abstract class DataDatabase extends RoomDatabase {
