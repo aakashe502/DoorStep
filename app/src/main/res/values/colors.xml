@@ -16,5 +16,6 @@
     <color name="ColorGrey">#DA786F6F</color>
     <color name="colorBlue">#AE084768</color>
     <color name="colorLightBlue">#AE58AFDD</color>
+    <color name="colorLogo">#C6D322</color>
 
 </resources>

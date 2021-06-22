@@ -97,12 +97,12 @@ public class MyFirebaseMessaging extends FirebaseMessagingService implements Ord
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Large icon
-        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.doorstep);
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.lyptus);
 
         //sound notification
         Uri notificationSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-        notificationBuilder.setSmallIcon(R.drawable.doorstep)
+        notificationBuilder.setSmallIcon(R.drawable.lyptus)
                 .setLargeIcon(largeIcon)
                 .setContentTitle(notificationTitle)
                 .setContentText(notificationMessage)

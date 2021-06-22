@@ -31,7 +31,6 @@ import io.paperdb.Paper;
 public class LoginActivity extends AppCompatActivity {
     public Button createNewAccount, loginButton;
     public EditText email, password;
-    public FirebaseFirestore firebaseFirestore;
     public PasswordGeneratorMd5 md5;
     private CustomProgressBar customProgressBar;
     private PaperDb paperDb;
@@ -41,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Paper.init(getApplicationContext());
         paperDb = new PaperDb();
 
         md5 = new PasswordGeneratorMd5();
@@ -99,16 +97,6 @@ public class LoginActivity extends AppCompatActivity {
         }
         else{
             Toast.makeText(LoginActivity.this,"Email and password cannot be empty!",Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null){
-            startActivity(new Intent(LoginActivity.this, HomePage.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
         }
     }
 }

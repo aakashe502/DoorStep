@@ -220,7 +220,7 @@
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="10dp"
                             android:textColor="@color/ColorGrey"
-                            android:text=" Apartment Name"/>
+                            android:text=" Colony/Apartment Name"/>
                     </LinearLayout>
 
                     <LinearLayout

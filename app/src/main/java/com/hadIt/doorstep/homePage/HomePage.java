@@ -109,9 +109,6 @@ public class HomePage extends AppCompatActivity {
                         FirebaseAuth.getInstance().signOut();
                         startActivity(new Intent(HomePage.this, LoginActivity.class));
                         break;
-                    case R.id.basket:
-                       // startActivity(new Intent(HomePage.this, AddGrocery.class));
-                        break;
                     case  R.id.cart:
                         startActivity(new Intent(HomePage.this, CheckoutActivity.class));
                         break;
@@ -150,7 +147,6 @@ public class HomePage extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if(bottomNavigationView.getSelectedItemId() == R.id.navigation_home){
-            super.onBackPressed();
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//***Change Here***

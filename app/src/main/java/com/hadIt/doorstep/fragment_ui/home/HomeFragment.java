@@ -1,5 +1,6 @@
 package com.hadIt.doorstep.fragment_ui.home;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,7 +28,6 @@ import java.util.TimerTask;
 import me.relex.circleindicator.CircleIndicator3;
 
 public class HomeFragment extends Fragment {
-    public ImageView meat,veg,pastry;
     public RecyclerView recyclerView;
     public ArrayList<ModelClass> model;
     ViewPager2 mViewPager;
@@ -44,10 +44,10 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,Bundle savedInstanceState) {
 
-        root = inflater.inflate(R.layout.fragment_home,container,false);
+        root = inflater.inflate(R.layout.fragment_home, container,false);
         paperDb = new PaperDb();
         Users users = paperDb.getUserFromPaperDb();
-        getActivity().setTitle("Home - " + users.city + "(" + users.pinCode + ")");
+        getActivity().setTitle("Lyptus");
 
         mViewPager = root.findViewById(R.id.viewPagerMain);
         circleIndicator=root.findViewById(R.id.circleindicator);
@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment {
         recyclerView=root.findViewById(R.id.recyclerview);
         model= new ArrayList<>();
 
-        model.add(new ModelClass("VEGETABLES & FRUITS", R.drawable.vegetable));
+        model.add(new ModelClass("VEGETABLES & FRUITS", R.drawable.vegetables));
         model.add(new ModelClass("GROCERY", R.drawable.bake));
         model.add(new ModelClass("BEVERAGES", R.drawable.beverages));
         model.add(new ModelClass("NON-VEG", R.drawable.meat));
@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
         model.add(new ModelClass("DAIRY PRODUCTS", R.drawable.dairy_products));
 
         ModelAdapter modelAdapter=new ModelAdapter(model,root.getContext());
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(root.getContext(),3, LinearLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager=new GridLayoutManager(root.getContext(),4, LinearLayoutManager.VERTICAL,false);
 
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(modelAdapter);
