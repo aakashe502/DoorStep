@@ -10,15 +10,24 @@
         app:elevation="0dp"
         android:fitsSystemWindows="true"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        >
+        android:theme="@style/AppTheme.AppBarOverlay">
+        
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:background="@color/colorPrimary"
             android:id="@+id/toolBar"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:layout_scrollFlags="scroll|enterAlways"
+            app:menu="@menu/icon_cart_menu"
             android:layout_height="60dp">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/lyptus" />
+
+
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 

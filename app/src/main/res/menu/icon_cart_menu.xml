@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home1"
+        android:icon="@drawable/settings"
+        app:showAsAction="always"
+        android:title="title_home" />
+
+    <item
+        android:id="@+id/dash1"
+        app:showAsAction="always"
+        android:icon="@drawable/badge"
+        android:title="title_dashboard" />
+
+    <item
+        android:id="@+id/notif1"
+        android:icon="@drawable/bag"
+        app:showAsAction="always"
+        android:title="Bag" />
+</menu>
