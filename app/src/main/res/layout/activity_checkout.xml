@@ -34,9 +34,6 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/colorWhite"/>
-
-
-
         </RelativeLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

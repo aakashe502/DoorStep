@@ -14,14 +14,17 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.homePage.HomePage;
 import com.hadIt.doorstep.login_signup.LoginActivity;
 
 import io.paperdb.Paper;
 
+import static java.lang.Thread.sleep;
+
 public class SplashScreenActivity extends AppCompatActivity {
 
-    private static final int SPLASH_SCREEN = 1500;
+    private static final int SPLASH_SCREEN = 2000;
     Animation topAnim, bottomAnim;
     ImageView imageView;
 
@@ -47,6 +50,15 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(user != null){
+                    PaperDb paperDb=new PaperDb();
+                    if(paperDb.getUserFromPaperDb() == null){
+                        try {
+                            paperDb.saveUserInPaperDb();
+                            sleep(1500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     startActivity(new Intent(SplashScreenActivity.this, HomePage.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     finish();
                 }
