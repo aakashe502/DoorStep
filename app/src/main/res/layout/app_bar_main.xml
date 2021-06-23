@@ -21,12 +21,11 @@
             app:menu="@menu/icon_cart_menu"
             android:layout_height="60dp">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/lyptus" />
-
+                android:src="@drawable/lyptus"/>
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>

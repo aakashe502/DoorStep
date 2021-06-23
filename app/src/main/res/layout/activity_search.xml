@@ -34,9 +34,9 @@
                 android:padding="10dp"
                 android:background="#ffffff"
                 android:id="@+id/cardSearch"
-                android:hint="Search your Grocery"
-                android:textColorHint="@color/colorText"
-                android:textSize="20dp"
+                android:hint="Search your Products"
+                android:textColorHint="@color/colorGrey01"
+                android:textSize="15sp"
                 />
 
         </LinearLayout>

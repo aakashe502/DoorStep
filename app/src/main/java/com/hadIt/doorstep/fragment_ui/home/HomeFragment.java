@@ -4,7 +4,11 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,9 +20,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.hadIt.doorstep.CheckoutActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
+import com.hadIt.doorstep.fragment_ui.notifications.NotificationsFragment;
+import com.hadIt.doorstep.homePage.HomePage;
 import com.hadIt.doorstep.search.SearchActivity;
 
 import java.util.ArrayList;
@@ -33,7 +41,7 @@ public class HomeFragment extends Fragment {
     ViewPager2 mViewPager;
     CircleIndicator3 circleIndicator;
     // images array
-    int[] images = {R.drawable.a1, R.drawable.a2, R.drawable.a3};
+    int[] images = {R.drawable.a1, R.drawable.lyptus_theme, R.drawable.a2, R.drawable.a3};
     // Creating Object of ViewPagerAdapter
     Timer timer;
     Handler handler;
@@ -43,6 +51,7 @@ public class HomeFragment extends Fragment {
     public View root;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
 
         root = inflater.inflate(R.layout.fragment_home, container,false);
         paperDb = new PaperDb();
@@ -88,7 +97,7 @@ public class HomeFragment extends Fragment {
 
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(modelAdapter);
-        handler=new Handler();
+        handler=new Handler(Looper.myLooper());
         timer=new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -108,9 +117,28 @@ public class HomeFragment extends Fragment {
                     }
                 });
             }
-        },4000,4000);
+        },500,4000);
 
         return root;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.icon_cart_menu, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.notification:
+//                startActivity(new Intent(getActivity(), NotificationsFragment.class));
+                break;
+            case R.id.cart:
+                startActivity(new Intent(getActivity(), CheckoutActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

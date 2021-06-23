@@ -2,20 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/home1"
-        android:icon="@drawable/settings"
+        android:id="@+id/notification"
         app:showAsAction="always"
-        android:title="title_home" />
-
-    <item
-        android:id="@+id/dash1"
-        app:showAsAction="always"
-        android:icon="@drawable/badge"
+        android:icon="@drawable/ic_notifications_black_24dp"
         android:title="title_dashboard" />
 
     <item
-        android:id="@+id/notif1"
-        android:icon="@drawable/bag"
+        android:id="@+id/cart"
+        android:icon="@drawable/cart_button"
         app:showAsAction="always"
         android:title="Bag" />
+
 </menu>

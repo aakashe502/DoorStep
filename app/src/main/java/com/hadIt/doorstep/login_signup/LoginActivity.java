@@ -8,7 +8,6 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,15 +17,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.homePage.HomePage;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.md5.PasswordGeneratorMd5;
 import com.hadIt.doorstep.progressBar.CustomProgressBar;
 
-import io.paperdb.Paper;
+import static java.lang.Thread.sleep;
 
 public class LoginActivity extends AppCompatActivity {
     public Button createNewAccount, loginButton;
@@ -61,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gotonewActivity();
+                goToNewActivity();
             }
         });
 
@@ -73,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void gotonewActivity() {
+    private void goToNewActivity() {
         if(!email.getText().toString().isEmpty() && !password.getText().toString().isEmpty()){
 
             customProgressBar.show();
