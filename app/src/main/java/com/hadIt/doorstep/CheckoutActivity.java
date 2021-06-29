@@ -316,7 +316,7 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
                                     userAddress.firstName+" "+userAddress.lastName, userAddress.contactNumber, userAddress.houseNumber+"-"+userAddress.apartmentName,
                                     userAddress.landmark, userAddress.areaDetails, userAddress.city, userAddress.pincode, userAddress.latitude, userAddress.longitude,
                                     admin.shopEmail, admin.uid, admin.shopName, admin.shopPhone, admin.latitude, admin.longitude, admin.city, "sellerPincode",
-                                    "sellerAreaDetails", "sellerLandmark", sum, length
+                                    "sellerAreaDetails", "sellerLandmark", sum, length, "", "", ""
                             );
                             saveOrderDetailsFirst(orderId);
                             prepareNotificationMessage(timestamp);

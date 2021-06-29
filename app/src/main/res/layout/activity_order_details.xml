@@ -194,6 +194,45 @@
                     android:textColor="?android:attr/textColorPrimary"/>
             </TableRow>
 
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delivery Boy: "
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:textStyle="bold"
+                    android:textColor="?android:attr/textColorPrimary"/>
+                <TextView
+                    android:id="@+id/deliveryBoyName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textColor="?android:attr/textColorPrimary"/>
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delivery Boy Phone: "
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:textStyle="bold"
+                    android:textColor="?android:attr/textColorPrimary"/>
+                <TextView
+                    android:id="@+id/deliveryBoyPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:autoLink="all"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textColor="?android:attr/textColorPrimary"/>
+            </TableRow>
+
         </TableLayout>
 
     </androidx.cardview.widget.CardView>

@@ -76,37 +76,12 @@ public class PickOrderAdapter extends RecyclerView.Adapter<PickOrderAdapter.View
             @Override
             public void onClick(View v) {
                 productsList = new ArrayList<>();
-                getProductList(orderDetailsRoomModel.getOrderId(), orderDetailsRoomModel);
+                Intent intent = new Intent(context, OrderDetailsActivity.class);
+                intent.putExtra("orderDetailsObj", orderDetailsRoomModel);
+                intent.putExtra("orderId", orderDetailsRoomModel.getOrderId());
+                context.startActivity(intent);
             }
         });
-    }
-
-    private void getProductList(String orderId, final OrderDetailsRoomModel orderDetailsRoomModel) {
-        firebaseFirestore = FirebaseFirestore.getInstance();
-
-        firebaseFirestore.collection("userOrders").document(orderId).collection("productItems")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot dpc:task.getResult().getDocuments()){
-                                Products products = dpc.toObject(Products.class);
-                                productsList.add(products);
-                            }
-                            Intent intent = new Intent(context, OrderDetailsActivity.class);
-                            intent.putExtra("orderDetailsObj", orderDetailsRoomModel);
-                            intent.putExtra("orderId", orderDetailsRoomModel.getOrderId());
-                            context.startActivity(intent);
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(context, ""+e.getStackTrace(), Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
     @Override

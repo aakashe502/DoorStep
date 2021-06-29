@@ -65,8 +65,14 @@ public class OrderDetailsRoomModel implements Serializable {
     private double totalAmount;
     @ColumnInfo(name = "itemCount")
     private int itemCount;
+    @ColumnInfo(name = "deliveryBoyName")
+    private String deliveryBoyName;
+    @ColumnInfo(name = "deliveryBoyMobile")
+    private String deliveryBoyMobile;
+    @ColumnInfo(name = "deliveryBoyUid")
+    private String deliveryBoyUid;
 
-    public OrderDetailsRoomModel(String orderDate, @NonNull String orderId, String orderStatus, String buyerEmail, String buyerUid, String buyerFullName, String buyerMobileNumber, String buyerHouseDetails, String buyerLandmark, String buyerAreaDetails, String buyerCity, String buyerPincode, String buyerLatitude, String buyerLongitude, String sellerEmail, String sellerUid, String sellerShopName, String sellerMobileNumber, String sellerLatitude, String sellerLongitude, String sellerCity, String sellerPincode, String sellerAreaDetails, String sellerLandmark, double totalAmount, int itemCount) {
+    public OrderDetailsRoomModel(String orderDate, @NonNull String orderId, String orderStatus, String buyerEmail, String buyerUid, String buyerFullName, String buyerMobileNumber, String buyerHouseDetails, String buyerLandmark, String buyerAreaDetails, String buyerCity, String buyerPincode, String buyerLatitude, String buyerLongitude, String sellerEmail, String sellerUid, String sellerShopName, String sellerMobileNumber, String sellerLatitude, String sellerLongitude, String sellerCity, String sellerPincode, String sellerAreaDetails, String sellerLandmark, double totalAmount, int itemCount, String deliveryBoyName, String deliveryBoyMobile, String deliveryBoyUid) {
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
@@ -93,6 +99,9 @@ public class OrderDetailsRoomModel implements Serializable {
         this.sellerLandmark = sellerLandmark;
         this.totalAmount = totalAmount;
         this.itemCount = itemCount;
+        this.deliveryBoyName = deliveryBoyName;
+        this.deliveryBoyMobile = deliveryBoyMobile;
+        this.deliveryBoyUid = deliveryBoyUid;
     }
 
     public OrderDetailsRoomModel() {
@@ -305,6 +314,30 @@ public class OrderDetailsRoomModel implements Serializable {
 
     public void setItemCount(int itemCount) {
         this.itemCount = itemCount;
+    }
+
+    public String getDeliveryBoyName() {
+        return deliveryBoyName;
+    }
+
+    public void setDeliveryBoyName(String deliveryBoyName) {
+        this.deliveryBoyName = deliveryBoyName;
+    }
+
+    public String getDeliveryBoyMobile() {
+        return deliveryBoyMobile;
+    }
+
+    public void setDeliveryBoyMobile(String deliveryBoyMobile) {
+        this.deliveryBoyMobile = deliveryBoyMobile;
+    }
+
+    public String getDeliveryBoyUid() {
+        return deliveryBoyUid;
+    }
+
+    public void setDeliveryBoyUid(String deliveryBoyUid) {
+        this.deliveryBoyUid = deliveryBoyUid;
     }
 
     public String usersAddress(){

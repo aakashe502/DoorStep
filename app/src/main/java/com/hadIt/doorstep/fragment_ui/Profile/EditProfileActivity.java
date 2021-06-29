@@ -103,7 +103,6 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-
         if(userData.profilePhoto!=null){
             customProgressBar.show();
             Glide.with(this)

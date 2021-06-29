@@ -38,7 +38,8 @@ import java.util.List;
 public class OrderDetailsActivity extends AppCompatActivity implements OrderItemsTransfer {
 
     private ImageButton backBtn;
-    private TextView orderIdTv, dateTv, orderStatusTv, shopEmailTv, shopPhoneTv, totalItemsTv, amountTv, deliveryAddressTv;
+    private TextView orderIdTv, dateTv, orderStatusTv, shopEmailTv, shopPhoneTv, totalItemsTv, amountTv,
+            deliveryAddressTv, deliveryBoyName, deliveryBoyPhone;
     private OrderDetailsRoomModel orderDetailsRoomModel;
     private RecyclerView itemsRv;
     private List<Products> getProductsList;
@@ -72,6 +73,8 @@ public class OrderDetailsActivity extends AppCompatActivity implements OrderItem
         amountTv = findViewById(R.id.amountTv);
         deliveryAddressTv = findViewById(R.id.deliveryAddressTv);
         itemsRv = findViewById(R.id.itemsRv);
+        deliveryBoyName = findViewById(R.id.deliveryBoyName);
+        deliveryBoyPhone = findViewById(R.id.deliveryBoyPhone);
 
         orderDetailsRoomModel = (OrderDetailsRoomModel) getIntent().getSerializableExtra("orderDetailsObj");
 
@@ -104,6 +107,11 @@ public class OrderDetailsActivity extends AppCompatActivity implements OrderItem
         amountTv.setText("\u20B9" + orderDetailsRoomModel.getTotalAmount());
         deliveryAddressTv.setText(orderDetailsRoomModel.usersAddress());
         itemsRv.setAdapter(orderDetailsProductAdapter);
+
+        if(orderDetailsRoomModel.getDeliveryBoyName() != null){
+            deliveryBoyName.setText(orderDetailsRoomModel.getDeliveryBoyName());
+            deliveryBoyPhone.setText(orderDetailsRoomModel.getDeliveryBoyMobile());
+        }
     }
 
     private void getProductList() {
