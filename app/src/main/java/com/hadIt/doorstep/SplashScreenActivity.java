@@ -50,15 +50,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(user != null){
-                    PaperDb paperDb=new PaperDb();
-                    if(paperDb.getUserFromPaperDb() == null){
-                        try {
-                            paperDb.saveUserInPaperDb();
-                            sleep(1500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
                     startActivity(new Intent(SplashScreenActivity.this, HomePage.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     finish();
                 }

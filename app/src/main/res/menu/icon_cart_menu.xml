@@ -2,15 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/notification"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="title_dashboard" />
-
-    <item
-        android:id="@+id/cart"
+        android:id="@+id/cart2"
         android:icon="@drawable/cart_button"
         app:showAsAction="always"
+        android:actionLayout="@layout/customlayout"
         android:title="Bag" />
 
 </menu>

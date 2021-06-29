@@ -1,6 +1,5 @@
 package com.hadIt.doorstep.fragment_ui.home;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,8 +23,7 @@ import com.hadIt.doorstep.CheckoutActivity;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
-import com.hadIt.doorstep.fragment_ui.notifications.NotificationsFragment;
-import com.hadIt.doorstep.homePage.HomePage;
+import com.hadIt.doorstep.fragment_ui.notifications.NotificationActivity;
 import com.hadIt.doorstep.search.SearchActivity;
 
 import java.util.ArrayList;
@@ -47,6 +44,8 @@ public class HomeFragment extends Fragment {
     Handler handler;
     TextView cardSearch;
     private PaperDb paperDb;
+    private int mCartItemCount = 10;
+    public TextView textCartItemCount;
 
     public View root;
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -124,25 +123,49 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.icon_cart_menu, menu);
+        inflater.inflate(R.menu.addcart, menu);
+
+        final MenuItem menuItem = menu.findItem(R.id.action_carta);
+
+        View actionView = menuItem.getActionView();
+        textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
+        setupBadge();
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItem);
+            }
+        });
+
+
         super.onCreateOptionsMenu(menu,inflater);
+    }
+    private void setupBadge() {
+        if (textCartItemCount != null) {
+            textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
+
+            if (textCartItemCount.getVisibility() != View.VISIBLE) {
+                textCartItemCount.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.notification:
-//                startActivity(new Intent(getActivity(), NotificationsFragment.class));
+                startActivity(new Intent(getActivity(), NotificationActivity.class));
                 break;
-            case R.id.cart:
+            case R.id.action_carta:
                 startActivity(new Intent(getActivity(), CheckoutActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public void onStart() {
         super.onStart();
+        if(textCartItemCount!=null)
+            textCartItemCount.setText(""+mCartItemCount);
     }
 }

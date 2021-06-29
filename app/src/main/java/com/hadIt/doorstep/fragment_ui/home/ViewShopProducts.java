@@ -146,9 +146,12 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.addcart, menu);
         final MenuItem menuItem = menu.findItem(R.id.action_carta);
+        final MenuItem menuItem2 = menu.findItem(R.id.notification);
+        menuItem2.setVisible(false);
 
         View actionView = menuItem.getActionView();
         textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
+
         setupBadge();
         actionView.setOnClickListener(new View.OnClickListener() {
             @Override
