@@ -55,7 +55,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService implements Ord
         //get data from notification
         String notificationType = remoteMessage.getData().get("notificationType");
 
-        if(notificationType.equals("Order Status Changed")){
+        if(notificationType.equals("Order Status Changed") || notificationType.equals("Delivery Boy Assigned")){
             Gson gson = new Gson();
             OrderDetailsRoomModel orderDetailsRoomModel = gson.fromJson(remoteMessage.getData().get("orderDetailsObj"), OrderDetailsRoomModel.class);
 
@@ -85,7 +85,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService implements Ord
         }
 
         Intent intent = null;
-        if(notificationType.equals("Order Status Changed")) {
+        if(notificationType.equals("Order Status Changed") || notificationType.equals("Delivery Boy Assigned")) {
             //open order details seller activity
             intent = new Intent(this, OrderDetailsActivity.class);
             intent.putExtra("orderDetailsObj", orderDetailsRoomModel);
