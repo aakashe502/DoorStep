@@ -34,7 +34,7 @@ public class PaperDb {
 
         try {
             Task<DocumentSnapshot> documents = firebaseFirestore.collection("users").document(currentUser).get();
-            sleep(1000);
+            sleep(2000);
             DocumentSnapshot userObject = documents.getResult();
             if(userObject!=null){
                 userData = userObject.toObject(Users.class);

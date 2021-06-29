@@ -18,7 +18,7 @@
             android:id="@+id/toolBar"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:menu="@menu/icon_cart_menu"
+            app:menu="@menu/addcart"
             android:layout_height="60dp">
 
             <de.hdodenhof.circleimageview.CircleImageView

@@ -15,9 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".fragment_ui.notifications.NotificationActivity"></activity>
         <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -44,9 +46,7 @@
         <activity
             android:name=".login_signup.SignUpActivity"
             android:parentActivityName=".login_signup.LoginActivity" />
-        <activity android:name=".login_signup.LoginActivity">
-
-        </activity>
+        <activity android:name=".login_signup.LoginActivity"></activity>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
