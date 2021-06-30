@@ -32,14 +32,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.hadIt.doorstep.Adapter.DataAdapter;
 import com.hadIt.doorstep.cache.model.Admin;
+import com.hadIt.doorstep.roomDatabase.address.model.AddressModel;
 import com.hadIt.doorstep.roomDatabase.cart.DataDatabase;
 import com.hadIt.doorstep.roomDatabase.cart.DataViewModal;
 import com.hadIt.doorstep.address.SelectAddress;
-import com.hadIt.doorstep.cache.model.AddressModelClass;
 import com.hadIt.doorstep.roomDatabase.cart.model.Data;
 
 import com.hadIt.doorstep.cache.model.OrderStatus;
-import com.hadIt.doorstep.cache.model.OrderDetails;
 import com.hadIt.doorstep.cache.model.Products;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
@@ -164,10 +163,10 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
     }
 
     private void submitOrder(){
-        AddressModelClass addressModelClass = paperDb.getAddressFromPaperDb();
+        AddressModel addressModelClass = paperDb.getAddressFromPaperDb();
         if(addressModelClass != null){
             Users users = paperDb.getUserFromPaperDb();
-            AddressModelClass userAddress = paperDb.getAddressFromPaperDb();
+            AddressModel userAddress = paperDb.getAddressFromPaperDb();
 
             createOrdersObject(users, userAddress, timestamp);
         }
@@ -296,7 +295,7 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
         }).start();
     }
 
-    private void createOrdersObject(final Users users, final AddressModelClass userAddress, final String orderId) {
+    private void createOrdersObject(final Users users, final AddressModel userAddress, final String orderId) {
         if(shopUid == null)
             try {
                 wait(1000);
@@ -313,8 +312,9 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
                             Admin admin = task.getResult().getDocuments().get(0).toObject(Admin.class);
 
                             orderDetailsRoomModel = new OrderDetailsRoomModel(todaysDate, orderId, OrderStatus.Pending.name(), users.emailId, firebaseAuth.getUid(),
-                                    userAddress.firstName+" "+userAddress.lastName, userAddress.contactNumber, userAddress.houseNumber+"-"+userAddress.apartmentName,
-                                    userAddress.landmark, userAddress.areaDetails, userAddress.city, userAddress.pincode, userAddress.latitude, userAddress.longitude,
+                                    userAddress.getFirstName()+" "+userAddress.getLastName(), userAddress.getContactNumber(),
+                                    userAddress.getHouseNumber()+"-"+userAddress.getApartmentName(), userAddress.getLandmark(),
+                                    userAddress.getAreaDetails(), userAddress.getCity(), userAddress.getPincode(), userAddress.getLatitude(), userAddress.getLongitude(),
                                     admin.shopEmail, admin.uid, admin.shopName, admin.shopPhone, admin.latitude, admin.longitude, admin.city, "sellerPincode",
                                     "sellerAreaDetails", "sellerLandmark", sum, length, "", "", ""
                             );

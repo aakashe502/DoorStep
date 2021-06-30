@@ -32,16 +32,18 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.cache.model.AddressModelClass;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.progressBar.CustomProgressBar;
+import com.hadIt.doorstep.roomDatabase.address.AddressDataTransfer;
+import com.hadIt.doorstep.roomDatabase.address.AddressRepository;
+import com.hadIt.doorstep.roomDatabase.address.model.AddressModel;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class AddNewAddress extends AppCompatActivity {
+public class AddNewAddress extends AppCompatActivity implements AddressDataTransfer {
 
     private static final int REQUEST_LOCATION = 1;
     private LocationManager locationManager;
@@ -54,6 +56,8 @@ public class AddNewAddress extends AppCompatActivity {
     private Button saveAddress;
     private FirebaseFirestore firebaseFirestore;
     private PaperDb paperDb;
+    private AddressRepository addressRepository;
+
     private static final String Tag = "Add New Address";
 
     @Override
@@ -73,6 +77,7 @@ public class AddNewAddress extends AppCompatActivity {
         pincodeEt = findViewById(R.id.pincodeEt);
         saveAddress = findViewById(R.id.saveAddress);
         firebaseFirestore = FirebaseFirestore.getInstance();
+        addressRepository = new AddressRepository(getApplication());
         paperDb = new PaperDb();
 
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -214,7 +219,7 @@ public class AddNewAddress extends AppCompatActivity {
         customProgressBar.show();
 
         String addressUid = "" + System.currentTimeMillis();
-        AddressModelClass addressModelClass = new AddressModelClass(firstNameEt.getText().toString(), lastNameEt.getText().toString(),
+        final AddressModel addressModel = new AddressModel(firstNameEt.getText().toString(), lastNameEt.getText().toString(),
                 mobileNumberEt.getText().toString(), houseNumberEt.getText().toString(),
                 TextUtils.isEmpty(apartmentNameEt.getText()) ? "":apartmentNameEt.getText().toString(),
                 landmarkEt.getText().toString(), areaDetailsEt.getText().toString(), cityName.getText().toString(),
@@ -222,11 +227,12 @@ public class AddNewAddress extends AppCompatActivity {
 
         Users users = paperDb.getUserFromPaperDb();
         firebaseFirestore.collection("users").document(users.emailId).collection("address").document(addressUid)
-            .set(addressModelClass)
+            .set(addressModel)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     startActivity(new Intent(AddNewAddress.this, SelectAddress.class));
+                    onSetValues(addressModel);
                     customProgressBar.dismiss();
                     Toast.makeText(AddNewAddress.this, "Address Added Successfully...", Toast.LENGTH_SHORT).show();
                 }
@@ -239,5 +245,15 @@ public class AddNewAddress extends AppCompatActivity {
                     Toast.makeText( AddNewAddress.this, "Error in saving the address", Toast.LENGTH_SHORT).show();
                 }
             });
+    }
+
+    @Override
+    public void onSetValues(AddressModel addressModel) {
+        addressRepository.insert(addressModel);
+    }
+
+    @Override
+    public void onDelete(AddressModel addressModel) {
+        addressRepository.delete(addressModel.getAddressUid());
     }
 }

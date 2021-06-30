@@ -1,24 +1,21 @@
-package com.hadIt.doorstep.roomDatabase.Address;
+package com.hadIt.doorstep.roomDatabase.address;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import com.hadIt.doorstep.roomDatabase.cart.DataDao;
-import com.hadIt.doorstep.roomDatabase.cart.DataDatabase;
-import com.hadIt.doorstep.roomDatabase.cart.DataRepository;
-import com.hadIt.doorstep.roomDatabase.cart.model.Data;
+import com.hadIt.doorstep.roomDatabase.address.model.AddressModel;
 
 import java.util.List;
 public class AddressRepository {
-    private DataDatabase dataDatabase;
+    private AddressDatabase dataDatabase;
     private LiveData<List<AddressModel>> getAllData;
 
     public AddressRepository(Application application)
     {
-        dataDatabase = DataDatabase.getInstance(application);
-        getAllData = dataDatabase.dataDao().getAllData();
+        dataDatabase = AddressDatabase.getInstance(application);
+        getAllData = dataDatabase.addressDao().getAllData();
     }
 
     public void insert(AddressModel dataList)
@@ -36,32 +33,31 @@ public class AddressRepository {
         new AddressRepository.DeleteAllAsynTask(dataDatabase).execute();
     }
 
-    public void delete(String id)
+    public void delete(String addressUid)
     {
-        new AddressRepository.DeleteAsynTask(dataDatabase).execute(id);
+        new AddressRepository.DeleteAsynTask(dataDatabase).execute(addressUid);
     }
-
 
     static class InsertAsynTask extends AsyncTask<AddressModel,Void,Void>
     {
-        private DataDao dataDao;
-        InsertAsynTask(DataDatabase dataDatabase)
+        private AddressDao addressDao;
+        InsertAsynTask(AddressDatabase addressDatabase)
         {
-            dataDao=dataDatabase.dataDao();
+            addressDao=addressDatabase.addressDao();
         }
         @SafeVarargs
         @Override
         protected final Void doInBackground(AddressModel... lists) {
-
+            addressDao.insert(lists[0]);
             return null;
         }
     }
 
     static class DeleteAllAsynTask extends AsyncTask<Void,Void,Void>{
-        private DataDao dataDao;
-        DeleteAllAsynTask(DataDatabase dataDatabase)
+        private AddressDao dataDao;
+        DeleteAllAsynTask(AddressDatabase addressDatabase)
         {
-            dataDao=dataDatabase.dataDao();
+            dataDao=addressDatabase.addressDao();
         }
         @Override
         protected Void doInBackground(Void... voids) {
@@ -71,9 +67,9 @@ public class AddressRepository {
     }
 
     static class DeleteAsynTask  extends AsyncTask<String,Void,Void>{
-        private DataDao dataDao;
-        public DeleteAsynTask(DataDatabase dataDatabase) {
-            dataDao=dataDatabase.dataDao();
+        private AddressDao dataDao;
+        public DeleteAsynTask(AddressDatabase dataDatabase) {
+            dataDao=dataDatabase.addressDao();
         }
 
         @Override
