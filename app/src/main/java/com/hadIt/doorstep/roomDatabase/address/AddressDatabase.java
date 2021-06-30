@@ -1,4 +1,4 @@
-package com.hadIt.doorstep.roomDatabase.Address;
+package com.hadIt.doorstep.roomDatabase.address;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -9,16 +9,13 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.hadIt.doorstep.roomDatabase.cart.DataDao;
-import com.hadIt.doorstep.roomDatabase.cart.DataDatabase;
-
-import static androidx.room.Room.databaseBuilder;
-
+import com.hadIt.doorstep.roomDatabase.address.model.AddressModel;
 
 @Database(entities = {AddressModel.class},version = 5)
 public abstract class AddressDatabase extends RoomDatabase {
+
     private static final String DATABASE_NAME1="Address";
-    public abstract DataDao dataDao();
+    public abstract AddressDao addressDao();
     private static volatile AddressDatabase INSTANCE=null;
 
     public static AddressDatabase getInstance(Context context)
@@ -48,15 +45,15 @@ public abstract class AddressDatabase extends RoomDatabase {
     };
 
     static class PopulateAsynTask extends AsyncTask<Void,Void,Void> {
-        private AddressDao dataDao;
+        private AddressDao addressDao;
 
         PopulateAsynTask(AddressDatabase dataDatabase)
         {
-            dataDao= (AddressDao) dataDatabase.dataDao();
+            addressDao = dataDatabase.addressDao();
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            dataDao.deleteAll();
+            addressDao.deleteAll();
             return null;
         }
     }

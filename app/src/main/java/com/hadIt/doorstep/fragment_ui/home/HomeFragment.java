@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
     Handler handler;
     TextView cardSearch;
     private PaperDb paperDb;
-    private int mCartItemCount = 10;
+    private int mCartItemCount = 0;
     public TextView textCartItemCount;
 
     public View root;
@@ -137,7 +137,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
         super.onCreateOptionsMenu(menu,inflater);
     }
     private void setupBadge() {
@@ -162,6 +161,7 @@ public class HomeFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onStart() {
         super.onStart();

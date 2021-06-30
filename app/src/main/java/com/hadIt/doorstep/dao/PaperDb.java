@@ -4,8 +4,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.hadIt.doorstep.cache.model.AddressModelClass;
 import com.hadIt.doorstep.cache.model.Users;
+import com.hadIt.doorstep.roomDatabase.address.model.AddressModel;
 
 import io.paperdb.Paper;
 
@@ -45,12 +45,12 @@ public class PaperDb {
         }
     }
 
-    public AddressModelClass getAddressFromPaperDb(){
-        AddressModelClass userAddress = Paper.book().read(firebaseAuth.getCurrentUser().getUid()+"address");
+    public AddressModel getAddressFromPaperDb(){
+        AddressModel userAddress = Paper.book().read(firebaseAuth.getCurrentUser().getUid()+"address");
         return userAddress;
     }
 
-    public void saveAddressInPaperDb(AddressModelClass addressModelClass) throws InterruptedException {
+    public void saveAddressInPaperDb(AddressModel addressModelClass) throws InterruptedException {
         Paper.book().write(firebaseAuth.getCurrentUser().getUid()+"address", addressModelClass);
         sleep(1000);
     }

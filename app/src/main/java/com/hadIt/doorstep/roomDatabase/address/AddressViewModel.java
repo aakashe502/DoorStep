@@ -1,4 +1,4 @@
-package com.hadIt.doorstep.roomDatabase.Address;
+package com.hadIt.doorstep.roomDatabase.address;
 
 import android.app.Application;
 
@@ -6,16 +6,15 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.hadIt.doorstep.roomDatabase.cart.DataRepository;
-import com.hadIt.doorstep.roomDatabase.cart.model.Data;
+import com.hadIt.doorstep.roomDatabase.address.model.AddressModel;
 
 import java.util.List;
 
-public class AddressViewmodel  extends AndroidViewModel {
+public class AddressViewModel extends AndroidViewModel {
     private AddressRepository dataRespository;
     private LiveData<List<AddressModel>> getAllData;
 
-    public AddressViewmodel(@NonNull Application application) {
+    public AddressViewModel(@NonNull Application application) {
         super(application);
         dataRespository=new AddressRepository(application);
         getAllData=dataRespository.getAllData();
@@ -26,7 +25,7 @@ public class AddressViewmodel  extends AndroidViewModel {
         dataRespository.insert(dataList);
     }
 
-    public LiveData<List<AddressModel>> getCheckoutdata() {
+    public LiveData<List<AddressModel>> getAllAddress() {
         return getAllData;
     }
 

@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 
-import com.hadIt.doorstep.roomDatabase.Address.AddressModel;
 import com.hadIt.doorstep.roomDatabase.cart.model.Data;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public interface DataDao {
     void deleteAll();
 
     @Query("SELECT * FROM data")
-    LiveData<List<AddressModel>> getAllData();
+    LiveData<List<Data>> getAllData();
 
     @Query("DELETE FROM data WHERE id=:id")
     void delete(String id);

@@ -17,12 +17,14 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.cache.model.AddressModelClass;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.progressBar.CustomProgressBar;
+import com.hadIt.doorstep.roomDatabase.address.AddressDataTransfer;
+import com.hadIt.doorstep.roomDatabase.address.AddressRepository;
+import com.hadIt.doorstep.roomDatabase.address.model.AddressModel;
 
-public class EditAddress extends AppCompatActivity {
+public class EditAddress extends AppCompatActivity implements AddressDataTransfer {
 
     private ImageButton backBtn;
     private String addressUid, latitude, longitude;
@@ -32,6 +34,7 @@ public class EditAddress extends AppCompatActivity {
     private Button saveAddress;
     private FirebaseFirestore firebaseFirestore;
     private PaperDb paperDb;
+    private AddressRepository addressRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class EditAddress extends AppCompatActivity {
         cityName = findViewById(R.id.cityName);
         pincodeEt = findViewById(R.id.pincodeEt);
         saveAddress = findViewById(R.id.saveAddress);
+        addressRepository = new AddressRepository(getApplication());
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +111,7 @@ public class EditAddress extends AppCompatActivity {
             return;
         }
 
-        AddressModelClass addressModelClass = new AddressModelClass(firstNameEt.getText().toString(), lastNameEt.getText().toString(),
+        final AddressModel addressModelClass = new AddressModel(firstNameEt.getText().toString(), lastNameEt.getText().toString(),
                 mobileNumberEt.getText().toString(), houseNumberEt.getText().toString(),
                 TextUtils.isEmpty(apartmentNameEt.getText()) ? "":apartmentNameEt.getText().toString(),
                 landmarkEt.getText().toString(), areaDetailsEt.getText().toString(), cityName.getText().toString(),
@@ -123,6 +127,7 @@ public class EditAddress extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         startActivity(new Intent(EditAddress.this, SelectAddress.class));
+                        onSetValues(addressModelClass);
                         customProgressBar.dismiss();
                         Toast.makeText(EditAddress.this, "Address Added Successfully...", Toast.LENGTH_SHORT).show();
                     }
@@ -135,5 +140,15 @@ public class EditAddress extends AppCompatActivity {
                         Toast.makeText( EditAddress.this, "Error in saving the address", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    @Override
+    public void onSetValues(AddressModel addressModel) {
+        addressRepository.insert(addressModel);
+    }
+
+    @Override
+    public void onDelete(AddressModel addressModel) {
+        addressRepository.delete(addressModel.getAddressUid());
     }
 }

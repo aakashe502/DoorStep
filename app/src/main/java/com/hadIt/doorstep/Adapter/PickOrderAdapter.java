@@ -2,33 +2,20 @@ package com.hadIt.doorstep.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.gson.Gson;
-import com.hadIt.doorstep.CheckoutActivity;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.cache.model.AddressModelClass;
-import com.hadIt.doorstep.cache.model.OrderDetails;
 import com.hadIt.doorstep.cache.model.OrderStatus;
 import com.hadIt.doorstep.cache.model.Products;
 import com.hadIt.doorstep.order_details.OrderDetailsActivity;
-import com.hadIt.doorstep.order_details.OrdersActivity;
 import com.hadIt.doorstep.roomDatabase.orders.details.model.OrderDetailsRoomModel;
 
 import java.util.ArrayList;
