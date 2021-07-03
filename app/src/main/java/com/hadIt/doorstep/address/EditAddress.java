@@ -28,7 +28,7 @@ public class EditAddress extends AppCompatActivity implements AddressDataTransfe
 
     private ImageButton backBtn;
     private String addressUid, latitude, longitude;
-    private String Tag = "Edit Address";
+    private final String Tag = "Edit Address";
     private EditText firstNameEt, lastNameEt, mobileNumberEt, houseNumberEt, apartmentNameEt,
             landmarkEt, areaDetailsEt, cityName, pincodeEt;
     private Button saveAddress;

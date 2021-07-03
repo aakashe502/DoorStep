@@ -92,6 +92,10 @@ public class OrderDetailsActivity extends AppCompatActivity implements OrderItem
             orderStatusTv.setText(OrderStatus.InProgress.name());
             orderStatusTv.setTextColor(getResources().getColor(R.color.colorBlue));
         }
+        else if(orderDetailsRoomModel.getOrderStatus().equals(OrderStatus.OutForDelivery.name())){
+            orderStatusTv.setText(OrderStatus.OutForDelivery.name());
+            orderStatusTv.setTextColor(getResources().getColor(R.color.colorPrimary));
+        }
         else if(orderDetailsRoomModel.getOrderStatus().equals(OrderStatus.Completed.name())){
             orderStatusTv.setText(OrderStatus.Completed.name());
             orderStatusTv.setTextColor(getResources().getColor(R.color.colorPrimary));

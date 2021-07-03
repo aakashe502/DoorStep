@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".fragment_ui.notifications.NotificationActivity"></activity>
+        <activity android:name=".fragment_ui.notifications.NotificationActivity" />
         <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +38,6 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".fragment_ui.home.ViewShopProducts" />
         <activity android:name=".fragment_ui.Profile.EditProfileActivity" />
-        <activity android:name=".CategoryClass" />
         <activity
             android:name=".homePage.HomePage"
             android:label="@string/title_activity_home"
@@ -46,7 +45,7 @@
         <activity
             android:name=".login_signup.SignUpActivity"
             android:parentActivityName=".login_signup.LoginActivity" />
-        <activity android:name=".login_signup.LoginActivity"></activity>
+        <activity android:name=".login_signup.LoginActivity" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
