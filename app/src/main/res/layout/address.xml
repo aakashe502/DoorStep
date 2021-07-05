@@ -9,6 +9,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/relative111"
+            >
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,14 +28,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
+                android:layout_marginLeft="10dp"
                 android:id="@+id/LeftRelative">
 
-                <ImageButton
-                    android:id="@+id/radioBtn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@null"
-                    android:src="@drawable/radio_button" />
 
                 <TextView
                     android:id="@+id/tag"
@@ -39,10 +39,8 @@
                     android:layout_height="wrap_content"
                     android:text="Address: "
                     android:layout_toEndOf="@+id/radioBtn"
-                    android:layout_toStartOf="@+id/editBtn"
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp" />
-
                 <TextView
                     android:id="@+id/customerName"
                     style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
@@ -51,10 +49,9 @@
                     android:text="Door Step Full Name"
                     android:layout_below="@+id/tag"
                     android:layout_toEndOf="@+id/radioBtn"
-                    android:layout_toStartOf="@+id/editBtn"
+
                     android:textColor="@color/colorText"
                     android:textSize="12sp" />
-
                 <TextView
                     android:id="@+id/houseNumber"
                     style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
@@ -63,7 +60,7 @@
                     android:text="105T, apartment name"
                     android:layout_below="@+id/customerName"
                     android:layout_toEndOf="@+id/radioBtn"
-                    android:layout_toStartOf="@+id/editBtn"
+
                     android:textColor="@color/colorText"
                     android:textSize="12sp" />
 
@@ -75,7 +72,7 @@
                     android:text="landmark"
                     android:layout_below="@+id/houseNumber"
                     android:layout_toEndOf="@+id/radioBtn"
-                    android:layout_toStartOf="@+id/editBtn"
+
                     android:textColor="@color/colorText"
                     android:textSize="12sp" />
 
@@ -87,7 +84,7 @@
                     android:text="Area Details, City-pincode"
                     android:layout_below="@+id/landmark"
                     android:layout_toEndOf="@+id/radioBtn"
-                    android:layout_toStartOf="@+id/editBtn"
+
                     android:textColor="@color/colorText"
                     android:textSize="12sp" />
 
@@ -99,30 +96,77 @@
                     android:text="Phone: +911234567890"
                     android:layout_below="@+id/areaDetails"
                     android:layout_toEndOf="@+id/radioBtn"
-                    android:layout_toStartOf="@+id/editBtn"
+
                     android:textColor="@color/colorText"
                     android:textSize="12sp" />
 
-                <ImageButton
+
+
+
+
+
+
+        </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relative111"
+
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/colorWhite"
+                android:padding="10dp"
+                android:layout_weight="0.5"
+                app:cardElevation="12dp"
+                android:layout_margin="1dp"
+                app:cardMaxElevation="12dp"
+                app:cardPreventCornerOverlap="true">
+                <TextView
+                    android:id="@+id/editBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Edit"
+                    android:textSize="16sp"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:layout_margin="4dp"
+                    android:layout_toStartOf="@+id/deleteBtn"
+                    android:src="@drawable/edit_pen_black"/>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/colorWhite"
+                android:padding="10dp"
+                android:layout_weight="0.5"
+                app:cardElevation="12dp"
+                android:layout_margin="1dp"
+                app:cardMaxElevation="12dp"
+                app:cardPreventCornerOverlap="true">
+                <TextView
                     android:id="@+id/deleteBtn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@null"
+                    android:text="Delete"
+                    android:textColor="@color/colorAccent"
+                    android:layout_margin="4dp"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
                     android:layout_alignParentEnd="true"
                     android:src="@drawable/delete_button_black"/>
 
-                <ImageButton
-                    android:id="@+id/editBtn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@null"
-                    android:layout_marginEnd="5dp"
-                    android:layout_toStartOf="@+id/deleteBtn"
-                    android:src="@drawable/edit_pen_black"/>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
-            </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
 

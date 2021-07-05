@@ -244,7 +244,7 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
             @Override
             public void onChanged(List<Data> dataList) {
                 for(Data ds:dataList) {
-                    productsList.add(new Products(ds.getId(), ds.getName(), ds.getRate(), ds.getQuantity(), ds.getImage()));
+                    productsList.add(new Products(ds.getId(), ds.getName(), ds.getRate(), ds.getQuantity(), ds.getImage(), ds.getUnit()));
                     firebaseFirestore.collection("userOrders").document(orderId).collection("productItems").document(ds.getId()).set(ds)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
