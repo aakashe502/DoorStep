@@ -160,7 +160,7 @@ public class SelectAddressAdapter extends RecyclerView.Adapter<SelectAddressAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView customerName, houseNumber, landmark, areaDetails, phoneNumber;
-        public ImageButton editBtn, deleteBtn;
+        public TextView editBtn, deleteBtn;
         public RelativeLayout LeftRelative;
 
         public ViewHolder(@NonNull View itemView) {

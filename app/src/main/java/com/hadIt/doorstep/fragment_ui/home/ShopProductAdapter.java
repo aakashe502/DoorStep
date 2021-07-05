@@ -45,7 +45,7 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
         holder.productname.setText(productInfoModels.get(position).getProductName());
         holder.productrate.setText(productInfoModels.get(position).getProductPrice());
         Glide.with(context).load(productInfoModels.get(position).getProductIcon()).into(holder.productimage);
-        holder.unit.setText(productInfoModels.get(position).getUnit());
+        holder.unit.setText(" / "+productInfoModels.get(position).getUnit());
 
         holder.addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +53,7 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
                 holder.addbutton.setVisibility(View.GONE);
                 holder.linear.setVisibility(View.VISIBLE);
                 Data cart=new Data(productInfoModels.get(position).getShopUid() + productInfoModels.get(position).getProductName(), productInfoModels.get(position).getProductName(),
-                        productInfoModels.get(position).getProductPrice(), productInfoModels.get(position).getProductIcon(), holder.numb.getText().toString(), productInfoModels.get(position).getShopUid());
+                        productInfoModels.get(position).getProductPrice(), productInfoModels.get(position).getProductIcon(), holder.numb.getText().toString(), productInfoModels.get(position).getShopUid(),productInfoModels.get(position).getUnit());
 
                 datatransfer.onSetValues(cart);
             }
@@ -63,7 +63,7 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
             public void onClick(View view) {
                 holder.numb.setText((Integer.parseInt(holder.numb.getText().toString())+1)+"");
                 Data cart=new Data(productInfoModels.get(position).getShopUid() + productInfoModels.get(position).getProductName(), productInfoModels.get(position).getProductName(),
-                        productInfoModels.get(position).getProductPrice(), productInfoModels.get(position).getProductIcon(), holder.numb.getText().toString(), productInfoModels.get(position).getShopUid());
+                        productInfoModels.get(position).getProductPrice(), productInfoModels.get(position).getProductIcon(), holder.numb.getText().toString(), productInfoModels.get(position).getShopUid(),productInfoModels.get(position).getUnit());
 
                 datatransfer.onSetValues(cart);
             }
@@ -77,13 +77,13 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
                     holder.addbutton.setVisibility(View.VISIBLE);
                     holder.linear.setVisibility(View.GONE);
                     Data cart=new Data(productInfoModels.get(position).getShopUid() + productInfoModels.get(position).getProductName(), productInfoModels.get(position).getProductName(),
-                            productInfoModels.get(position).getProductPrice(), productInfoModels.get(position).getProductIcon(), holder.numb.getText().toString(), productInfoModels.get(position).getShopUid());
+                            productInfoModels.get(position).getProductPrice(), productInfoModels.get(position).getProductIcon(), holder.numb.getText().toString(), productInfoModels.get(position).getShopUid(),productInfoModels.get(position).getUnit());
 
                     datatransfer.onDelete(cart);
                 }
                 else{
                     Data cart=new Data(productInfoModels.get(position).getShopUid() + productInfoModels.get(position).getProductName(), productInfoModels.get(position).getProductName(),
-                            productInfoModels.get(position).getProductPrice(), productInfoModels.get(position).getProductIcon(), holder.numb.getText().toString(), productInfoModels.get(position).getShopUid());
+                            productInfoModels.get(position).getProductPrice(), productInfoModels.get(position).getProductIcon(), holder.numb.getText().toString(), productInfoModels.get(position).getShopUid(),productInfoModels.get(position).getUnit());
 
                     datatransfer.onDelete(cart);
                 }
