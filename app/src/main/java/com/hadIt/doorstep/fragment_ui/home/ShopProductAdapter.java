@@ -45,6 +45,7 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
         holder.productname.setText(productInfoModels.get(position).getProductName());
         holder.productrate.setText(productInfoModels.get(position).getProductPrice());
         Glide.with(context).load(productInfoModels.get(position).getProductIcon()).into(holder.productimage);
+        holder.unit.setText(productInfoModels.get(position).getUnit());
 
         holder.addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +108,7 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
         LinearLayout linear;
         Button minus,plus;
         TextView numb;
+        TextView unit;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             productimage= itemView.findViewById(R.id.itemImage1);
@@ -117,6 +119,7 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
             minus=itemView.findViewById(R.id.minus);
             plus=itemView.findViewById(R.id.plus);
             numb=itemView.findViewById(R.id.number);
+            unit=itemView.findViewById(R.id.value);
         }
     }
 }

@@ -27,11 +27,13 @@ public class ProductsTable {
     private String productQuantity;
     @ColumnInfo(name = "shopUid")
     private String shopUid;
+    @ColumnInfo(name = "unit")
+    private String unit;
 
     public ProductsTable() {
     }
 
-    public ProductsTable(@NonNull String productId, String productCategory, String productDescription, String productIcon, String productName, String productPrice, String productQuantity, String shopUid) {
+    public ProductsTable(@NonNull String productId, String productCategory, String productDescription, String productIcon, String productName, String productPrice, String productQuantity, String shopUid, String unit) {
         this.productId = productId;
         this.productCategory = productCategory;
         this.productDescription = productDescription;
@@ -40,6 +42,15 @@ public class ProductsTable {
         this.productPrice = productPrice;
         this.productQuantity = productQuantity;
         this.shopUid = shopUid;
+        this.unit = unit;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     @NonNull
