@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,9 +26,12 @@ import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.fragment_ui.notifications.NotificationActivity;
+import com.hadIt.doorstep.roomDatabase.cart.DataViewModal;
+import com.hadIt.doorstep.roomDatabase.cart.model.Data;
 import com.hadIt.doorstep.search.SearchActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -46,6 +51,7 @@ public class HomeFragment extends Fragment {
     private PaperDb paperDb;
     private int mCartItemCount = 0;
     public TextView textCartItemCount;
+    private DataViewModal dataViewModal;
 
     public View root;
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -139,14 +145,22 @@ public class HomeFragment extends Fragment {
 
         super.onCreateOptionsMenu(menu,inflater);
     }
-    private void setupBadge() {
-        if (textCartItemCount != null) {
-            textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
 
-            if (textCartItemCount.getVisibility() != View.VISIBLE) {
-                textCartItemCount.setVisibility(View.VISIBLE);
+    private void setupBadge() {
+
+        dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
+        dataViewModal.getCheckoutdata().observe(this, new Observer<List<Data>>() {
+            @Override
+            public void onChanged(List<Data> dataList) {
+                int total = 0;
+                for(Data data: dataList)
+                    total += Integer.parseInt(data.getQuantity());
+                mCartItemCount=total;
+                if(textCartItemCount!=null){
+                    textCartItemCount.setText(""+mCartItemCount);
+                }
             }
-        }
+        });
     }
 
     @Override
