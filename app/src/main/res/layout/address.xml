@@ -8,16 +8,19 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        android:background="@color/colorWhite"
+        android:padding="2dp">
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/relative111"
-            >
+            android:background="@color/colorLessWhite">
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/colorWhite"
+            app:cardBackgroundColor="@color/colorLessWhite"
             app:cardCornerRadius="5dp"
             android:padding="10dp"
             app:cardElevation="12dp"
@@ -31,16 +34,15 @@
                 android:layout_marginLeft="10dp"
                 android:id="@+id/LeftRelative">
 
-
                 <TextView
                     android:id="@+id/tag"
                     style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Address: "
-                    android:layout_toEndOf="@+id/radioBtn"
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/customerName"
                     style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
@@ -48,8 +50,6 @@
                     android:layout_height="wrap_content"
                     android:text="Door Step Full Name"
                     android:layout_below="@+id/tag"
-                    android:layout_toEndOf="@+id/radioBtn"
-
                     android:textColor="@color/colorText"
                     android:textSize="12sp" />
                 <TextView
@@ -59,8 +59,6 @@
                     android:layout_height="wrap_content"
                     android:text="105T, apartment name"
                     android:layout_below="@+id/customerName"
-                    android:layout_toEndOf="@+id/radioBtn"
-
                     android:textColor="@color/colorText"
                     android:textSize="12sp" />
 
@@ -71,8 +69,6 @@
                     android:layout_height="wrap_content"
                     android:text="landmark"
                     android:layout_below="@+id/houseNumber"
-                    android:layout_toEndOf="@+id/radioBtn"
-
                     android:textColor="@color/colorText"
                     android:textSize="12sp" />
 
@@ -83,8 +79,6 @@
                     android:layout_height="wrap_content"
                     android:text="Area Details, City-pincode"
                     android:layout_below="@+id/landmark"
-                    android:layout_toEndOf="@+id/radioBtn"
-
                     android:textColor="@color/colorText"
                     android:textSize="12sp" />
 
@@ -95,8 +89,6 @@
                     android:layout_height="wrap_content"
                     android:text="Phone: +911234567890"
                     android:layout_below="@+id/areaDetails"
-                    android:layout_toEndOf="@+id/radioBtn"
-
                     android:textColor="@color/colorText"
                     android:textSize="12sp" />
 
@@ -136,6 +128,7 @@
                     android:textSize="16sp"
                     android:textAlignment="center"
                     android:textColor="@color/colorAccent"
+                    android:background="@color/colorLessWhite"
                     android:layout_margin="4dp"
                     android:layout_toStartOf="@+id/deleteBtn"
                     android:src="@drawable/edit_pen_black"/>
@@ -155,7 +148,7 @@
                     android:id="@+id/deleteBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
+                    android:background="@color/colorLessWhite"
                     android:text="Delete"
                     android:textColor="@color/colorAccent"
                     android:layout_margin="4dp"
