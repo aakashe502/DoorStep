@@ -41,6 +41,7 @@ public class OrderDetailsProductAdapter extends RecyclerView.Adapter<OrderDetail
         holder.ruppee.setText(data.getRate());
         holder.number.setText(data.getQuantity());
         Glide.with(context).load(data.getImage()).into(holder.image);
+        holder.unit.setText(data.getUnit());
     }
 
     @Override
@@ -55,6 +56,7 @@ public class OrderDetailsProductAdapter extends RecyclerView.Adapter<OrderDetail
     static class DataViewHolder extends RecyclerView.ViewHolder {
         public TextView name, ruppee, number;
         ImageView image;
+        TextView unit;
 
         public DataViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +64,7 @@ public class OrderDetailsProductAdapter extends RecyclerView.Adapter<OrderDetail
             ruppee = itemView.findViewById(R.id.ruppee);
             number = itemView.findViewById(R.id.number);
             image = itemView.findViewById(R.id.image);
+            unit=itemView.findViewById(R.id.value);
         }
     }
 }

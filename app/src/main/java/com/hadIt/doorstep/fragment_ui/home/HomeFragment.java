@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
         model.add(new ModelClass("GROCERY", R.drawable.bake));
         model.add(new ModelClass("BEVERAGES", R.drawable.beverages));
         model.add(new ModelClass("NON-VEG", R.drawable.meat));
-        model.add(new ModelClass("CAKES & MORE", R.drawable.desert));
+        model.add(new ModelClass("CAKES & BAKERY", R.drawable.desert));
         model.add(new ModelClass("HARVEST", R.drawable.harvest));
         model.add(new ModelClass("BREAD", R.drawable.bread));
         model.add(new ModelClass("CLEANING", R.drawable.cleaning));

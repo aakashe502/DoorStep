@@ -3,17 +3,26 @@ package com.hadIt.doorstep.cache.model;
 import java.io.Serializable;
 
 public class Products implements Serializable {
-    private String id, name, rate, quantity, image;
+    private String id, name, rate, quantity, image, unit;
 
     public Products() {
     }
 
-    public Products(String id, String name, String rate, String quantity, String image) {
+    public Products(String id, String name, String rate, String quantity, String image,String  unit) {
         this.id = id;
         this.name = name;
         this.rate = rate;
         this.quantity = quantity;
         this.image = image;
+        this.unit = unit;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public String getId() {

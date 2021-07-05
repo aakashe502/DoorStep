@@ -23,14 +23,26 @@ public class Data {
     private String quantity;
     @ColumnInfo(name = "shopUid")
     private String shopUid;
+    @ColumnInfo(name = "unit")
+    private String unit;
 
-    public Data(String id, String name, String rate, String image, String quantity, String shopUid) {
+
+    public Data(String id, String name, String rate, String image, String quantity, String shopUid,String unit) {
         this.id = id;
         this.name = name;
         this.rate = rate;
         this.image = image;
         this.quantity = quantity;
         this.shopUid = shopUid;
+        this.unit=unit;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public String getId() {
