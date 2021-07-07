@@ -10,8 +10,9 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.hadIt.doorstep.roomDatabase.address.model.AddressModel;
+import com.hadIt.doorstep.utils.Constants;
 
-@Database(entities = {AddressModel.class},version = 5)
+@Database(entities = {AddressModel.class},version = Constants.dbVersion)
 public abstract class AddressDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME1="Address";

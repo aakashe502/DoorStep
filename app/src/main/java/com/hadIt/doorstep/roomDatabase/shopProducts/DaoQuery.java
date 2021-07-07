@@ -30,4 +30,7 @@ public interface DaoQuery {
 
     @Query("SELECT * FROM products WHERE shopUid=:shopUid")
     LiveData<List<ProductsTable>> getDataForShop(String shopUid);
+
+    @Query("SELECT COUNT(*) FROM products WHERE shopUid=:shopUid")
+    int checkIfShopExists(String shopUid);
 }

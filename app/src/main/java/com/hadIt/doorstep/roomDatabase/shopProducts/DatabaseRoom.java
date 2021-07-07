@@ -11,8 +11,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.hadIt.doorstep.roomDatabase.cart.DataDatabase;
 import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
+import com.hadIt.doorstep.utils.Constants;
 
-@Database(entities = {ProductsTable.class}, version = 5)
+@Database(entities = {ProductsTable.class}, version = Constants.dbVersion)
 public abstract class DatabaseRoom extends RoomDatabase {
     private static final String DATABASE_NAME="Products";
     public abstract DaoQuery Daodata();

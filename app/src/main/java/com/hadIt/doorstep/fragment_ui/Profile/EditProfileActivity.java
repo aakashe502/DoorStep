@@ -45,7 +45,7 @@ public class EditProfileActivity extends AppCompatActivity {
     Uri selectedImageURI;
     public Toolbar toolbar;
 
-    private FirebaseAuth auth;
+    private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     public StorageReference storageReference;
 
@@ -85,7 +85,7 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        auth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
 

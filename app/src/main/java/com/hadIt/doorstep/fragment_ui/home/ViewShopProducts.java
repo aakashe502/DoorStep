@@ -96,7 +96,7 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
         setRecyclerView(shopType, shopUid);
         arrayList = new ArrayList<>();
         firebaseFirestore = FirebaseFirestore.getInstance();
-        modelAdapter = new ShopProductAdapter(arrayList, this, this);
+        modelAdapter = new ShopProductAdapter(ShopProductDiffUtils.itemCallback, this, this);
 
         dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);
         dataViewModal.getCheckoutdata().observe(this, new Observer<List<Data>>() {
@@ -139,7 +139,7 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
             if(productsTable.getProductName().toLowerCase().contains(searchString.toLowerCase()))
                 filteredList.add(productsTable);
         }
-        modelAdapter.filterList(filteredList);
+        modelAdapter.submitList(filteredList);
     }
 
     @Override
@@ -264,7 +264,7 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
                 if(arrayList.size()==0){
                     storeInRoomDb(shopType, shopUid);
                 }
-                modelAdapter.notifyDataSetChanged();
+                modelAdapter.submitList(arrayList);
                 recyclerView.setAdapter(modelAdapter);
             }
         });

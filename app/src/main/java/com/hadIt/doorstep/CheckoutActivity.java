@@ -200,10 +200,10 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
             Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        sendFcmNotification(notificationJo, orderId);
+        sendFcmNotification(notificationJo);
     }
 
-    private void sendFcmNotification(JSONObject notificationJo, final String orderId) {
+    private void sendFcmNotification(JSONObject notificationJo) {
         //send volly request
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notificationJo, new Response.Listener<JSONObject>() {
             @Override

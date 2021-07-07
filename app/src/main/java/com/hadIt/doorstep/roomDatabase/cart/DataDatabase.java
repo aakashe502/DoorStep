@@ -10,8 +10,9 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.hadIt.doorstep.roomDatabase.cart.model.Data;
+import com.hadIt.doorstep.utils.Constants;
 
-@Database(entities = {Data.class},version = 5)
+@Database(entities = {Data.class},version = Constants.dbVersion)
 public abstract class DataDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME="Data";

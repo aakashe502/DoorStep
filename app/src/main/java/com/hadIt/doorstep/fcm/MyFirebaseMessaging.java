@@ -16,6 +16,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,21 +30,29 @@ import com.hadIt.doorstep.cache.model.OrderDetails;
 import com.hadIt.doorstep.cache.model.Products;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.order_details.OrderDetailsActivity;
+import com.hadIt.doorstep.roomDatabase.cart.DataDatabase;
 import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsRepository;
 import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsTransfer;
 import com.hadIt.doorstep.roomDatabase.orders.details.model.OrderDetailsRoomModel;
+import com.hadIt.doorstep.roomDatabase.shopProducts.DatabaseRoom;
+import com.hadIt.doorstep.roomDatabase.shopProducts.ProductTransfer;
+import com.hadIt.doorstep.roomDatabase.shopProducts.ProductViewModel;
+import com.hadIt.doorstep.roomDatabase.shopProducts.ProductsRepository;
+import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class MyFirebaseMessaging extends FirebaseMessagingService implements OrderDetailsTransfer {
+public class MyFirebaseMessaging extends FirebaseMessagingService implements OrderDetailsTransfer, ProductTransfer {
 
     private static final String NOTIFICATION_CHANNEL_ID = "MY_NOTIFICATION_CHANNEL_ID"; //FOR ANDROID 0 AND ABOVE
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private OrderDetailsRepository orderDetailsRepository;
+    private ProductsRepository productsRepository;
 
     //all notifications will be received here
     @Override
@@ -55,8 +65,8 @@ public class MyFirebaseMessaging extends FirebaseMessagingService implements Ord
         //get data from notification
         String notificationType = remoteMessage.getData().get("notificationType");
 
+        Gson gson = new Gson();
         if(notificationType.equals("Order Status Changed") || notificationType.equals("Delivery Boy Assigned") || notificationType.equals("Delivery Status Changed")){
-            Gson gson = new Gson();
             OrderDetailsRoomModel orderDetailsRoomModel = gson.fromJson(remoteMessage.getData().get("orderDetailsObj"), OrderDetailsRoomModel.class);
 
             orderDetailsRepository = new OrderDetailsRepository(getApplication(), firebaseAuth.getUid());
@@ -70,6 +80,28 @@ public class MyFirebaseMessaging extends FirebaseMessagingService implements Ord
                 showNotification(orderDetailsRoomModel, notificationTitle, notificationMessage, notificationType);
             }
         }
+
+        if(notificationType.equals("Added New Product")){
+            ProductsTable productsTable = gson.fromJson(remoteMessage.getData().get("product"), ProductsTable.class);
+            ProductViewModel productViewModel = new ProductViewModel(getApplication(), productsTable.getShopUid());
+            productsRepository = new ProductsRepository(getApplication(), productsTable.getShopUid());
+            saveProductDetailsIfShopRead(productViewModel, productsTable);
+        }
+    }
+
+    private void saveProductDetailsIfShopRead(final ProductViewModel productViewModel, final ProductsTable productsTable) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int countShopUid = DatabaseRoom.getInstance(getApplicationContext())
+                        .Daodata()
+                        .checkIfShopExists(productsTable.getShopUid());
+                if(countShopUid>0){
+                    setProductsTable(productsTable);
+                }
+            }
+        }).start();
     }
 
     private void showNotification(OrderDetailsRoomModel orderDetailsRoomModel, String notificationTitle, String notificationMessage, String notificationType){
@@ -136,5 +168,15 @@ public class MyFirebaseMessaging extends FirebaseMessagingService implements Ord
     @Override
     public void deleteOrderDetails(OrderDetailsRoomModel orderDetailsRoomModel) {
         orderDetailsRepository.deleteProductUsingOrderId(orderDetailsRoomModel);
+    }
+
+    @Override
+    public void setProductsTable(ProductsTable productsTable) {
+        productsRepository.insert(productsTable);
+    }
+
+    @Override
+    public void deleteProductsTable(ProductsTable productsTable) {
+
     }
 }
