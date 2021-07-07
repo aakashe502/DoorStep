@@ -64,8 +64,7 @@
             android:textStyle="bold"
             android:drawableStart="@drawable/profile"
             android:textSize="20sp"
-            android:text="Name: "
-            />
+            android:text="Name: " />
 
         <TextView
             android:id="@+id/nameEditText"

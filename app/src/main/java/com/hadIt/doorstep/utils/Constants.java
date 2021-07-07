@@ -3,6 +3,8 @@ package com.hadIt.doorstep.utils;
 import java.util.HashMap;
 
 public class Constants {
+    public static final int dbVersion = 1;
+
     public Constants() {
         products.put("VEGETABLES & FRUITS", new String[]{"Vegetables",
                 "Fruits",

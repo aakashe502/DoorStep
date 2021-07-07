@@ -1,6 +1,9 @@
 package com.hadIt.doorstep.fragment_ui.home;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,27 +13,35 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.AsyncDifferConfig;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.hadIt.doorstep.R;
 
+import com.hadIt.doorstep.SplashScreenActivity;
+import com.hadIt.doorstep.homePage.HomePage;
+import com.hadIt.doorstep.login_signup.LoginActivity;
 import com.hadIt.doorstep.roomDatabase.cart.model.Data;
 import com.hadIt.doorstep.roomDatabase.cart.DataTransfer;
 import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.ViewHolder> {
-    ArrayList<ProductsTable> productInfoModels;
+public class ShopProductAdapter extends ListAdapter<ProductsTable, ShopProductAdapter.ViewHolder> {
     Context context;
-
     public DataTransfer datatransfer;
 
-    public ShopProductAdapter(ArrayList<ProductsTable> arrayList, Context context, DataTransfer datatransfer) {
-        this.datatransfer = datatransfer;
-        this.productInfoModels = arrayList;
+    protected ShopProductAdapter(@NonNull DiffUtil.ItemCallback<ProductsTable> diffCallback, Context context, DataTransfer dataTransfer) {
+        super(diffCallback);
         this.context = context;
+        this.datatransfer = dataTransfer;
     }
 
     @NonNull
@@ -42,18 +53,19 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder,final int position) {
-        holder.productname.setText(productInfoModels.get(position).getProductName());
-        holder.productrate.setText(productInfoModels.get(position).getProductPrice());
-        Glide.with(context).load(productInfoModels.get(position).getProductIcon()).into(holder.productimage);
-        holder.unit.setText(" / "+productInfoModels.get(position).getUnit());
+        holder.productname.setText(getItem(position).getProductName());
+        holder.productrate.setText(getItem(position).getProductPrice());
+
+        Glide.with(context).load(getItem(position).getProductIcon()).into(holder.productimage);
+        holder.unit.setText(" / "+getItem(position).getUnit());
 
         holder.addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 holder.addbutton.setVisibility(View.GONE);
                 holder.linear.setVisibility(View.VISIBLE);
-                Data cart=new Data(productInfoModels.get(position).getShopUid() + productInfoModels.get(position).getProductName(), productInfoModels.get(position).getProductName(),
-                        productInfoModels.get(position).getProductPrice(), productInfoModels.get(position).getProductIcon(), holder.numb.getText().toString(), productInfoModels.get(position).getShopUid(),productInfoModels.get(position).getUnit());
+                Data cart=new Data(getItem(position).getShopUid() + getItem(position).getProductName(), getItem(position).getProductName(),
+                        getItem(position).getProductPrice(), getItem(position).getProductIcon(), holder.numb.getText().toString(), getItem(position).getShopUid(),getItem(position).getUnit());
 
                 datatransfer.onSetValues(cart);
             }
@@ -62,8 +74,8 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
             @Override
             public void onClick(View view) {
                 holder.numb.setText((Integer.parseInt(holder.numb.getText().toString())+1)+"");
-                Data cart=new Data(productInfoModels.get(position).getShopUid() + productInfoModels.get(position).getProductName(), productInfoModels.get(position).getProductName(),
-                        productInfoModels.get(position).getProductPrice(), productInfoModels.get(position).getProductIcon(), holder.numb.getText().toString(), productInfoModels.get(position).getShopUid(),productInfoModels.get(position).getUnit());
+                Data cart=new Data(getItem(position).getShopUid() + getItem(position).getProductName(), getItem(position).getProductName(),
+                        getItem(position).getProductPrice(), getItem(position).getProductIcon(), holder.numb.getText().toString(), getItem(position).getShopUid(),getItem(position).getUnit());
 
                 datatransfer.onSetValues(cart);
             }
@@ -76,29 +88,19 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
                     holder.numb.setText("0");
                     holder.addbutton.setVisibility(View.VISIBLE);
                     holder.linear.setVisibility(View.GONE);
-                    Data cart=new Data(productInfoModels.get(position).getShopUid() + productInfoModels.get(position).getProductName(), productInfoModels.get(position).getProductName(),
-                            productInfoModels.get(position).getProductPrice(), productInfoModels.get(position).getProductIcon(), holder.numb.getText().toString(), productInfoModels.get(position).getShopUid(),productInfoModels.get(position).getUnit());
+                    Data cart=new Data(getItem(position).getShopUid() + getItem(position).getProductName(), getItem(position).getProductName(),
+                            getItem(position).getProductPrice(), getItem(position).getProductIcon(), holder.numb.getText().toString(), getItem(position).getShopUid(),getItem(position).getUnit());
 
                     datatransfer.onDelete(cart);
                 }
                 else{
-                    Data cart=new Data(productInfoModels.get(position).getShopUid() + productInfoModels.get(position).getProductName(), productInfoModels.get(position).getProductName(),
-                            productInfoModels.get(position).getProductPrice(), productInfoModels.get(position).getProductIcon(), holder.numb.getText().toString(), productInfoModels.get(position).getShopUid(),productInfoModels.get(position).getUnit());
+                    Data cart=new Data(getItem(position).getShopUid() + getItem(position).getProductName(), getItem(position).getProductName(),
+                            getItem(position).getProductPrice(), getItem(position).getProductIcon(), holder.numb.getText().toString(), getItem(position).getShopUid(),getItem(position).getUnit());
 
                     datatransfer.onDelete(cart);
                 }
             }
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        return productInfoModels.size();
-    }
-
-    public void filterList(ArrayList<ProductsTable> filteredList){
-        productInfoModels = filteredList;
-        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

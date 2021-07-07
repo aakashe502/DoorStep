@@ -103,6 +103,22 @@ public class Profile extends Fragment  {
             setProfilePhoto(userData.profilePhoto);
         }
 
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+
+                String shareBody = "Download our app:- https://drive.google.com/file/d/1Sx_XW4XM_k9q2vlxzjs2hdZ3mO2TpofU/view?usp=sharing";
+                String shareSub = "Lyptus App";
+
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+
+                startActivity(Intent.createChooser(shareIntent, "Share Using"));
+            }
+        });
+
         return root;
     }
 

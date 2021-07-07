@@ -18,40 +18,29 @@
 
             android:layout_height="60dp" />
 
-        <ScrollView
+        <EditText
+            android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/scrollView"
-            android:layout_below="@+id/toolBar">
+            android:layout_centerHorizontal="true"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/toolBar"
+            android:hint="Search"
+            android:drawableStart="@drawable/search"
+            android:background="@drawable/search_product"
+            android:textSize="15sp"
+            android:textColor="@color/colorText"/>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/search"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:padding="10dp"
-                    android:hint="Search"
-                    android:drawableStart="@drawable/search"
-                    android:background="@drawable/search_product"
-                    android:textSize="15sp"
-                    android:textColor="@color/colorText"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/productrecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/search"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="0dp"
-                    tools:listitem="@layout/productlist" />
-
-            </RelativeLayout>
-        </ScrollView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/productrecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/search"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="0dp"
+            tools:listitem="@layout/productlist" />
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

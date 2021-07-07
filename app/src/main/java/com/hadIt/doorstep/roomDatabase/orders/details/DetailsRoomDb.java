@@ -10,8 +10,9 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.hadIt.doorstep.roomDatabase.orders.details.model.OrderDetailsRoomModel;
+import com.hadIt.doorstep.utils.Constants;
 
-@Database(entities = {OrderDetailsRoomModel.class}, version = 5)
+@Database(entities = {OrderDetailsRoomModel.class}, version = Constants.dbVersion)
 public abstract class DetailsRoomDb extends RoomDatabase {
     private static final String DATABASE_NAME="Orders";
     public abstract OrdersQuery OrderQuery();
