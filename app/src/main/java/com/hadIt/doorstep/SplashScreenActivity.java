@@ -18,6 +18,7 @@ import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.homePage.HomePage;
 import com.hadIt.doorstep.login_signup.LoginActivity;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 
 import static java.lang.Thread.sleep;
@@ -26,7 +27,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private static final int SPLASH_SCREEN = 2000;
     Animation topAnim, bottomAnim;
-    ImageView imageView;
+    CircleImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

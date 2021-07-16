@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 
 import com.hadIt.doorstep.roomDatabase.cart.model.Data;
+import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 
 import java.util.List;
 

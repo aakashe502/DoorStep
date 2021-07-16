@@ -105,7 +105,7 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
                 array =dataList;
                 int total = 0;
                 for(Data data: dataList)
-                    total += Integer.parseInt(data.getQuantity());
+                    total += Integer.parseInt(data.getProductQuantity());
                 mCartItemCount=total;
                 if(textCartItemCount!=null){
                     textCartItemCount.setText(""+mCartItemCount);
@@ -212,7 +212,7 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
             public void onChanged(List<Data> dataList) {
                 int total = 0;
                 for(Data data: dataList)
-                    total += Integer.parseInt(data.getQuantity());
+                    total += Integer.parseInt(data.getProductQuantity());
                 mCartItemCount=total;
                 if(textCartItemCount!=null)
                     textCartItemCount.setText(""+(mCartItemCount));
@@ -222,11 +222,11 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
 
     @Override
     public void onDelete(Data data) {
-        if(Integer.parseInt(data.getQuantity()) >= 1){
+        if(Integer.parseInt(data.getProductQuantity()) >= 1){
             dataRespository.insert(data);
         }
         else{
-            dataRespository.delete(data.getId());
+            dataRespository.delete(data.getProductId());
         }
         setLength();
     }
@@ -239,7 +239,7 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
             public void onChanged(List<Data> dataList) {
                 int total = 0;
                 for(Data data: dataList)
-                    total += Integer.parseInt(data.getQuantity());
+                    total += Integer.parseInt(data.getProductQuantity());
                 mCartItemCount=total;
                 if(textCartItemCount!=null)
                     textCartItemCount.setText(""+mCartItemCount);

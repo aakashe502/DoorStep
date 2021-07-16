@@ -7,12 +7,13 @@
     tools:context=".SplashScreenActivity"
     android:background="@color/colorLogo">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/logo"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/lyptus" />
+        android:layout_centerInParent="true"
+        android:src="@drawable/ologo4"
+        app:civ_border_color="@color/colorLogo"
+        app:civ_border_width="5dp" />
 
 </RelativeLayout>
