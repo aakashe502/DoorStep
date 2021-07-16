@@ -154,7 +154,7 @@ public class HomeFragment extends Fragment {
             public void onChanged(List<Data> dataList) {
                 int total = 0;
                 for(Data data: dataList)
-                    total += Integer.parseInt(data.getQuantity());
+                    total += Integer.parseInt(data.getProductQuantity());
                 mCartItemCount=total;
                 if(textCartItemCount!=null){
                     textCartItemCount.setText(""+mCartItemCount);

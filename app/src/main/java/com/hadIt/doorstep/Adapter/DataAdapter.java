@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.roomDatabase.cart.model.Data;
+import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 
 import java.util.List;
 
@@ -40,10 +41,10 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
     @Override
     public void onBindViewHolder(@NonNull final DataViewHolder holder, final int position) {
         final Data data = dataList.get(position);
-        holder.name.setText(data.getName());
-        holder.ruppee.setText(data.getRate());
-        holder.number.setText(data.getQuantity());
-        Glide.with(context).load(data.getImage()).into(holder.image);
+        holder.name.setText(data.getProductName());
+        holder.ruppee.setText(data.getProductPrice());
+        holder.number.setText(data.getProductQuantity());
+        Glide.with(context).load(data.getProductIcon()).into(holder.image);
     }
 
     @Override

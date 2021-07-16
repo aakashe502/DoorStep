@@ -36,16 +36,16 @@ import com.hadIt.doorstep.roomDatabase.address.model.AddressModel;
 import com.hadIt.doorstep.roomDatabase.cart.DataDatabase;
 import com.hadIt.doorstep.roomDatabase.cart.DataViewModal;
 import com.hadIt.doorstep.address.SelectAddress;
-import com.hadIt.doorstep.roomDatabase.cart.model.Data;
 
 import com.hadIt.doorstep.cache.model.OrderStatus;
-import com.hadIt.doorstep.cache.model.Products;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.order_details.OrderDetailsActivity;
+import com.hadIt.doorstep.roomDatabase.cart.model.Data;
 import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsRepository;
 import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsTransfer;
 import com.hadIt.doorstep.roomDatabase.orders.details.model.OrderDetailsRoomModel;
+import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 import com.hadIt.doorstep.utils.Constants;
 import org.json.JSONObject;
 
@@ -61,15 +61,15 @@ import java.util.Map;
 
 public class CheckoutActivity extends AppCompatActivity implements OrderDetailsTransfer {
     private RecyclerView recyclerView;
-    private List<Data> dataList;
+    private List<ProductsTable> dataList;
     private DataViewModal dataViewModal;
-    private List<Products> productsList;
+    private List<ProductsTable> productsList;
 
     private DataAdapter dataAdapter;
     private List<Data> getDataList;
     private int get_priority;
     private int id=1;
-    private Data data;
+    private ProductsTable productsTable;
     public int length=0;
     private Button checkout;
     private FirebaseAuth firebaseAuth;
@@ -122,9 +122,9 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
             public void onChanged(List<Data> dataList) {
                 dataAdapter.getAllDatas(dataList);
                 for(Data ds:dataList) {
-                    Log.i("appbar","name="+ds.getName()+ " image="+ds.getImage()+" rate"+ds.getRate()+" quantity="+ds.getQuantity()+" id"+ds.getId());
-                    sum += Integer.parseInt(ds.getQuantity())*Integer.parseInt(ds.getRate());
-                    length += Integer.parseInt(ds.getQuantity());
+                    Log.i("appbar","name="+ds.getProductName()+ " image="+ds.getProductIcon()+" rate"+ds.getProductPrice()+" quantity="+ds.getProductQuantity()+" id"+ds.getProductId());
+                    sum += Integer.parseInt(ds.getProductQuantity())*Integer.parseInt(ds.getProductPrice());
+                    length += Integer.parseInt(ds.getProductQuantity());
                     getDataList.add(ds);
                 }
                 recyclerView.setAdapter(dataAdapter);
@@ -244,8 +244,9 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
             @Override
             public void onChanged(List<Data> dataList) {
                 for(Data ds:dataList) {
-                    productsList.add(new Products(ds.getId(), ds.getName(), ds.getRate(), ds.getQuantity(), ds.getImage(), ds.getUnit()));
-                    firebaseFirestore.collection("userOrders").document(orderId).collection("productItems").document(ds.getId()).set(ds)
+                    ProductsTable productsTable1 = new ProductsTable(ds.getProductId(), ds.getProductCategory(), ds.getProductDescription(), ds.getProductIcon(), ds.getProductName(), ds.getProductPrice(), ds.getShopUid(), ds.getUnit());
+                    productsList.add(productsTable1);
+                    firebaseFirestore.collection("userOrders").document(orderId).collection("productItems").document(ds.getProductId()).set(ds)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

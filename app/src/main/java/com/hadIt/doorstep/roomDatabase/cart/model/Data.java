@@ -6,83 +6,100 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "data" ,indices = @Index(value = {"id"},unique = true))
+@Entity(tableName = "data" ,indices = @Index(value = {"productId"},unique = true))
 public class Data {
 
     @PrimaryKey(autoGenerate = false)
     @NonNull
-    private String id;
+    private String productId;
 
-    @ColumnInfo(name = "name")
-    private String name;
-    @ColumnInfo(name = "rate")
-    private String rate;
-    @ColumnInfo(name = "image")
-    private String image;
-    @ColumnInfo(name = "quantity")
-    private String quantity;
+    @ColumnInfo(name = "productCategory")
+    private String productCategory;
+    @ColumnInfo(name = "productDescription")
+    private String productDescription;
+    @ColumnInfo(name = "productIcon")
+    private String productIcon;
+    @ColumnInfo(name = "productName")
+    private String productName;
+    @ColumnInfo(name = "productPrice")
+    private String productPrice;
+    @ColumnInfo(name = "productQuantity")
+    private String productQuantity;
     @ColumnInfo(name = "shopUid")
     private String shopUid;
     @ColumnInfo(name = "unit")
     private String unit;
 
+    public Data() {
+    }
 
-    public Data(String id, String name, String rate, String image, String quantity, String shopUid,String unit) {
-        this.id = id;
-        this.name = name;
-        this.rate = rate;
-        this.image = image;
-        this.quantity = quantity;
+    public Data(@NonNull String productId, String productCategory, String productDescription, String productIcon, String productName, String productPrice, String productQuantity, String shopUid, String unit) {
+        this.productId = productId;
+        this.productCategory = productCategory;
+        this.productDescription = productDescription;
+        this.productIcon = productIcon;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productQuantity = productQuantity;
         this.shopUid = shopUid;
-        this.unit=unit;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
         this.unit = unit;
     }
 
-    public String getId() {
-        return id;
+    @NonNull
+    public String getProductId() {
+        return productId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setProductId(@NonNull String productId) {
+        this.productId = productId;
     }
 
-    public String getName() {
-        return name;
+    public String getProductCategory() {
+        return productCategory;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductCategory(String productCategory) {
+        this.productCategory = productCategory;
     }
 
-    public String getRate() {
-        return rate;
+    public String getProductDescription() {
+        return productDescription;
     }
 
-    public void setRate(String rate) {
-        this.rate = rate;
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
     }
 
-    public String getImage() {
-        return image;
+    public String getProductIcon() {
+        return productIcon;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setProductIcon(String productIcon) {
+        this.productIcon = productIcon;
     }
 
-    public String getQuantity() {
-        return quantity;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(String productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public String getProductQuantity() {
+        return productQuantity;
+    }
+
+    public void setProductQuantity(String productQuantity) {
+        this.productQuantity = productQuantity;
     }
 
     public String getShopUid() {
@@ -91,5 +108,13 @@ public class Data {
 
     public void setShopUid(String shopUid) {
         this.shopUid = shopUid;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

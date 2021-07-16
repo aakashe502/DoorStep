@@ -21,15 +21,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.hadIt.doorstep.Adapter.OrderDetailsProductAdapter;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.cache.model.OrderDetails;
 import com.hadIt.doorstep.cache.model.OrderStatus;
-import com.hadIt.doorstep.cache.model.Products;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.roomDatabase.orders.details.model.OrderDetailsRoomModel;
 import com.hadIt.doorstep.roomDatabase.orders.items.OrderItemsRepository;
 import com.hadIt.doorstep.roomDatabase.orders.items.OrderItemsTransfer;
 import com.hadIt.doorstep.roomDatabase.orders.items.OrderItemsViewModel;
 import com.hadIt.doorstep.roomDatabase.orders.items.model.OrderItemsRoomModel;
+import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -42,7 +41,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements OrderItem
             deliveryAddressTv, deliveryBoyName, deliveryBoyPhone;
     private OrderDetailsRoomModel orderDetailsRoomModel;
     private RecyclerView itemsRv;
-    private List<Products> getProductsList;
+    private List<ProductsTable> getProductsList;
     private OrderDetailsProductAdapter orderDetailsProductAdapter;
 
     private FirebaseFirestore firebaseFirestore;
@@ -129,7 +128,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements OrderItem
                     storeInRoomDb(orderId);
                 else{
                     Gson gson = new Gson();
-                    Type listType = new TypeToken<ArrayList<Products>>(){}.getType();
+                    Type listType = new TypeToken<ArrayList<ProductsTable>>(){}.getType();
                     getProductsList = gson.fromJson(s, listType);
                     orderDetailsProductAdapter = new OrderDetailsProductAdapter(OrderDetailsActivity.this, getProductsList);
                     itemsRv.setAdapter(orderDetailsProductAdapter);
@@ -147,9 +146,9 @@ public class OrderDetailsActivity extends AppCompatActivity implements OrderItem
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
-                            ArrayList<Products> productsArrayList = new ArrayList<>();
+                            ArrayList<ProductsTable> productsArrayList = new ArrayList<>();
                             for(DocumentSnapshot dpc:task.getResult().getDocuments()){
-                                Products products = dpc.toObject(Products.class);
+                                ProductsTable products = dpc.toObject(ProductsTable.class);
                                 productsArrayList.add(products);
                             }
                             OrderItemsRoomModel orderItemsRoomModel = new OrderItemsRoomModel(orderId, new Gson().toJson(productsArrayList));

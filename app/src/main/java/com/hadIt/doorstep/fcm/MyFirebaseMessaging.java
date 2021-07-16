@@ -11,38 +11,26 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 
-import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.cache.model.OrderDetails;
-import com.hadIt.doorstep.cache.model.Products;
-import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.order_details.OrderDetailsActivity;
-import com.hadIt.doorstep.roomDatabase.cart.DataDatabase;
 import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsRepository;
 import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsTransfer;
 import com.hadIt.doorstep.roomDatabase.orders.details.model.OrderDetailsRoomModel;
 import com.hadIt.doorstep.roomDatabase.shopProducts.DatabaseRoom;
 import com.hadIt.doorstep.roomDatabase.shopProducts.ProductTransfer;
-import com.hadIt.doorstep.roomDatabase.shopProducts.ProductViewModel;
 import com.hadIt.doorstep.roomDatabase.shopProducts.ProductsRepository;
 import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class MyFirebaseMessaging extends FirebaseMessagingService implements OrderDetailsTransfer, ProductTransfer {
@@ -83,13 +71,33 @@ public class MyFirebaseMessaging extends FirebaseMessagingService implements Ord
 
         if(notificationType.equals("Added New Product")){
             ProductsTable productsTable = gson.fromJson(remoteMessage.getData().get("product"), ProductsTable.class);
-            ProductViewModel productViewModel = new ProductViewModel(getApplication(), productsTable.getShopUid());
             productsRepository = new ProductsRepository(getApplication(), productsTable.getShopUid());
-            saveProductDetailsIfShopRead(productViewModel, productsTable);
+            saveProductDetailsIfShopRead(productsTable);
+        }
+
+        if(notificationType.equals("Delete Product")){
+            ProductsTable productsTable = gson.fromJson(remoteMessage.getData().get("product"), ProductsTable.class);
+            productsRepository = new ProductsRepository(getApplication(), productsTable.getShopUid());
+            deleteProductDetailsIfShopRead(productsTable);
         }
     }
 
-    private void saveProductDetailsIfShopRead(final ProductViewModel productViewModel, final ProductsTable productsTable) {
+    private void deleteProductDetailsIfShopRead(final ProductsTable productsTable) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int countShopUid = DatabaseRoom.getInstance(getApplicationContext())
+                        .Daodata()
+                        .checkIfShopExists(productsTable.getShopUid());
+                if(countShopUid>0){
+                    deleteProductsTable(productsTable);
+                }
+            }
+        }).start();
+    }
+
+
+    private void saveProductDetailsIfShopRead(final ProductsTable productsTable) {
 
         new Thread(new Runnable() {
             @Override
@@ -177,6 +185,6 @@ public class MyFirebaseMessaging extends FirebaseMessagingService implements Ord
 
     @Override
     public void deleteProductsTable(ProductsTable productsTable) {
-
+        productsRepository.delete(productsTable.getProductId());
     }
 }

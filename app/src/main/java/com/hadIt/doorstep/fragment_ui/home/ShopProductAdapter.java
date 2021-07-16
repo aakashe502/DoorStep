@@ -1,9 +1,6 @@
 package com.hadIt.doorstep.fragment_ui.home;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,28 +8,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import com.hadIt.doorstep.R;
 
-import com.hadIt.doorstep.SplashScreenActivity;
-import com.hadIt.doorstep.homePage.HomePage;
-import com.hadIt.doorstep.login_signup.LoginActivity;
+import com.hadIt.doorstep.roomDatabase.cart.DataDatabase;
 import com.hadIt.doorstep.roomDatabase.cart.model.Data;
 import com.hadIt.doorstep.roomDatabase.cart.DataTransfer;
 import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ShopProductAdapter extends ListAdapter<ProductsTable, ShopProductAdapter.ViewHolder> {
     Context context;
@@ -53,75 +47,112 @@ public class ShopProductAdapter extends ListAdapter<ProductsTable, ShopProductAd
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder,final int position) {
-        holder.productname.setText(getItem(position).getProductName());
-        holder.productrate.setText(getItem(position).getProductPrice());
+        holder.productName.setText(getItem(position).getProductName());
+        holder.productRate.setText(getItem(position).getProductPrice());
+        holder.productId.setText(String.format("#%s", getItem(position).getProductId()));
+        holder.description.setText(getItem(position).getProductDescription());
+        Glide.with(context).load(getItem(position).getProductIcon()).into(holder.productImage);
+        holder.unit.setText(String.format("/%s", getItem(position).getUnit()));
 
-        Glide.with(context).load(getItem(position).getProductIcon()).into(holder.productimage);
-        holder.unit.setText(" / "+getItem(position).getUnit());
-
-        holder.addbutton.setOnClickListener(new View.OnClickListener() {
+        new Thread(new Runnable() {
             @Override
-            public void onClick(View view) {
-                holder.addbutton.setVisibility(View.GONE);
-                holder.linear.setVisibility(View.VISIBLE);
-                Data cart=new Data(getItem(position).getShopUid() + getItem(position).getProductName(), getItem(position).getProductName(),
-                        getItem(position).getProductPrice(), getItem(position).getProductIcon(), holder.numb.getText().toString(), getItem(position).getShopUid(),getItem(position).getUnit());
-
-                datatransfer.onSetValues(cart);
-            }
-        });
-        holder.plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.numb.setText((Integer.parseInt(holder.numb.getText().toString())+1)+"");
-                Data cart=new Data(getItem(position).getShopUid() + getItem(position).getProductName(), getItem(position).getProductName(),
-                        getItem(position).getProductPrice(), getItem(position).getProductIcon(), holder.numb.getText().toString(), getItem(position).getShopUid(),getItem(position).getUnit());
-
-                datatransfer.onSetValues(cart);
-            }
-        });
-        holder.minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.numb.setText((Integer.parseInt(holder.numb.getText().toString())-1)+"");
-                if(Integer.parseInt(holder.numb.getText().toString())<=0){
-                    holder.numb.setText("0");
-                    holder.addbutton.setVisibility(View.VISIBLE);
-                    holder.linear.setVisibility(View.GONE);
-                    Data cart=new Data(getItem(position).getShopUid() + getItem(position).getProductName(), getItem(position).getProductName(),
-                            getItem(position).getProductPrice(), getItem(position).getProductIcon(), holder.numb.getText().toString(), getItem(position).getShopUid(),getItem(position).getUnit());
-
-                    datatransfer.onDelete(cart);
+            public void run() {
+                Data data = DataDatabase.getInstance(context)
+                        .dataDao()
+                        .getProductWithId(getItem(position).getProductId());
+                int quantity = Integer.parseInt(getItem(position).getProductQuantity());
+                if(data != null){
+                    holder.numb.setText(data.getProductQuantity());
+                    holder.addButton.setVisibility(View.GONE);
+                    holder.linear.setVisibility(View.VISIBLE);
+                    holder.quantity.setText(String.format("(%s)", (quantity - Integer.parseInt(data.getProductQuantity()))));
+                }else{
+                    holder.quantity.setText(String.format("(%s)", getItem(position).getProductQuantity()));
                 }
-                else{
-                    Data cart=new Data(getItem(position).getShopUid() + getItem(position).getProductName(), getItem(position).getProductName(),
-                            getItem(position).getProductPrice(), getItem(position).getProductIcon(), holder.numb.getText().toString(), getItem(position).getShopUid(),getItem(position).getUnit());
 
-                    datatransfer.onDelete(cart);
-                }
+                final int finalQuantity = quantity;
+                holder.addButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(finalQuantity>0) {
+                            holder.addButton.setVisibility(View.GONE);
+                            holder.linear.setVisibility(View.VISIBLE);
+                            holder.numb.setText("1");
+                            holder.quantity.setText(String.format("(%s)", finalQuantity - 1));
+                            Data cart = new Data(getItem(position).getProductId(), getItem(position).getProductCategory(), getItem(position).getProductDescription(),
+                                    getItem(position).getProductIcon(), getItem(position).getProductName(), getItem(position).getProductPrice(), holder.numb.getText().toString(), getItem(position).getShopUid(), getItem(position).getUnit());
+
+                            datatransfer.onSetValues(cart);
+                        }
+                        else{
+                            Toast.makeText(context, "This product is not available.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                holder.plus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(finalQuantity-Integer.parseInt(holder.numb.getText().toString())>0) {
+                            holder.quantity.setText(String.format("(%s)", finalQuantity - Integer.parseInt(holder.numb.getText().toString()) - 1));
+                            holder.numb.setText(String.format("%s", Integer.parseInt(holder.numb.getText().toString()) + 1));
+                            Data cart = new Data(getItem(position).getProductId(), getItem(position).getProductCategory(), getItem(position).getProductDescription(),
+                                    getItem(position).getProductIcon(), getItem(position).getProductName(), getItem(position).getProductPrice(), holder.numb.getText().toString(), getItem(position).getShopUid(), getItem(position).getUnit());
+
+                            datatransfer.onSetValues(cart);
+                        }
+                        else{
+                            Toast.makeText(context, "Not enough available to add.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                holder.minus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        holder.quantity.setText(String.format("(%s)", finalQuantity-Integer.parseInt(holder.numb.getText().toString())+1));
+                        holder.numb.setText(String.format("%s", Integer.parseInt(holder.numb.getText().toString())-1));
+                        if(Integer.parseInt(holder.numb.getText().toString())<1){
+                            holder.numb.setText("0");
+                            holder.addButton.setVisibility(View.VISIBLE);
+                            holder.linear.setVisibility(View.GONE);
+                            Data cart=new Data(getItem(position).getProductId(), getItem(position).getProductCategory(), getItem(position).getProductDescription(),
+                                    getItem(position).getProductIcon(), getItem(position).getProductName(), getItem(position).getProductPrice(), holder.numb.getText().toString(), getItem(position).getShopUid(),getItem(position).getUnit());
+
+                            datatransfer.onDelete(cart);
+                        }
+                        else{
+                            Data cart=new Data(getItem(position).getProductId(), getItem(position).getProductCategory(), getItem(position).getProductDescription(),
+                                    getItem(position).getProductIcon(), getItem(position).getProductName(), getItem(position).getProductPrice(), holder.numb.getText().toString(), getItem(position).getShopUid(),getItem(position).getUnit());
+
+                            datatransfer.onDelete(cart);
+                        }
+                    }
+                });
             }
-        });
+        }).start();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        public ImageView productimage;
-        public TextView productname, productrate, number;
-        public Button addbutton;
-        LinearLayout linear;
-        Button minus,plus;
-        TextView numb;
-        TextView unit;
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+        public ImageView productImage;
+        public TextView productName, productRate, number, productId, description, numb, unit, quantity;
+        public Button addButton;
+        public LinearLayout linear;
+        public Button minus, plus;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            productimage= itemView.findViewById(R.id.itemImage1);
-            productname= itemView.findViewById(R.id.itemName);
-            productrate=itemView.findViewById(R.id.itemCost);
-            addbutton=itemView.findViewById(R.id.addbutton);
+            productImage = itemView.findViewById(R.id.itemImage1);
+            productName = itemView.findViewById(R.id.itemName);
+            productRate =itemView.findViewById(R.id.itemCost);
+            addButton =itemView.findViewById(R.id.addbutton);
             linear=itemView.findViewById(R.id.linear);
             minus=itemView.findViewById(R.id.minus);
             plus=itemView.findViewById(R.id.plus);
             numb=itemView.findViewById(R.id.number);
             unit=itemView.findViewById(R.id.value);
+            productId=itemView.findViewById(R.id.productId);
+            description=itemView.findViewById(R.id.description);
+            quantity=itemView.findViewById(R.id.quantity);
         }
     }
 }
