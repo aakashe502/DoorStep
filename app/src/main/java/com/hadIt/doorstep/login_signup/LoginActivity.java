@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,15 +24,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.homePage.HomePage;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.md5.PasswordGeneratorMd5;
 import com.hadIt.doorstep.progressBar.CustomProgressBar;
 
 public class LoginActivity extends AppCompatActivity {
     public Button createNewAccount, loginButton;
     public EditText email, password;
-    public PasswordGeneratorMd5 md5;
     private CustomProgressBar customProgressBar;
     private PaperDb paperDb;
+    TextView forget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
 
         paperDb = new PaperDb();
 
-        md5 = new PasswordGeneratorMd5();
         customProgressBar = new CustomProgressBar(LoginActivity.this);
 
         email=findViewById(R.id.etemail);
@@ -69,6 +68,14 @@ public class LoginActivity extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(notificationChannel);
         }
+
+        forget=findViewById(R.id.forgotPassword);
+        forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this,ForgetPassword.class));
+            }
+        });
     }
 
     private void goToNewActivity() {
@@ -82,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginUser() {
         customProgressBar.show();
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email.getText().toString(), md5.btnMd5(password))
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email.getText().toString(), password.getText().toString().trim())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

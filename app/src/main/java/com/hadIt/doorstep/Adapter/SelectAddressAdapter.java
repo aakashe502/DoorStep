@@ -25,6 +25,8 @@ import com.hadIt.doorstep.address.EditAddress;
 import com.hadIt.doorstep.address.SelectAddress;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
+import com.hadIt.doorstep.login_signup.LoginActivity;
+import com.hadIt.doorstep.progressBar.CustomProgressBar;
 import com.hadIt.doorstep.roomDatabase.address.AddressDataTransfer;
 import com.hadIt.doorstep.roomDatabase.address.AddressRepository;
 import com.hadIt.doorstep.roomDatabase.address.model.AddressModel;
@@ -39,6 +41,7 @@ public class SelectAddressAdapter extends RecyclerView.Adapter<SelectAddressAdap
     private PaperDb paperDb;
     private Users users;
     private AddressRepository addressRepository;
+    private CustomProgressBar customProgressBar;
 
     public SelectAddressAdapter(Context context, List<AddressModel> dataList, Application application) {
         this.context = context;
@@ -49,8 +52,10 @@ public class SelectAddressAdapter extends RecyclerView.Adapter<SelectAddressAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        customProgressBar = new CustomProgressBar(context);
         return new SelectAddressAdapter.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.address,
                 parent, false));
+
     }
 
     @Override
@@ -109,11 +114,13 @@ public class SelectAddressAdapter extends RecyclerView.Adapter<SelectAddressAdap
         holder.LeftRelative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                    customProgressBar.show();
                 try {
                     paperDb.saveAddressInPaperDb(dataList.get(position));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                customProgressBar.dismiss();
                 context.startActivity(new Intent(context, CheckoutActivity.class));
             }
         });

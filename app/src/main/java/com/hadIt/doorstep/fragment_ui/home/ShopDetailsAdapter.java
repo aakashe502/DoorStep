@@ -44,7 +44,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<ShopDetailsAdapter.
         holder.productname.setText(arrayList.get(position).shopName);
         holder.shopLocation.setText(arrayList.get(position).city);
 
-        Glide.with(context).load(arrayList.get(position).profileImage).into(holder.productimage);
+       // Glide.with(context).load(arrayList.get(position).profileImage).into(holder.productimage);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
