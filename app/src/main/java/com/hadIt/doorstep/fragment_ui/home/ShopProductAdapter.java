@@ -65,9 +65,6 @@ public class ShopProductAdapter extends ListAdapter<ProductsTable, ShopProductAd
                     holder.numb.setText(data.getProductQuantity());
                     holder.addButton.setVisibility(View.GONE);
                     holder.linear.setVisibility(View.VISIBLE);
-                    holder.quantity.setText(String.format("(%s)", (quantity - Integer.parseInt(data.getProductQuantity()))));
-                }else{
-                    holder.quantity.setText(String.format("(%s)", getItem(position).getProductQuantity()));
                 }
 
                 final int finalQuantity = quantity;
@@ -78,7 +75,6 @@ public class ShopProductAdapter extends ListAdapter<ProductsTable, ShopProductAd
                             holder.addButton.setVisibility(View.GONE);
                             holder.linear.setVisibility(View.VISIBLE);
                             holder.numb.setText("1");
-                            holder.quantity.setText(String.format("(%s)", finalQuantity - 1));
                             Data cart = new Data(getItem(position).getProductId(), getItem(position).getProductCategory(), getItem(position).getProductDescription(),
                                     getItem(position).getProductIcon(), getItem(position).getProductName(), getItem(position).getProductPrice(), holder.numb.getText().toString(), getItem(position).getShopUid(), getItem(position).getUnit());
 
@@ -93,7 +89,6 @@ public class ShopProductAdapter extends ListAdapter<ProductsTable, ShopProductAd
                     @Override
                     public void onClick(View view) {
                         if(finalQuantity-Integer.parseInt(holder.numb.getText().toString())>0) {
-                            holder.quantity.setText(String.format("(%s)", finalQuantity - Integer.parseInt(holder.numb.getText().toString()) - 1));
                             holder.numb.setText(String.format("%s", Integer.parseInt(holder.numb.getText().toString()) + 1));
                             Data cart = new Data(getItem(position).getProductId(), getItem(position).getProductCategory(), getItem(position).getProductDescription(),
                                     getItem(position).getProductIcon(), getItem(position).getProductName(), getItem(position).getProductPrice(), holder.numb.getText().toString(), getItem(position).getShopUid(), getItem(position).getUnit());
@@ -109,7 +104,6 @@ public class ShopProductAdapter extends ListAdapter<ProductsTable, ShopProductAd
                 holder.minus.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        holder.quantity.setText(String.format("(%s)", finalQuantity-Integer.parseInt(holder.numb.getText().toString())+1));
                         holder.numb.setText(String.format("%s", Integer.parseInt(holder.numb.getText().toString())-1));
                         if(Integer.parseInt(holder.numb.getText().toString())<1){
                             holder.numb.setText("0");
@@ -134,7 +128,7 @@ public class ShopProductAdapter extends ListAdapter<ProductsTable, ShopProductAd
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView productImage;
-        public TextView productName, productRate, number, productId, description, numb, unit, quantity;
+        public TextView productName, productRate, number, productId, description, numb, unit;
         public Button addButton;
         public LinearLayout linear;
         public Button minus, plus;
@@ -152,7 +146,6 @@ public class ShopProductAdapter extends ListAdapter<ProductsTable, ShopProductAd
             unit=itemView.findViewById(R.id.value);
             productId=itemView.findViewById(R.id.productId);
             description=itemView.findViewById(R.id.description);
-            quantity=itemView.findViewById(R.id.quantity);
         }
     }
 }
