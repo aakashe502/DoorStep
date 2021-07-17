@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import com.hadIt.doorstep.cache.model.Products;
 import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 
 import java.util.List;

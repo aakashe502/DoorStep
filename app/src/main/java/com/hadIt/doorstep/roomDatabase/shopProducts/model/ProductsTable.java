@@ -45,6 +45,18 @@ public class ProductsTable {
         this.unit = unit;
     }
 
+    public ProductsTable(String productId, String productCategory, String productDescription, String productIcon, String productName, String productPrice, String shopUid, String unit) {
+        this.productId = productId;
+        this.productCategory = productCategory;
+        this.productDescription = productDescription;
+        this.productIcon = productIcon;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productQuantity = productQuantity;
+        this.shopUid = shopUid;
+        this.unit = unit;
+    }
+
     public String getUnit() {
         return unit;
     }

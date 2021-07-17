@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.cache.model.Products;
+import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 
 import java.util.List;
 
@@ -20,9 +20,9 @@ public class OrderDetailsProductAdapter extends RecyclerView.Adapter<OrderDetail
     private static final String TAG = "OrderDetailsProductAdapter";
 
     private Context context;
-    private List<Products> dataList;
+    private List<ProductsTable> dataList;
 
-    public OrderDetailsProductAdapter(Context context, List<Products> dataList) {
+    public OrderDetailsProductAdapter(Context context, List<ProductsTable> dataList) {
         this.context = context;
         this.dataList = dataList;
     }
@@ -36,11 +36,11 @@ public class OrderDetailsProductAdapter extends RecyclerView.Adapter<OrderDetail
 
     @Override
     public void onBindViewHolder(@NonNull final DataViewHolder holder, final int position) {
-        final Products data = dataList.get(position);
-        holder.name.setText(data.getName());
-        holder.ruppee.setText(data.getRate());
-        holder.number.setText(data.getQuantity());
-        Glide.with(context).load(data.getImage()).into(holder.image);
+        final ProductsTable data = dataList.get(position);
+        holder.name.setText(data.getProductName());
+        holder.ruppee.setText(data.getProductPrice());
+        holder.number.setText(data.getProductQuantity());
+        Glide.with(context).load(data.getProductIcon()).into(holder.image);
         holder.unit.setText(data.getUnit());
     }
 
@@ -49,7 +49,7 @@ public class OrderDetailsProductAdapter extends RecyclerView.Adapter<OrderDetail
         return dataList.size();
     }
 
-    public void getAllDatas(List<Products> dataList) {
+    public void getAllDatas(List<ProductsTable> dataList) {
         this.dataList = dataList;
     }
 

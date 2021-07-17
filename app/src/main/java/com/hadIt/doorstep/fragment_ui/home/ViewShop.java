@@ -110,8 +110,6 @@ public class ViewShop extends AppCompatActivity implements DataTransfer {
 
     @Override
     public void onSetValues(Data al) {
-//        for(Data d:al)
-//        dataRespository.insert(d);
         setLength();
     }
 
@@ -131,7 +129,7 @@ public class ViewShop extends AppCompatActivity implements DataTransfer {
 
     @Override
     public void onDelete(Data data) {
-        dataRespository.delete(data.getId());
+        dataRespository.delete(data.getProductId());
         if(textCartItemCount!=null){
             textCartItemCount.setText(""+(mCartItemCount-1));
         }

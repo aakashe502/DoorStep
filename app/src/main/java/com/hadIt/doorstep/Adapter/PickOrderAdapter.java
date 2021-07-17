@@ -14,11 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.OrderStatus;
-import com.hadIt.doorstep.cache.model.Products;
 import com.hadIt.doorstep.order_details.OrderDetailsActivity;
 import com.hadIt.doorstep.roomDatabase.orders.details.model.OrderDetailsRoomModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
@@ -27,7 +25,6 @@ public class PickOrderAdapter extends RecyclerView.Adapter<PickOrderAdapter.View
 
     private Context context;
     private List<OrderDetailsRoomModel> dataList;
-    private List<Products> productsList;
     private FirebaseFirestore firebaseFirestore;
 
     public PickOrderAdapter(Context context, List<OrderDetailsRoomModel> dataList) {
@@ -62,7 +59,6 @@ public class PickOrderAdapter extends RecyclerView.Adapter<PickOrderAdapter.View
         holder.order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                productsList = new ArrayList<>();
                 Intent intent = new Intent(context, OrderDetailsActivity.class);
                 intent.putExtra("orderDetailsObj", orderDetailsRoomModel);
                 intent.putExtra("orderId", orderDetailsRoomModel.getOrderId());
