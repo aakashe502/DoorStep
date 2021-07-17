@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CheckoutActivity">
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -34,41 +35,191 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/colorWhite"/>
+
         </RelativeLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/address"
+        tools:ignore="MissingConstraints"
         android:layout_below="@+id/appbar"
-        android:id="@+id/recycler" />
+        android:background="@color/colorWhite"
+        android:id="@+id/relllll"
+        android:padding="2dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="14sp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:background="@color/colorGrey01"
-        android:id="@+id/addressSelected"
-        android:layout_above="@+id/address"
-        android:textColor="@color/colorText"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/relative111"
+            android:background="@color/colorLessWhite">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/colorLessWhite"
+                app:cardCornerRadius="5dp"
+                android:padding="10dp"
+                app:cardElevation="12dp"
+                app:cardMaxElevation="12dp"
+                app:cardPreventCornerOverlap="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/LeftRelative">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/layout">
+
+                        <TextView
+                            android:id="@+id/homeDelivery1"
+                            style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:text="Home Delivery"
+                            android:textColor="@color/colorText"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/changeAddress1"
+                            style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:text="Change Address"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/customerName1"
+                        style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/layout"
+                        android:text="Door Step Full Name"
+                        android:textColor="@color/colorText"
+                        android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/houseNumber1"
+                        style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="105T, apartment name"
+                        android:layout_below="@+id/customerName1"
+                        android:textColor="@color/colorText"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/landmark1"
+                        style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="landmark"
+                        android:layout_below="@+id/houseNumber1"
+                        android:textColor="@color/colorText"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/areaDetails1"
+                        style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Area Details, City-pincode"
+                        android:layout_below="@+id/landmark1"
+                        android:textColor="@color/colorText"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/phoneNumber1"
+                        style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Phone: +911234567890"
+                        android:layout_below="@+id/areaDetails1"
+                        android:textColor="@color/colorText"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+<!-- product detail -->
+       <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
+           android:layout_above="@+id/checkout"
+            android:id="@+id/catrfd"
+            android:layout_below="@+id/relllll"
+            android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rel">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/lin">
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:textColor="@color/colorText"
+                    android:text="Product Details"
+                    android:textSize="20dp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:layout_toRightOf="@+id/text"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/colorText"
+                    android:text="Rs 2573"
+                    android:textSize="20dp"
+                    android:id="@+id/total" />
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:background="@null"
+                    android:id="@+id/downarrow"
+                    android:src="@drawable/downarrow"
+                    android:layout_toRightOf="@+id/total"/>
+
+            </LinearLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:visibility="visible"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lin"
+                android:id="@+id/recycler" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
     <Button
+        android:id="@+id/checkout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="address"
-        android:layout_above="@+id/checkout"
-        android:id="@+id/address"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Checkout"
         android:layout_alignParentBottom="true"
-        android:id="@+id/checkout"/>
+        android:fontFamily="@font/roboto_slab_bold"
+        android:text="Checkout" />
 
 </RelativeLayout>

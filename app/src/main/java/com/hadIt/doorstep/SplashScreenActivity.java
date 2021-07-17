@@ -33,6 +33,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAGS_CHANGED, WindowManager.LayoutParams.FLAGS_CHANGED);
         setContentView(R.layout.activity_splash_screen);
+       
         Paper.init(getApplicationContext());
     }
 

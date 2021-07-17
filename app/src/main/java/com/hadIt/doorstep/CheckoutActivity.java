@@ -75,7 +75,7 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
     double sum=0.0;
-    public TextView address, addressSelected;
+    public TextView address;
     private ImageButton backBtn;
     BottomNavigationView bottomNavigationView;
     private String todaysDate;
@@ -83,6 +83,11 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
     public String Tag_Address = "Address Added";
     private OrderDetailsRoomModel orderDetailsRoomModel;
     private String shopUid;
+    AddressModel address_setter;
+
+    ImageButton downarrow;
+
+    TextView customername,housenumber,landmark,areaDetails,phoneNumber;
 
     Toolbar toolbar;
     final String timestamp = ""+System.currentTimeMillis();
@@ -94,6 +99,13 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
         setContentView(R.layout.activity_checkout);
         getShopUidFromRoomDb();
 
+        customername=findViewById(R.id.customerName1);
+        housenumber=findViewById(R.id.houseNumber1);
+        landmark=findViewById(R.id.landmark1);
+        areaDetails=findViewById(R.id.areaDetails1);
+        phoneNumber=findViewById(R.id.phoneNumber1);
+        address=findViewById(R.id.changeAddress1);
+
         dataList=new ArrayList<>();
         recyclerView=findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -104,7 +116,7 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
         firebaseAuth = FirebaseAuth.getInstance();
         paperDb = new PaperDb();
         backBtn = findViewById(R.id.backBtn);
-        addressSelected = findViewById(R.id.addressSelected);
+
         firebaseFirestore = FirebaseFirestore.getInstance();
         orderDetailsRepository = new OrderDetailsRepository(getApplication(), firebaseAuth.getUid());
 
@@ -132,6 +144,22 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
             }
         });
 
+        downarrow=findViewById(R.id.downarrow);
+        downarrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(recyclerView.getVisibility()== View.VISIBLE){
+                    recyclerView.setVisibility(View.GONE);
+                    downarrow.setImageResource(R.drawable.downarrow);
+                }
+                else{
+                    recyclerView.setVisibility(View.VISIBLE);
+                    downarrow.setImageResource(R.drawable.uparrow);
+                }
+
+            }
+        });
+
         getTodaysDate();
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,10 +169,18 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
         });
 
         if(paperDb.getAddressFromPaperDb() != null){
-            addressSelected.setText(paperDb.getAddressFromPaperDb().toString());
+            address_setter=paperDb.getAddressFromPaperDb();
+            customername.setText(address_setter.getFirstName()+"");
+            housenumber.setText(address_setter.getHouseNumber()+" ");
+            landmark.setText(address_setter.getLandmark()+"");
+            areaDetails.setText(address_setter.getAreaDetails()+"");
+            phoneNumber.setText(address_setter.getContactNumber()+"");
+
+
+
         }
 
-        address = findViewById(R.id.address);
+
 
         address.setOnClickListener(new View.OnClickListener() {
             @Override

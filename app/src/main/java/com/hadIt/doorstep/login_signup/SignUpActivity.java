@@ -18,7 +18,6 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.text.style.UpdateAppearance;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -40,17 +39,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.hadIt.doorstep.address.AddNewAddress;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.homePage.HomePage;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.md5.PasswordGeneratorMd5;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.progressBar.CustomProgressBar;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.PriorityQueue;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -61,7 +57,6 @@ public class SignUpActivity extends AppCompatActivity {
     public FirebaseFirestore firebaseFirestore;
     public FirebaseAuth firebaseAuth;
     public String Tag = "SignUpActivity";
-    public PasswordGeneratorMd5 md5;
     public boolean phoneNumberExists = false;
     public boolean emailExists = false;
     public boolean isNewUser;
@@ -81,7 +76,6 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         firebaseFirestore = FirebaseFirestore.getInstance();
-        md5 = new PasswordGeneratorMd5();
         firebaseAuth = FirebaseAuth.getInstance();
 
         userName = findViewById(R.id.editName);
@@ -131,7 +125,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void setSignUp(){
-        firebaseAuth.createUserWithEmailAndPassword(emailId.getText().toString(), md5.btnMd5(password))
+        firebaseAuth.createUserWithEmailAndPassword(emailId.getText().toString(), password.getText().toString().trim())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
