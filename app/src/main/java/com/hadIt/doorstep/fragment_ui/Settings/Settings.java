@@ -1,8 +1,11 @@
 package com.hadIt.doorstep.fragment_ui.Settings;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +26,7 @@ import com.hadIt.doorstep.utils.Constants;
 public class Settings extends Fragment {
 
     private SwitchCompat fcmSwitch;
-    private TextView notificationStatusTv;
+    private TextView notificationStatusTv, customerCare;
 
     private boolean isChecked = false;
 
@@ -42,6 +45,7 @@ public class Settings extends Fragment {
         getActivity().setTitle("Settings");
         fcmSwitch = root.findViewById(R.id.fcmSwitch);
         notificationStatusTv = root.findViewById(R.id.notificationStatusTv);
+        customerCare = root.findViewById(R.id.customerCare);
 
         //init shared preference
         sp = this.getActivity().getSharedPreferences("SETTINGS_SP", Context.MODE_PRIVATE);
@@ -67,6 +71,13 @@ public class Settings extends Fragment {
                     //unchecked, enable notification
                     unSubscribeToTopic();
                 }
+            }
+        });
+
+        customerCare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWhatsAppConversation(getContext(), Constants.customerCareNumber);
             }
         });
 
@@ -119,6 +130,19 @@ public class Settings extends Fragment {
                         Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    public static void openWhatsAppConversation(Context context, String number) {
+
+        number = number.replace(" ", "").replace("+", "");
+
+        Intent sendIntent = new Intent("android.intent.action.MAIN");
+
+        sendIntent.setType("text/plain");
+        sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
+        sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(number) + "@s.whatsapp.net");
+
+        context.startActivity(sendIntent);
     }
 
 }
