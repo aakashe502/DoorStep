@@ -2,8 +2,6 @@ package com.hadIt.doorstep.homePage;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -18,15 +16,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.hadIt.doorstep.CheckoutActivity;
 import com.hadIt.doorstep.R;
-import com.hadIt.doorstep.cache.model.OrderDetails;
-import com.hadIt.doorstep.fragment_ui.Settings.Settings;
 import com.hadIt.doorstep.login_signup.LoginActivity;
 import com.hadIt.doorstep.order_details.OrdersActivity;
 import com.hadIt.doorstep.search.SearchActivity;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.utils.Constants;
-
+import com.razorpay.Checkout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -39,7 +35,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.paperdb.Paper;
 
 import static java.lang.Thread.sleep;
 
@@ -60,6 +55,7 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Checkout.preload(getApplicationContext());
 
         setContentView(R.layout.activity_home);
         bottomNavigationView = findViewById(R.id.nav_view);

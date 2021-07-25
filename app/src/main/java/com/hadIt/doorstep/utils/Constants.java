@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 public class Constants {
     public static final int dbVersion = 1;
+    public static final int deliveryChargeAbove = 30;
+    public static final int deliveryChargeBelow = 15;
 
     public Constants() {
         products.put("VEGETABLES & FRUITS", new String[]{"Vegetables",

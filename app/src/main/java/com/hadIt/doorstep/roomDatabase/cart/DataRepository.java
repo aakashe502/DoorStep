@@ -26,6 +26,10 @@ public class DataRepository {
         new InsertAsynTask(dataDatabase).execute(dataList);
     }
 
+    public LiveData<Data> getProductObserverWithId(String productId) {
+        return dataDatabase.dataDao().getProductObserverWithId(productId);
+    }
+
     public  LiveData<List<Data>> getAllData()
     {
         return getAllData;

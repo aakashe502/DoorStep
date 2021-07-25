@@ -17,7 +17,7 @@ public class ProductViewModel extends AndroidViewModel {
     public ProductViewModel(@NonNull Application application, String shopUid) {
         super(application);
         productsRepository = new ProductsRepository(application, shopUid);
-        getAllData=productsRepository.getAllData();
+        getAllData=productsRepository.getAllData(shopUid);
     }
 
     public void insert(ProductsTable dataList)
@@ -25,8 +25,8 @@ public class ProductViewModel extends AndroidViewModel {
         productsRepository.insert(dataList);
     }
 
-    public LiveData<List<ProductsTable>> getShopProducts() {
-        return getAllData;
+    public LiveData<List<ProductsTable>> getShopProducts(String shopUid) {
+        return productsRepository.getAllData(shopUid);
     }
 
     public void deleteAll()

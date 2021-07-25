@@ -27,6 +27,10 @@ public class DataViewModal extends AndroidViewModel {
         dataRespository.insert(dataList);
     }
 
+    public LiveData<Data> getProductObserverWithId(String productId) {
+        return dataRespository.getProductObserverWithId(productId);
+    }
+
     public LiveData<List<Data>> getCheckoutdata() {
         return getAllData;
     }
