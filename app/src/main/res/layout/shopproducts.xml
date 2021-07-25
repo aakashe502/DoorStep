@@ -85,6 +85,20 @@
                             android:textSize="16sp" />
 
                         <TextView
+                            android:id="@+id/inStock"
+                            style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="10dp"
+                            android:layout_below="@+id/productId"
+                            android:text="In Stock"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="10sp" />
+
+                        <TextView
                             android:id="@+id/rs"
                             style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
                             android:layout_width="wrap_content"

@@ -25,7 +25,6 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<ShopDetailsAdapter.
     ArrayList<Admin> arrayList;
     Context context;
     public DataTransfer datatransfer;
-    public ArrayList<Data> addtocartArrayList=new ArrayList<>();
 
     public ShopDetailsAdapter(ArrayList<Admin> arrayList, Context context, DataTransfer datatransfer) {
         this.arrayList = arrayList;
@@ -44,7 +43,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<ShopDetailsAdapter.
         holder.productname.setText(arrayList.get(position).shopName);
         holder.shopLocation.setText(arrayList.get(position).city);
 
-       // Glide.with(context).load(arrayList.get(position).profileImage).into(holder.productimage);
+        Glide.with(context).load(arrayList.get(position).profileImage).into(holder.productimage);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -24,9 +24,9 @@ public class ProductsRepository {
         new InsertAsynTask1(dataDatabase).execute(dataList);
     }
 
-    public  LiveData<List<ProductsTable>> getAllData()
+    public  LiveData<List<ProductsTable>> getAllData(String shopUid)
     {
-        return getAllData;
+        return dataDatabase.Daodata().getDataForShopAndCategory(shopUid);
     }
 
     public void refreshDb()

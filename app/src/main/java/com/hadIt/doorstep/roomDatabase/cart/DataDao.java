@@ -27,7 +27,7 @@ public interface DataDao {
     void delete(String productId);
 
     @Query("SELECT * FROM data where productId=:productId")
-    Data getProductWithId(String productId);
+    LiveData<Data> getProductObserverWithId(String productId);
 
     @Query("SELECT shopUid FROM data LIMIT 1")
     String getShopUid();

@@ -68,7 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:id="@+id/LeftRelative">
 
                     <LinearLayout
@@ -154,15 +154,50 @@
         </RelativeLayout>
     </RelativeLayout>
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/orderDetails"
+        app:cardBackgroundColor="@color/colorLessWhite"
+        android:layout_below="@+id/relllll">
 
-<!-- product detail -->
-       <androidx.cardview.widget.CardView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="15dp"
-           android:layout_above="@+id/checkout"
-            android:id="@+id/catrfd"
-            android:layout_below="@+id/relllll"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginStart="10dp"
+            android:id="@+id/od">
+
+            <TextView
+                android:id="@+id/totalProducts"
+                style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total Items: 6"
+                android:textColor="@color/colorText"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/deliveryCharge"
+                style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delivery Charge: Rs-30"
+                android:layout_below="@+id/totalProducts"
+                android:textColor="@color/colorText"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- product detail -->
+   <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_above="@+id/checkout"
+        android:id="@+id/catrfd"
+        android:layout_below="@+id/orderDetails"
+        android:layout_height="wrap_content">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -172,54 +207,60 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:id="@+id/lin">
+                android:background="@color/colorLessWhite"
+                android:layout_margin="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/downarrow" >
 
                 <TextView
                     android:id="@+id/text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
+                    android:layout_marginStart="10dp"
                     android:textColor="@color/colorText"
                     android:text="Product Details"
-                    android:textSize="20dp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:layout_toRightOf="@+id/text"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:textColor="@color/colorText"
-                    android:text="Rs 2573"
-                    android:textSize="20dp"
+                    android:text="Rs-2573"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     android:id="@+id/total" />
 
                 <ImageButton
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
+                    android:layout_marginEnd="5dp"
                     android:background="@null"
-                    android:id="@+id/downarrow"
-                    android:src="@drawable/downarrow"
-                    android:layout_toRightOf="@+id/total"/>
+                    android:id="@+id/drop"
+                    android:src="@drawable/downarrow" />
 
             </LinearLayout>
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:visibility="visible"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lin"
+                android:layout_below="@+id/downarrow"
                 android:id="@+id/recycler" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/checkout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:fontFamily="@font/roboto_slab_bold"
-        android:text="Checkout" />
+   <Button
+       android:id="@+id/checkout"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_alignParentBottom="true"
+       android:fontFamily="@font/roboto_slab_bold"
+       android:text="Checkout" />
 
 </RelativeLayout>
