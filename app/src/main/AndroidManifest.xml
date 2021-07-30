@@ -55,6 +55,10 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_eBH91jnrIO3XuS" />
+
         <service
             android:name=".fcm.MyFirebaseMessaging"
             android:exported="false">

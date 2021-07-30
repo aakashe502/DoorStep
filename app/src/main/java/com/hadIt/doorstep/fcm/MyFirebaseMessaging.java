@@ -23,11 +23,14 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.order_details.OrderDetailsActivity;
+import com.hadIt.doorstep.roomDatabase.address.AddressViewModel;
 import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsRepository;
 import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsTransfer;
+import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsViewModel;
 import com.hadIt.doorstep.roomDatabase.orders.details.model.OrderDetailsRoomModel;
 import com.hadIt.doorstep.roomDatabase.shopProducts.DatabaseRoom;
 import com.hadIt.doorstep.roomDatabase.shopProducts.ProductTransfer;
+import com.hadIt.doorstep.roomDatabase.shopProducts.ProductViewModel;
 import com.hadIt.doorstep.roomDatabase.shopProducts.ProductsRepository;
 import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 
@@ -64,7 +67,6 @@ public class MyFirebaseMessaging extends FirebaseMessagingService implements Ord
             String notificationMessage = remoteMessage.getData().get("notificationMessage");
 
             if(firebaseUser != null && firebaseAuth.getUid().equals(orderDetailsRoomModel.getBuyerUid())){
-                //user is signed in and is same user to whom notification is sent.
                 showNotification(orderDetailsRoomModel, notificationTitle, notificationMessage, notificationType);
             }
         }
@@ -79,6 +81,19 @@ public class MyFirebaseMessaging extends FirebaseMessagingService implements Ord
             ProductsTable productsTable = gson.fromJson(remoteMessage.getData().get("product"), ProductsTable.class);
             productsRepository = new ProductsRepository(getApplication(), productsTable.getShopUid());
             deleteProductDetailsIfShopRead(productsTable);
+        }
+
+        if(notificationType.equals("Refresh db")){
+            String shopUid = remoteMessage.getData().get("shopUid");
+            productsRepository = new ProductsRepository(getApplication(), shopUid);
+
+            String refresh = remoteMessage.getData().get("refresh");
+            if(refresh.equals("true")){
+                productsRepository.refreshDb();
+            }
+            else{
+                productsRepository.deleteProductUsingShopId(shopUid);
+            }
         }
     }
 

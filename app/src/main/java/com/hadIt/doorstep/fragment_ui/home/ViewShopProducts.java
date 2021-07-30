@@ -230,6 +230,7 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
         }
         setLength();
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -254,7 +255,7 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
         productsRepository = new ProductsRepository(getApplication(), shopUid);
         productViewModel = new ProductViewModel(getApplication(), shopUid);
 
-        productViewModel.getShopProducts().observe(this, new Observer<List<ProductsTable>>() {
+        productViewModel.getShopProducts(shopUid).observe(this, new Observer<List<ProductsTable>>() {
             @Override
             public void onChanged(List<ProductsTable> productsTables) {
                 arrayList.clear();
@@ -293,6 +294,6 @@ public class ViewShopProducts extends AppCompatActivity implements DataTransfer,
 
     @Override
     public void deleteProductsTable(ProductsTable productsTable) {
-
+        productsRepository.delete(productsTable.getProductId());
     }
 }

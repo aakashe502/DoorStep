@@ -2,18 +2,19 @@ package com.hadIt.doorstep;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,13 +26,14 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.hadIt.doorstep.Adapter.DataAdapter;
 import com.hadIt.doorstep.cache.model.Admin;
+import com.hadIt.doorstep.roomDatabase.address.AddressViewModel;
 import com.hadIt.doorstep.roomDatabase.address.model.AddressModel;
 import com.hadIt.doorstep.roomDatabase.cart.DataDatabase;
 import com.hadIt.doorstep.roomDatabase.cart.DataViewModal;
@@ -47,6 +49,9 @@ import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsTransfer;
 import com.hadIt.doorstep.roomDatabase.orders.details.model.OrderDetailsRoomModel;
 import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 import com.hadIt.doorstep.utils.Constants;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
+
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -59,7 +64,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class CheckoutActivity extends AppCompatActivity implements OrderDetailsTransfer {
+public class CheckoutActivity extends AppCompatActivity implements OrderDetailsTransfer, PaymentResultListener {
+    private static final String TAG = "CheckoutActivity";
+
     private RecyclerView recyclerView;
     private List<ProductsTable> dataList;
     private DataViewModal dataViewModal;
@@ -67,9 +74,6 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
 
     private DataAdapter dataAdapter;
     private List<Data> getDataList;
-    private int get_priority;
-    private int id=1;
-    private ProductsTable productsTable;
     public int length=0;
     private Button checkout;
     private FirebaseAuth firebaseAuth;
@@ -77,21 +81,21 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
     double sum=0.0;
     public TextView address;
     private ImageButton backBtn;
-    BottomNavigationView bottomNavigationView;
-    private String todaysDate;
     private PaperDb paperDb;
-    public String Tag_Address = "Address Added";
+    public String shopUid, todaysDate, Tag_Address = "Address Added";
     private OrderDetailsRoomModel orderDetailsRoomModel;
-    private String shopUid;
-    AddressModel address_setter;
+    private AddressModel address_setter;
+    private Admin admin;
 
-    ImageButton downarrow;
+    private LinearLayout downarrow;
+    private ImageButton drop;
 
-    TextView customername,housenumber,landmark,areaDetails,phoneNumber;
+    TextView customername, housenumber, landmark, areaDetails, phoneNumber, total, deliveryCharge, totalProducts;
 
-    Toolbar toolbar;
     final String timestamp = ""+System.currentTimeMillis();
     private OrderDetailsRepository orderDetailsRepository;
+    private Users users;
+    private AddressModel userAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +109,10 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
         areaDetails=findViewById(R.id.areaDetails1);
         phoneNumber=findViewById(R.id.phoneNumber1);
         address=findViewById(R.id.changeAddress1);
+        drop=findViewById(R.id.drop);
+        total=findViewById(R.id.total);
+        deliveryCharge=findViewById(R.id.deliveryCharge);
+        totalProducts=findViewById(R.id.totalProducts);
 
         dataList=new ArrayList<>();
         recyclerView=findViewById(R.id.recycler);
@@ -136,11 +144,23 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
                 for(Data ds:dataList) {
                     Log.i("appbar","name="+ds.getProductName()+ " image="+ds.getProductIcon()+" rate"+ds.getProductPrice()+" quantity="+ds.getProductQuantity()+" id"+ds.getProductId());
                     sum += Integer.parseInt(ds.getProductQuantity())*Integer.parseInt(ds.getProductPrice());
+
                     length += Integer.parseInt(ds.getProductQuantity());
                     getDataList.add(ds);
                 }
+
+                if(sum<500){
+                    deliveryCharge.setText(String.format("Delivery Charge: Rs-%s", Constants.deliveryChargeAbove));
+                    sum+=Constants.deliveryChargeAbove;
+                }
+                else{
+                    deliveryCharge.setText(String.format("Delivery Charge: Rs-%s", Constants.deliveryChargeBelow));
+                    sum+=Constants.deliveryChargeBelow;
+                }
+                totalProducts.setText(String.format("Total Items: %s", length));
                 recyclerView.setAdapter(dataAdapter);
                 checkout.setText("Proceed To Checkout = " + "\u20B9" + sum);
+                total.setText(String.format("Rs-%s", sum));
             }
         });
 
@@ -150,13 +170,26 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
             public void onClick(View view) {
                 if(recyclerView.getVisibility()== View.VISIBLE){
                     recyclerView.setVisibility(View.GONE);
-                    downarrow.setImageResource(R.drawable.downarrow);
+                    drop.setImageResource(R.drawable.uparrow);
                 }
                 else{
                     recyclerView.setVisibility(View.VISIBLE);
-                    downarrow.setImageResource(R.drawable.uparrow);
+                    drop.setImageResource(R.drawable.downarrow);
                 }
+            }
+        });
 
+        drop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(recyclerView.getVisibility()== View.VISIBLE){
+                    recyclerView.setVisibility(View.GONE);
+                    drop.setImageResource(R.drawable.uparrow);
+                }
+                else{
+                    recyclerView.setVisibility(View.VISIBLE);
+                    drop.setImageResource(R.drawable.downarrow);
+                }
             }
         });
 
@@ -164,23 +197,38 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitOrder();
+                firebaseFirestore.collection("admin").document(shopUid).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()) {
+                                    admin = task.getResult().toObject(Admin.class);
+
+                                    if(admin.online != null && admin.online.equals("online")){
+                                        submitOrder();
+                                    }
+                                    else{
+                                        Toast.makeText(CheckoutActivity.this, "This shop is currently not accepting orders.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CheckoutActivity.this, "This shop is currently not accepting orders.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
         if(paperDb.getAddressFromPaperDb() != null){
             address_setter=paperDb.getAddressFromPaperDb();
-            customername.setText(address_setter.getFirstName()+"");
-            housenumber.setText(address_setter.getHouseNumber()+" ");
-            landmark.setText(address_setter.getLandmark()+"");
-            areaDetails.setText(address_setter.getAreaDetails()+"");
-            phoneNumber.setText(address_setter.getContactNumber()+"");
-
-
-
+            customername.setText(String.format("%s %s", address_setter.getFirstName(), address_setter.getLastName()));
+            housenumber.setText(String.format("%s-%s", address_setter.getHouseNumber(), address_setter.getApartmentName()));
+            landmark.setText(address_setter.getLandmark());
+            areaDetails.setText(String.format("%s, %s-%s", address_setter.getAreaDetails(), address_setter.getCity(), address_setter.getPincode()));
+            phoneNumber.setText(address_setter.getContactNumber());
         }
-
-
 
         address.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,13 +249,42 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
     private void submitOrder(){
         AddressModel addressModelClass = paperDb.getAddressFromPaperDb();
         if(addressModelClass != null){
-            Users users = paperDb.getUserFromPaperDb();
-            AddressModel userAddress = paperDb.getAddressFromPaperDb();
-
-            createOrdersObject(users, userAddress, timestamp);
+            users = paperDb.getUserFromPaperDb();
+            userAddress = paperDb.getAddressFromPaperDb();
+            startPayment();
         }
         else{
             Toast.makeText(this, "Please select Address First", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void startPayment() {
+        Checkout checkout = new Checkout();
+        checkout.setKeyID("rzp_test_eBH91jnrIO3XuS");
+        checkout.setImage(R.drawable.lyptus);
+        final Activity activity = this;
+
+        try {
+            JSONObject options = new JSONObject();
+
+            options.put("name", "Lyptus");
+            options.put("description", "Reference No. #123456");
+            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
+//            options.put("order_id", "order_DBJOWzybf0sJbb");//from response of step 3.
+            options.put("theme.color", "#008577");
+            options.put("currency", "INR");
+            options.put("amount", sum*100);//pass amount in currency subunits
+            options.put("prefill.email", users.emailId);
+            options.put("prefill.contact", userAddress.getContactNumber());
+            JSONObject retryObj = new JSONObject();
+            retryObj.put("enabled", true);
+            retryObj.put("max_count", 4);
+            options.put("retry", retryObj);
+
+            checkout.open(activity, options);
+
+        } catch(Exception e) {
+            Log.e(TAG, "Error in starting Razorpay Checkout", e);
         }
     }
 
@@ -340,31 +417,15 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
                 Log.i(Tag_Address, e.getMessage());
             }
 
-        firebaseFirestore.collection("admin").whereEqualTo("uid", shopUid)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            Admin admin = task.getResult().getDocuments().get(0).toObject(Admin.class);
-
-                            orderDetailsRoomModel = new OrderDetailsRoomModel(todaysDate, orderId, OrderStatus.Pending.name(), users.emailId, firebaseAuth.getUid(),
-                                    userAddress.getFirstName()+" "+userAddress.getLastName(), userAddress.getContactNumber(),
-                                    userAddress.getHouseNumber()+"-"+userAddress.getApartmentName(), userAddress.getLandmark(),
-                                    userAddress.getAreaDetails(), userAddress.getCity(), userAddress.getPincode(), userAddress.getLatitude(), userAddress.getLongitude(),
-                                    admin.shopEmail, admin.uid, admin.shopName, admin.shopPhone, admin.latitude, admin.longitude, admin.city, "sellerPincode",
-                                    "sellerAreaDetails", "sellerLandmark", sum, length, "", "", ""
-                            );
-                            saveOrderDetailsFirst(orderId);
-                            prepareNotificationMessage(timestamp);
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(CheckoutActivity.this,"Failed to create orders object",Toast.LENGTH_SHORT).show();
-                    }
-                });
+        orderDetailsRoomModel = new OrderDetailsRoomModel(todaysDate, orderId, OrderStatus.Pending.name(), users.emailId, firebaseAuth.getUid(),
+                userAddress.getFirstName()+" "+userAddress.getLastName(), userAddress.getContactNumber(),
+                userAddress.getHouseNumber()+"-"+userAddress.getApartmentName(), userAddress.getLandmark(),
+                userAddress.getAreaDetails(), userAddress.getCity(), userAddress.getPincode(), userAddress.getLatitude(), userAddress.getLongitude(),
+                admin.shopEmail, admin.uid, admin.shopName, admin.shopPhone, admin.latitude, admin.longitude, admin.city, "sellerPincode",
+                "sellerAreaDetails", "sellerLandmark", sum, length, "", "", ""
+        );
+        saveOrderDetailsFirst(orderId);
+        prepareNotificationMessage(timestamp);
     }
 
     @Override
@@ -375,5 +436,16 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
     @Override
     public void deleteOrderDetails(OrderDetailsRoomModel orderDetailsRoomModel) {
         orderDetailsRepository.deleteProductUsingOrderId(orderDetailsRoomModel);
+    }
+
+    @Override
+    public void onPaymentSuccess(String s) {
+        Toast.makeText(this, "Txn id: " + s, Toast.LENGTH_SHORT).show();
+        createOrdersObject(users, userAddress, timestamp);
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+
     }
 }

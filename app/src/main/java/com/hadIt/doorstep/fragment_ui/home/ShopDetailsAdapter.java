@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.Admin;
-import com.hadIt.doorstep.roomDatabase.cart.model.Data;
 
 import com.hadIt.doorstep.roomDatabase.cart.DataTransfer;
 
@@ -25,7 +25,6 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<ShopDetailsAdapter.
     ArrayList<Admin> arrayList;
     Context context;
     public DataTransfer datatransfer;
-    public ArrayList<Data> addtocartArrayList=new ArrayList<>();
 
     public ShopDetailsAdapter(ArrayList<Admin> arrayList, Context context, DataTransfer datatransfer) {
         this.arrayList = arrayList;
@@ -41,10 +40,11 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<ShopDetailsAdapter.
     }
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder,final int position) {
-        holder.productname.setText(arrayList.get(position).shopName);
+        holder.productName.setText(arrayList.get(position).shopName);
         holder.shopLocation.setText(arrayList.get(position).city);
+        holder.online.setText(arrayList.get(position).online);
 
-       // Glide.with(context).load(arrayList.get(position).profileImage).into(holder.productimage);
+        Glide.with(context).load(arrayList.get(position).profileImage).into(holder.productImage);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,22 +56,23 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<ShopDetailsAdapter.
             }
         });
     }
+
     @Override
     public int getItemCount() {
         return arrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        public ImageView productimage;
-        public TextView productname;
+        public ImageView productImage;
+        public TextView productName, online;
         public TextView shopLocation;
-
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            productimage= itemView.findViewById(R.id.shopPhoto);
-            productname= itemView.findViewById(R.id.shopName);
-           shopLocation=itemView.findViewById(R.id.shopLocation);
+            productImage = itemView.findViewById(R.id.shopPhoto);
+            productName = itemView.findViewById(R.id.shopName);
+            shopLocation=itemView.findViewById(R.id.shopLocation);
+            online=itemView.findViewById(R.id.online);
         }
     }
 }

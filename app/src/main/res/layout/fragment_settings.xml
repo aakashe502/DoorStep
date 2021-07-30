@@ -12,8 +12,7 @@
         android:background="@color/colorWhite"
         android:padding="10dp"
         android:text="Push Notification"
-        android:textSize="20dp"
-        />
+        android:textSize="20sp" />
 
 <!--    notification status enabled/disabled-->
     <TextView
@@ -23,14 +22,29 @@
         android:background="@color/colorWhite"
         android:padding="10dp"
         android:layout_below="@id/fcmSwitch"
-        android:text="Notifications are disabled"
-        />
+        android:text="Notifications are disabled" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorMargins"
-        android:layout_below="@+id/notificationStatusTv"
-        />
+        android:layout_below="@+id/notificationStatusTv" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/customerCare"
+        android:padding="10dp"
+        android:layout_below="@id/notificationStatusTv"
+        android:text="Chat with us?"
+        android:textSize="20sp"
+        android:textColor="@color/colorText"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorMargins"
+        android:layout_below="@+id/customerCare" />
 
 </RelativeLayout>
