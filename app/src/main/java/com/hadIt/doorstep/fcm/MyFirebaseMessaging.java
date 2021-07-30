@@ -30,6 +30,7 @@ import com.hadIt.doorstep.roomDatabase.orders.details.OrderDetailsViewModel;
 import com.hadIt.doorstep.roomDatabase.orders.details.model.OrderDetailsRoomModel;
 import com.hadIt.doorstep.roomDatabase.shopProducts.DatabaseRoom;
 import com.hadIt.doorstep.roomDatabase.shopProducts.ProductTransfer;
+import com.hadIt.doorstep.roomDatabase.shopProducts.ProductViewModel;
 import com.hadIt.doorstep.roomDatabase.shopProducts.ProductsRepository;
 import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 
@@ -83,8 +84,16 @@ public class MyFirebaseMessaging extends FirebaseMessagingService implements Ord
         }
 
         if(notificationType.equals("Refresh db")){
-            AddressViewModel addressViewModel = new AddressViewModel(getApplication());
-            OrderDetailsViewModel orderDetailsViewModel = new OrderDetailsViewModel(getApplication(), firebaseAuth.getUid());
+            String shopUid = remoteMessage.getData().get("shopUid");
+            productsRepository = new ProductsRepository(getApplication(), shopUid);
+
+            String refresh = remoteMessage.getData().get("refresh");
+            if(refresh.equals("true")){
+                productsRepository.refreshDb();
+            }
+            else{
+                productsRepository.deleteProductUsingShopId(shopUid);
+            }
         }
     }
 

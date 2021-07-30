@@ -27,6 +27,7 @@ import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.homePage.HomePage;
+import com.hadIt.doorstep.permissions.GetRequiredPermissions;
 import com.hadIt.doorstep.progressBar.CustomProgressBar;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -54,11 +55,13 @@ public class EditProfileActivity extends AppCompatActivity {
     private HomePage homePage;
     private Profile profile;
     private CustomProgressBar customProgressBar;
+    private GetRequiredPermissions getRequiredPermissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        getRequiredPermissions = new GetRequiredPermissions(this, this);
 
         customProgressBar = new CustomProgressBar(EditProfileActivity.this);
         paperDb = new PaperDb();

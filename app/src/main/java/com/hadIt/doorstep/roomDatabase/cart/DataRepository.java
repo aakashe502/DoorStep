@@ -10,6 +10,8 @@ import com.hadIt.doorstep.roomDatabase.cart.model.Data;
 import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class DataRepository {
     private DataDatabase dataDatabase;
@@ -21,9 +23,15 @@ public class DataRepository {
         getAllData = dataDatabase.dataDao().getAllData();
     }
 
-    public void insert(Data dataList)
+    public void insert(final Data dataList)
     {
-        new InsertAsynTask(dataDatabase).execute(dataList);
+        final Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                dataDatabase.dataDao().insert(dataList);
+            }
+        });
     }
 
     public LiveData<Data> getProductObserverWithId(String productId) {
@@ -37,53 +45,64 @@ public class DataRepository {
 
     public void deleteAll()
     {
-        new DeleteAllAsynTask(dataDatabase).execute();
+        final Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                dataDatabase.dataDao().deleteAll();
+            }
+        });
     }
 
-    public void delete(String id)
+    public void delete(final String id)
     {
-        new DeleteAsynTask(dataDatabase).execute(id);
+        final Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                dataDatabase.dataDao().delete(id);
+            }
+        });
     }
 
-
-    static class InsertAsynTask extends AsyncTask<Data,Void,Void>
-    {
-        private DataDao dataDao;
-        InsertAsynTask(DataDatabase dataDatabase)
-        {
-            dataDao=dataDatabase.dataDao();
-        }
-        @SafeVarargs
-        @Override
-        protected final Void doInBackground(Data... lists) {
-            dataDao.insert(lists[0]);
-            return null;
-        }
-    }
-
-    static class DeleteAllAsynTask extends AsyncTask<Void,Void,Void>{
-        private DataDao dataDao;
-        DeleteAllAsynTask(DataDatabase dataDatabase)
-        {
-            dataDao=dataDatabase.dataDao();
-        }
-        @Override
-        protected Void doInBackground(Void... voids) {
-            dataDao.deleteAll();
-            return null;
-        }
-    }
-
-    static class DeleteAsynTask  extends AsyncTask<String,Void,Void>{
-        private DataDao dataDao;
-        public DeleteAsynTask(DataDatabase dataDatabase) {
-            dataDao=dataDatabase.dataDao();
-        }
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            dataDao.delete(strings[0]);
-            return null;
-        }
-    }
+//    static class InsertAsynTask extends AsyncTask<Data,Void,Void>
+//    {
+//        private DataDao dataDao;
+//        InsertAsynTask(DataDatabase dataDatabase)
+//        {
+//            dataDao=dataDatabase.dataDao();
+//        }
+//        @SafeVarargs
+//        @Override
+//        protected final Void doInBackground(Data... lists) {
+//            dataDao.insert(lists[0]);
+//            return null;
+//        }
+//    }
+//
+//    static class DeleteAllAsynTask extends AsyncTask<Void,Void,Void>{
+//        private DataDao dataDao;
+//        DeleteAllAsynTask(DataDatabase dataDatabase)
+//        {
+//            dataDao=dataDatabase.dataDao();
+//        }
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            dataDao.deleteAll();
+//            return null;
+//        }
+//    }
+//
+//    static class DeleteAsynTask  extends AsyncTask<String,Void,Void>{
+//        private DataDao dataDao;
+//        public DeleteAsynTask(DataDatabase dataDatabase) {
+//            dataDao=dataDatabase.dataDao();
+//        }
+//
+//        @Override
+//        protected Void doInBackground(String... strings) {
+//            dataDao.delete(strings[0]);
+//            return null;
+//        }
+//    }
 }

@@ -27,11 +27,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.hadIt.doorstep.Adapter.DataAdapter;
 import com.hadIt.doorstep.cache.model.Admin;
+import com.hadIt.doorstep.roomDatabase.address.AddressViewModel;
 import com.hadIt.doorstep.roomDatabase.address.model.AddressModel;
 import com.hadIt.doorstep.roomDatabase.cart.DataDatabase;
 import com.hadIt.doorstep.roomDatabase.cart.DataViewModal;
@@ -83,6 +85,7 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
     public String shopUid, todaysDate, Tag_Address = "Address Added";
     private OrderDetailsRoomModel orderDetailsRoomModel;
     private AddressModel address_setter;
+    private Admin admin;
 
     private LinearLayout downarrow;
     private ImageButton drop;
@@ -194,7 +197,27 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitOrder();
+                firebaseFirestore.collection("admin").document(shopUid).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()) {
+                                    admin = task.getResult().toObject(Admin.class);
+
+                                    if(admin.online != null && admin.online.equals("online")){
+                                        submitOrder();
+                                    }
+                                    else{
+                                        Toast.makeText(CheckoutActivity.this, "This shop is currently not accepting orders.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CheckoutActivity.this, "This shop is currently not accepting orders.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
@@ -394,31 +417,15 @@ public class CheckoutActivity extends AppCompatActivity implements OrderDetailsT
                 Log.i(Tag_Address, e.getMessage());
             }
 
-        firebaseFirestore.collection("admin").whereEqualTo("uid", shopUid)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            Admin admin = task.getResult().getDocuments().get(0).toObject(Admin.class);
-
-                            orderDetailsRoomModel = new OrderDetailsRoomModel(todaysDate, orderId, OrderStatus.Pending.name(), users.emailId, firebaseAuth.getUid(),
-                                    userAddress.getFirstName()+" "+userAddress.getLastName(), userAddress.getContactNumber(),
-                                    userAddress.getHouseNumber()+"-"+userAddress.getApartmentName(), userAddress.getLandmark(),
-                                    userAddress.getAreaDetails(), userAddress.getCity(), userAddress.getPincode(), userAddress.getLatitude(), userAddress.getLongitude(),
-                                    admin.shopEmail, admin.uid, admin.shopName, admin.shopPhone, admin.latitude, admin.longitude, admin.city, "sellerPincode",
-                                    "sellerAreaDetails", "sellerLandmark", sum, length, "", "", ""
-                            );
-                            saveOrderDetailsFirst(orderId);
-                            prepareNotificationMessage(timestamp);
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(CheckoutActivity.this,"Failed to create orders object",Toast.LENGTH_SHORT).show();
-                    }
-                });
+        orderDetailsRoomModel = new OrderDetailsRoomModel(todaysDate, orderId, OrderStatus.Pending.name(), users.emailId, firebaseAuth.getUid(),
+                userAddress.getFirstName()+" "+userAddress.getLastName(), userAddress.getContactNumber(),
+                userAddress.getHouseNumber()+"-"+userAddress.getApartmentName(), userAddress.getLandmark(),
+                userAddress.getAreaDetails(), userAddress.getCity(), userAddress.getPincode(), userAddress.getLatitude(), userAddress.getLongitude(),
+                admin.shopEmail, admin.uid, admin.shopName, admin.shopPhone, admin.latitude, admin.longitude, admin.city, "sellerPincode",
+                "sellerAreaDetails", "sellerLandmark", sum, length, "", "", ""
+        );
+        saveOrderDetailsFirst(orderId);
+        prepareNotificationMessage(timestamp);
     }
 
     @Override

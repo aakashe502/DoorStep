@@ -12,8 +12,7 @@
         android:background="@color/colorWhite"
         android:padding="10dp"
         android:text="Push Notification"
-        android:textSize="20dp"
-        />
+        android:textSize="20sp" />
 
 <!--    notification status enabled/disabled-->
     <TextView

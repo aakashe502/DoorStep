@@ -2,16 +2,21 @@ package com.hadIt.doorstep.roomDatabase.shopProducts;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.lifecycle.LiveData;
 
 import com.hadIt.doorstep.roomDatabase.shopProducts.model.ProductsTable;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class ProductsRepository {
     private DatabaseRoom dataDatabase;
     private LiveData<List<ProductsTable>> getAllData;
+
 
     public ProductsRepository(Application application, String shopUid)
     {
@@ -19,9 +24,15 @@ public class ProductsRepository {
         getAllData=dataDatabase.Daodata().getDataForShopAndCategory(shopUid);
     }
 
-    public void insert(ProductsTable dataList)
+    public void insert(final ProductsTable dataList)
     {
-        new InsertAsynTask1(dataDatabase).execute(dataList);
+        final Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                dataDatabase.Daodata().insert(dataList);
+            }
+        });
     }
 
     public  LiveData<List<ProductsTable>> getAllData(String shopUid)
@@ -31,69 +42,33 @@ public class ProductsRepository {
 
     public void refreshDb()
     {
-        new DeleteAllAsynTask(dataDatabase).execute();
+        final Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                dataDatabase.Daodata().refreshDb();
+            }
+        });
     }
 
-    public void delete(String productId)
+    public void delete(final String productId)
     {
-        new DeleteAsynTask(dataDatabase).execute(productId);
+        final Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                dataDatabase.Daodata().delete(productId);
+            }
+        });
     }
 
-    public void deleteProductUsingShopId(String shopUid){
-        new DeleteProductUsingShopId(dataDatabase).execute(shopUid);
-    }
-
-    static class InsertAsynTask1 extends AsyncTask<ProductsTable,Void,Void>
-    {
-        private DaoQuery dataDaoQuery;
-        InsertAsynTask1(DatabaseRoom dataDatabase)
-        {
-            dataDaoQuery =dataDatabase.Daodata();
-        }
-        @SafeVarargs
-        @Override
-        protected final Void doInBackground(ProductsTable... lists) {
-            dataDaoQuery.insert(lists[0]);
-            return null;
-        }
-    }
-
-    static class DeleteAllAsynTask extends AsyncTask<Void,Void,Void>{
-        private DaoQuery dataDaoQuery;
-        DeleteAllAsynTask(DatabaseRoom dataDatabase)
-        {
-            dataDaoQuery =dataDatabase.Daodata();
-        }
-        @Override
-        protected Void doInBackground(Void... voids) {
-            dataDaoQuery.refreshDb();
-            return null;
-        }
-    }
-
-    static class DeleteAsynTask  extends AsyncTask<String,Void,Void>{
-        private DaoQuery dataDaoQuery;
-        public DeleteAsynTask(DatabaseRoom dataDatabase) {
-            dataDaoQuery = dataDatabase.Daodata();
-        }
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            dataDaoQuery.delete(strings[0]);
-            return null;
-        }
-    }
-
-    private class DeleteProductUsingShopId extends AsyncTask<String,Void,Void> {
-        private DaoQuery dataDaoQuery;
-        public DeleteProductUsingShopId(DatabaseRoom dataDatabase) {
-            dataDaoQuery = dataDatabase.Daodata();
-        }
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            dataDaoQuery.deleteProductUsingShopId(strings[0]);
-            return null;
-        }
+    public void deleteProductUsingShopId(final String shopUid){
+        final Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                dataDatabase.Daodata().deleteProductUsingShopId(shopUid);
+            }
+        });
     }
 }

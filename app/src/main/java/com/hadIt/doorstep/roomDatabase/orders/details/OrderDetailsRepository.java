@@ -8,6 +8,8 @@ import androidx.lifecycle.LiveData;
 import com.hadIt.doorstep.roomDatabase.orders.details.model.OrderDetailsRoomModel;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class OrderDetailsRepository {
     private DetailsRoomDb detailsRoomDb;
@@ -19,8 +21,14 @@ public class OrderDetailsRepository {
         getAllData = detailsRoomDb.OrderQuery().getAllOrders(buyerUid);
     }
 
-    public void insert(OrderDetailsRoomModel dataList) {
-        new OrderDetailsRepository.InsertAsynTask1(detailsRoomDb).execute(dataList);
+    public void insert(final OrderDetailsRoomModel dataList) {
+        final Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                detailsRoomDb.OrderQuery().insert(dataList);
+            }
+        });
     }
 
     public  LiveData<List<OrderDetailsRoomModel>> getAllData()
@@ -34,50 +42,62 @@ public class OrderDetailsRepository {
 
     public void refreshDb()
     {
-        new OrderDetailsRepository.DeleteAllAsynTask(detailsRoomDb).execute();
+        final Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                detailsRoomDb.OrderQuery().refreshDb();
+            }
+        });
     }
 
-    public void deleteProductUsingOrderId(OrderDetailsRoomModel orderDetailsRoomModel){
-        new DeleteProductUsingOrderId(detailsRoomDb).execute(orderDetailsRoomModel);
+    public void deleteProductUsingOrderId(final OrderDetailsRoomModel orderDetailsRoomModel){
+        final Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                detailsRoomDb.OrderQuery().deleteProductUsingObject(orderDetailsRoomModel);
+            }
+        });
     }
 
-    static class InsertAsynTask1 extends AsyncTask<OrderDetailsRoomModel,Void,Void> {
-        private OrdersQuery ordersQuery;
-        InsertAsynTask1(DetailsRoomDb detailsRoomDb)
-        {
-            ordersQuery =detailsRoomDb.OrderQuery();
-        }
-        @SafeVarargs
-        @Override
-        protected final Void doInBackground(OrderDetailsRoomModel... lists) {
-            ordersQuery.insert(lists[0]);
-            return null;
-        }
-    }
-
-    static class DeleteAllAsynTask extends AsyncTask<Void,Void,Void>{
-        private OrdersQuery ordersQuery;
-        DeleteAllAsynTask(DetailsRoomDb dataDatabase)
-        {
-            ordersQuery =dataDatabase.OrderQuery();
-        }
-        @Override
-        protected Void doInBackground(Void... voids) {
-            ordersQuery.refreshDb();
-            return null;
-        }
-    }
-
-    public static class DeleteProductUsingOrderId extends AsyncTask<OrderDetailsRoomModel, Void, Void> {
-        private OrdersQuery ordersQuery;
-        public DeleteProductUsingOrderId(DetailsRoomDb detailsRoomDb) {
-            ordersQuery = detailsRoomDb.OrderQuery();
-        }
-
-        @Override
-        protected Void doInBackground(OrderDetailsRoomModel... strings) {
-            ordersQuery.deleteProductUsingOrderId(strings[0]);
-            return null;
-        }
-    }
+//    static class InsertAsynTask1 extends AsyncTask<OrderDetailsRoomModel,Void,Void> {
+//        private OrdersQuery ordersQuery;
+//        InsertAsynTask1(DetailsRoomDb detailsRoomDb)
+//        {
+//            ordersQuery =detailsRoomDb.OrderQuery();
+//        }
+//        @SafeVarargs
+//        @Override
+//        protected final Void doInBackground(OrderDetailsRoomModel... lists) {
+//            ordersQuery.insert(lists[0]);
+//            return null;
+//        }
+//    }
+//
+//    static class DeleteAllAsynTask extends AsyncTask<Void,Void,Void>{
+//        private OrdersQuery ordersQuery;
+//        DeleteAllAsynTask(DetailsRoomDb dataDatabase)
+//        {
+//            ordersQuery =dataDatabase.OrderQuery();
+//        }
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            ordersQuery.refreshDb();
+//            return null;
+//        }
+//    }
+//
+//    public static class DeleteProductUsingOrderId extends AsyncTask<OrderDetailsRoomModel, Void, Void> {
+//        private OrdersQuery ordersQuery;
+//        public DeleteProductUsingOrderId(DetailsRoomDb detailsRoomDb) {
+//            ordersQuery = detailsRoomDb.OrderQuery();
+//        }
+//
+//        @Override
+//        protected Void doInBackground(OrderDetailsRoomModel... strings) {
+//            ordersQuery.deleteProductUsingObject(strings[0]);
+//            return null;
+//        }
+//    }
 }
