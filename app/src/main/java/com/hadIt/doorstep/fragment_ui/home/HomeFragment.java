@@ -16,15 +16,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.hadIt.doorstep.CheckoutActivity;
 import com.hadIt.doorstep.R;
+import com.hadIt.doorstep.cache.model.TopProductsModel;
 import com.hadIt.doorstep.cache.model.Users;
 import com.hadIt.doorstep.dao.PaperDb;
+import com.hadIt.doorstep.fragment_ui.home.MultiRecyclerView.TopRestraunts_Model;
 import com.hadIt.doorstep.fragment_ui.notifications.NotificationActivity;
 import com.hadIt.doorstep.roomDatabase.cart.DataViewModal;
 import com.hadIt.doorstep.roomDatabase.cart.model.Data;
@@ -37,16 +44,23 @@ import java.util.TimerTask;
 
 import me.relex.circleindicator.CircleIndicator3;
 
+import static com.hadIt.doorstep.fragment_ui.home.MergedModelClass.LayoutOne;
+import static com.hadIt.doorstep.fragment_ui.home.MergedModelClass.LayoutTwo;
+import static com.hadIt.doorstep.fragment_ui.home.MergedModelClass.Layoutfour;
+import static com.hadIt.doorstep.fragment_ui.home.MergedModelClass.Layoutthree;
+
 public class HomeFragment extends Fragment {
     public RecyclerView recyclerView;
     public ArrayList<ModelClass> model;
-    ViewPager2 mViewPager;
-    CircleIndicator3 circleIndicator;
+    public List< MergedModelClass> mergedModelClasses;
+    public List<TopProductsModel> topProductsModels;
+    public List<TopRestraunts_Model> topRestraunts_models;
+
     // images array
-    int[] images = {R.drawable.a1, R.drawable.lyptus_theme, R.drawable.a2, R.drawable.a3};
+
     // Creating Object of ViewPagerAdapter
-    Timer timer;
-    Handler handler;
+
+
     TextView cardSearch;
     private PaperDb paperDb;
     private int mCartItemCount = 0;
@@ -63,8 +77,7 @@ public class HomeFragment extends Fragment {
         Users users = paperDb.getUserFromPaperDb();
         getActivity().setTitle("Lyptus");
 
-        mViewPager = root.findViewById(R.id.viewPagerMain);
-        circleIndicator=root.findViewById(R.id.circleindicator);
+
         cardSearch=root.findViewById(R.id.cardSearch);
 
         cardSearch.setOnClickListener(new View.OnClickListener() {
@@ -75,14 +88,44 @@ public class HomeFragment extends Fragment {
         });
 
         // Initializing the ViewPagerAdapter
-        final ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(root.getContext(), images);
 
-        // Adding the Adapter to the ViewPager
-        mViewPager.setAdapter(mViewPagerAdapter);
-        circleIndicator.setViewPager(mViewPager);
-
-        recyclerView=root.findViewById(R.id.recyclerview);
+        recyclerView=root.findViewById(R.id.recyclerview1);
         model= new ArrayList<>();
+
+        mergedModelClasses=  new ArrayList<>();
+        topProductsModels=new ArrayList<TopProductsModel>();
+        topRestraunts_models=new ArrayList<>();
+
+        FirebaseFirestore.getInstance().collection("Products").whereEqualTo("productCategory", "VEGETABLES & FRUITS Others")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot dpc : task.getResult().getDocuments()) {
+                                TopRestraunts_Model productsTable1 = dpc.toObject(TopRestraunts_Model.class);
+                                topRestraunts_models.add(productsTable1);
+
+                            }
+                        }
+                    }
+                });
+
+
+        FirebaseFirestore.getInstance().collection("Products").whereEqualTo("productCategory", "VEGETABLES & FRUITS Others")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot dpc : task.getResult().getDocuments()) {
+                                TopProductsModel productsTable1 = dpc.toObject(TopProductsModel.class);
+                                topProductsModels.add(productsTable1);
+
+                            }
+                        }
+                    }
+                });
 
         model.add(new ModelClass("VEGETABLES & FRUITS", R.drawable.vegetables));
         model.add(new ModelClass("GROCERY", R.drawable.bake));
@@ -97,36 +140,21 @@ public class HomeFragment extends Fragment {
         model.add(new ModelClass("HOME-MADE", R.drawable.home_made));
         model.add(new ModelClass("DAIRY PRODUCTS", R.drawable.dairy_products));
 
-        ModelAdapter modelAdapter=new ModelAdapter(model,root.getContext());
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(root.getContext(),4, LinearLayoutManager.VERTICAL,false);
+        mergedModelClasses.add(new MergedModelClass(Layoutfour));
+        mergedModelClasses.add(new MergedModelClass(model,LayoutOne));
+        mergedModelClasses.add(new MergedModelClass(LayoutTwo,topProductsModels));
+        mergedModelClasses.add(new MergedModelClass(topRestraunts_models,Layoutthree));
 
-        recyclerView.setLayoutManager(gridLayoutManager);
+
+
+        ModelAdapter modelAdapter=new ModelAdapter(mergedModelClasses);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext(),LinearLayoutManager.VERTICAL,false));
         recyclerView.setAdapter(modelAdapter);
-        handler=new Handler(Looper.myLooper());
-        timer=new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        int i=mViewPager.getCurrentItem();
-                        if (i==images.length-1){
-                            i=0;
-                            mViewPager.setCurrentItem(i,true);
-                        }
-                        else{
-                            i++;
-                            mViewPager.setCurrentItem(i,true);
-                        }
-                    }
-                });
-            }
-        },500,4000);
+
 
         return root;
     }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.addcart, menu);
@@ -145,7 +173,6 @@ public class HomeFragment extends Fragment {
 
         super.onCreateOptionsMenu(menu,inflater);
     }
-
     private void setupBadge() {
 
         dataViewModal=new ViewModelProvider(this).get(DataViewModal.class);

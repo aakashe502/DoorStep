@@ -11,10 +11,6 @@
     android:layout_height="match_parent"
     tools:context=".fragment_ui.home.">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_marginBottom="30dp"
-        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -43,48 +39,20 @@
                 android:textSize="15sp" />
             </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:id="@+id/rel1"
-                android:layout_below="@+id/l1">
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/viewPagerMain"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_margin="15dp" />
 
-                <me.relex.circleindicator.CircleIndicator3
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_alignParentBottom="true"
-                    android:id="@+id/circleindicator" />
-
-            </RelativeLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Shop By Category"
-                android:layout_below="@+id/rel1"
-                android:textSize="20sp"
-                android:drawableEnd="@drawable/ccp_ic_arrow_drop_down"
-                android:id="@+id/category"
-                android:layout_marginStart="15sp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="15sp"
-                android:textColor="@color/colorText" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/category"
-                android:id="@+id/recyclerview"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/l1"
+                android:id="@+id/recyclerview1"
                 android:layout_marginBottom="30dp">
 
             </androidx.recyclerview.widget.RecyclerView>
 
+
+
         </RelativeLayout>
-    </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

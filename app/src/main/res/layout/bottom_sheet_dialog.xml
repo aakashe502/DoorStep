@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/Animation"
+    android:layout_gravity="center">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="@color/colorBlue"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:id="@+id/rel1"
+            >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:background="@null"
+                android:id="@+id/close"
+
+                android:src="@drawable/close"/>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/close"
+
+        android:orientation="vertical">
+
+        <RatingBar
+            android:id="@+id/rbStars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FB8C00"
+            android:numStars="5"
+            android:layout_gravity="center_horizontal"
+            android:progressBackgroundTint="#F1EDED"
+            android:progressTint="#FB8C00" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/rate"
+                android:background="@drawable/border_button"
+                android:text="Rate"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/donotrate"
+                android:background="@drawable/border_button"
+                android:text="Rate Later"/>
+        </LinearLayout>
+
+    </LinearLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rel2"
+            android:visibility="gone"
+            >
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Thanks for Rating we will try to imrove our servie further"
+               android:textSize="30dp"
+               android:fontFamily="@font/roboto_slab_bold"/>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:background="@null"
+                android:id="@+id/close11"
+                android:visibility="invisible"
+
+                android:src="@drawable/close"/>
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+
+                android:orientation="vertical">
+
+                <RatingBar
+                    android:id="@+id/rbStars2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#FB8C00"
+                    android:numStars="5"
+                    android:visibility="invisible"
+                    android:layout_gravity="center_horizontal"
+                    android:progressBackgroundTint="#FBF8F8"
+                    android:progressTint="#FB8C00" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:visibility="invisible"
+                    android:orientation="horizontal">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/rate2"
+                        android:background="@drawable/border_button"
+                        android:text="Rate"/>
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/donotrate2"
+                        android:background="@drawable/border_button"
+                        android:text="Rate Later"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

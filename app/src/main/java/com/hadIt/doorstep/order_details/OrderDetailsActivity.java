@@ -5,15 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -23,6 +30,7 @@ import com.hadIt.doorstep.Adapter.OrderDetailsProductAdapter;
 import com.hadIt.doorstep.R;
 import com.hadIt.doorstep.cache.model.OrderStatus;
 import com.hadIt.doorstep.dao.PaperDb;
+import com.hadIt.doorstep.homePage.HomePage;
 import com.hadIt.doorstep.roomDatabase.orders.details.model.OrderDetailsRoomModel;
 import com.hadIt.doorstep.roomDatabase.orders.items.OrderItemsRepository;
 import com.hadIt.doorstep.roomDatabase.orders.items.OrderItemsTransfer;
@@ -49,6 +57,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements OrderItem
     private String orderId;
     private OrderItemsViewModel orderItemsViewModel;
     private OrderItemsRepository orderItemsRepository;
+    TextView sheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +71,13 @@ public class OrderDetailsActivity extends AppCompatActivity implements OrderItem
                 onBackPressed();
             }
         });
+        sheet=findViewById(R.id.sheet);
+//        sheet.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                bottomsheet();
+//            }
+//        });
 
         orderIdTv = findViewById(R.id.orderIdTv);
         dateTv = findViewById(R.id.dateTv);
@@ -96,8 +112,14 @@ public class OrderDetailsActivity extends AppCompatActivity implements OrderItem
             orderStatusTv.setTextColor(getResources().getColor(R.color.colorPrimary));
         }
         else if(orderDetailsRoomModel.getOrderStatus().equals(OrderStatus.Completed.name())){
+            try {
+                bottomsheet();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             orderStatusTv.setText(OrderStatus.Completed.name());
             orderStatusTv.setTextColor(getResources().getColor(R.color.colorPrimary));
+
         }
         else if(orderDetailsRoomModel.getOrderStatus().equals(OrderStatus.Cancelled.name())){
             orderStatusTv.setText(OrderStatus.Cancelled.name());
@@ -172,5 +194,50 @@ public class OrderDetailsActivity extends AppCompatActivity implements OrderItem
     @Override
     public void deleteOrderItems(OrderItemsRoomModel orderItemsRoomModel) {
         orderItemsRepository.deleteProductUsingModelObj(orderItemsRoomModel);
+    }
+    public void bottomsheet() throws InterruptedException {
+        Button rate,donotrate;
+        final RelativeLayout rel1,rel2;
+
+
+        Dialog dialog=new Dialog(OrderDetailsActivity.this);
+        dialog.setContentView(R.layout.bottom_sheet_dialog);
+
+        rate=dialog.findViewById(R.id.rate);
+        donotrate=dialog.findViewById(R.id.donotrate);
+        rel1=dialog.findViewById(R.id.rel1);
+        rel2=dialog.findViewById(R.id.rel2);
+
+
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(true);
+        dialog.getWindow().getAttributes().windowAnimations=R.style.Animation;
+        dialog.show();
+
+        rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rel1.setVisibility(View.GONE);
+                rel2.setVisibility(View.VISIBLE);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                startActivity(new Intent(OrderDetailsActivity.this,HomePage.class));
+            }
+        });
+        donotrate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(OrderDetailsActivity.this,HomePage.class));
+            }
+        });
+
+
+
+
+
+
     }
 }
