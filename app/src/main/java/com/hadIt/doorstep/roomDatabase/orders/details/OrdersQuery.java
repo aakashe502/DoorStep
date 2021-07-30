@@ -17,7 +17,7 @@ public interface OrdersQuery {
     void insert(OrderDetailsRoomModel orderDetailsRoomModel);
 
     @Delete
-    void deleteProductUsingOrderId(OrderDetailsRoomModel orderDetailsRoomModel);
+    void deleteProductUsingObject(OrderDetailsRoomModel orderDetailsRoomModel);
 
     @Query("DELETE FROM orderDetails")
     void refreshDb();

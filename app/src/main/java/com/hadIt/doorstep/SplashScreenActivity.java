@@ -9,19 +9,14 @@ import android.os.Looper;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.hadIt.doorstep.dao.PaperDb;
 import com.hadIt.doorstep.homePage.HomePage;
 import com.hadIt.doorstep.login_signup.LoginActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
-
-import static java.lang.Thread.sleep;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
