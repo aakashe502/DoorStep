@@ -13,8 +13,6 @@ public class MergedModelClass {
     List<TopProductsModel> listmodel;
     List<TopRestraunts_Model> topRestraunts_models;
 
-
-
     public static final int LayoutOne = 0;
     public static final int LayoutTwo = 1;
     public static final int Layoutthree = 2;
@@ -42,19 +40,19 @@ public class MergedModelClass {
         this.modelClass = (List<ModelClass>) modelClass;
     }
 
-    public List<TopProductsModel> topPicksModelclass;
+    public List<TopProductsModel> topPicksModelClass;
 
-    public MergedModelClass(int viewType,List<TopProductsModel> topPicksModelclass) {
+    public MergedModelClass(int viewType,List<TopProductsModel> topPicksModelClass) {
         this.viewType = viewType;
-        this.topPicksModelclass = topPicksModelclass;
+        this.topPicksModelClass = topPicksModelClass;
     }
 
-    public List<TopProductsModel> getTopPicksModelclass() {
-        return topPicksModelclass;
+    public List<TopProductsModel> getTopPicksModelClass() {
+        return topPicksModelClass;
     }
 
-    public void setTopPicksModelclass(List<TopProductsModel> topPicksModelclass) {
-        this.topPicksModelclass = topPicksModelclass;
+    public void setTopPicksModelClass(List<TopProductsModel> topPicksModelClass) {
+        this.topPicksModelClass = topPicksModelClass;
     }
 
     public int getViewType() {
@@ -64,7 +62,6 @@ public class MergedModelClass {
     public void setViewType(int viewType) {
         this.viewType = viewType;
     }
-
 
     public MergedModelClass(List<TopRestraunts_Model> topRestraunts_models,int viewType) {
         this.topRestraunts_models = topRestraunts_models;

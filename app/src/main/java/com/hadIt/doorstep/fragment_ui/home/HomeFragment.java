@@ -77,7 +77,6 @@ public class HomeFragment extends Fragment {
         Users users = paperDb.getUserFromPaperDb();
         getActivity().setTitle("Lyptus");
 
-
         cardSearch=root.findViewById(R.id.cardSearch);
 
         cardSearch.setOnClickListener(new View.OnClickListener() {
@@ -105,28 +104,30 @@ public class HomeFragment extends Fragment {
                             for (DocumentSnapshot dpc : task.getResult().getDocuments()) {
                                 TopRestraunts_Model productsTable1 = dpc.toObject(TopRestraunts_Model.class);
                                 topRestraunts_models.add(productsTable1);
-
                             }
+                            FirebaseFirestore.getInstance().collection("Products").whereEqualTo("productCategory", "VEGETABLES & FRUITS Others")
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (DocumentSnapshot dpc : task.getResult().getDocuments()) {
+                                                    TopProductsModel productsTable1 = dpc.toObject(TopProductsModel.class);
+                                                    topProductsModels.add(productsTable1);
+                                                }
+                                                createView();
+                                            }
+                                        }
+                                    });
                         }
                     }
                 });
 
 
-        FirebaseFirestore.getInstance().collection("Products").whereEqualTo("productCategory", "VEGETABLES & FRUITS Others")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot dpc : task.getResult().getDocuments()) {
-                                TopProductsModel productsTable1 = dpc.toObject(TopProductsModel.class);
-                                topProductsModels.add(productsTable1);
+        return root;
+    }
 
-                            }
-                        }
-                    }
-                });
-
+    private void createView() {
         model.add(new ModelClass("VEGETABLES & FRUITS", R.drawable.vegetables));
         model.add(new ModelClass("GROCERY", R.drawable.bake));
         model.add(new ModelClass("BEVERAGES", R.drawable.beverages));
@@ -145,16 +146,13 @@ public class HomeFragment extends Fragment {
         mergedModelClasses.add(new MergedModelClass(LayoutTwo,topProductsModels));
         mergedModelClasses.add(new MergedModelClass(topRestraunts_models,Layoutthree));
 
-
-
         ModelAdapter modelAdapter=new ModelAdapter(mergedModelClasses);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext(),LinearLayoutManager.VERTICAL,false));
         recyclerView.setAdapter(modelAdapter);
-
-
-        return root;
     }
+
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.addcart, menu);

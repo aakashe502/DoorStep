@@ -6,7 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Shop By Category"
-        android:layout_below="@+id/rel1"
         android:textSize="20sp"
         android:drawableEnd="@drawable/ccp_ic_arrow_drop_down"
         android:id="@+id/category"
